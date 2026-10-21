@@ -1,8 +1,8 @@
-# Estado atual — 20/10/2026
+# Estado atual — 21/10/2026
 
 A V3 jogável e a etapa de HUD estão nos arquivos existentes. O projeto completo foi publicado no repositório público https://github.com/CarretaTron/steal-an-egg-tycoon, com documentação para dois desenvolvedores usando Codex. A importação `2963104` contém 140 arquivos; um clone novo confirmou que todos chegaram idênticos e passou na verificação do pacote. Consulte também `coordination/tasks/2026-10-20-codex-a-repositorio.md`.
 
-A tarefa atual, na branch `codex-a/preservar-mapa-rebirth`, preserva o mapa editado e coloca o contador de rebirth junto do saldo. A comparação Edit → Play, compilação e verificação do novo pacote passaram. O teste visual final da nova linha dinheiro/rebirth foi assumido pelo usuário, sem nova execução automática de Play ou simulador.
+A tarefa atual, na branch `codex-b/concluir-escolha-base-preview`, continua a etapa iniciada em `codex-a/escolha-base-preview`. O usuário transferiu a continuação e forneceu um RAR com nove fontes mais recentes ainda não integrados ao pacote. Essa versão passa a nascer na praça, escolher terreno e montar o kit manualmente, com prévia do objeto real semitransparente. O mapa editado e a HUD anterior são preservados. Consulte `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md` para validações e passagem.
 
 ## Projeto preservado
 
@@ -25,7 +25,7 @@ O lugar conectado documentado é `119288590672557`. A V2 permanece desativada em
 
 O ciclo é roubar ovo, fugir do guardião, levar à base, incubar, produzir, processar, vender e melhorar a base. São sete biomas e espécies, oito terrenos, construção livre em grade, habitats, incubadoras, processadores, esteiras, vendedor, bateria externa e porta a laser. A praça e o corredor são zonas sem PvP; guardiões continuam perigosos no corredor.
 
-O kit inicial já tem uma linha conectada. As criaturas produzem a cada quatro segundos; a primeira venda natural de um pintinho básico é $32. Cada habitat desconectado armazena até 20 recursos. O servidor controla o percurso e o pagamento dos recursos; os objetos visuais não decidem o dinheiro.
+O kit inicial fica no inventário, sem posicionamento automático. Uma base nova começa aberta; o dono monta paredes, cobertura e entrada protegida gratuitamente no cartão de defesas dentro de Construir. Construções, criaturas e defesas de perfis antigos são preservadas e restauradas somente após a escolha do terreno. Rebirth volta ao kit manual. As criaturas produzem a cada quatro segundos; a primeira venda natural de um pintinho básico é $32. Cada habitat desconectado armazena até 20 recursos. O servidor controla o percurso e o pagamento dos recursos; os objetos visuais não decidem o dinheiro.
 
 Há combate, invasão por bateria, transporte de criatura e devolução/transferência conforme o desfecho, além de melhorias e rebirth. Habitats têm três melhorias individuais de $1.500, $7.500 e $30.000, com bônus de produção de +25%, +50% e +75%. Guardar e recolocar mantém identidade e nível.
 
@@ -46,7 +46,7 @@ A orientação acompanha expedição, transporte, incubação e produção. O tr
 
 O contador de rebirth fica imediatamente ao lado do texto do dinheiro, com espaço de 10 pixels. `UIListLayout` é o único responsável pelas posições; os textos usam largura natural, e o ajuste de fonte para valores grandes é cacheado por texto e viewport. Não há disputa de posição entre a atualização da HUD e o redimensionamento. A conferência visual final fica com o usuário.
 
-## Preservação do mapa — correção em andamento
+## Preservação do mapa
 
 `WorldFactory` passa a reutilizar o mapa editado em vez de reconstruir o cenário antigo a cada Play. Apenas as malhas de ovos e guardiões são renovadas por sessão. O mapa manual é preservado em `Map/AuthoredMap.rbxm`, um snapshot nativo exato que inclui paredes e objetos externos; `Map/scene.json` fornece o cenário estático e os pivôs transparentes usados para recriar a arte de sessão.
 
@@ -54,7 +54,7 @@ O empacotador passa a usar `scene.json`, em lugar do mapa antigo do backup, e a 
 
 O exportador JSON deve falhar diante de tipos não suportados, como uma Union ou uma malha decorativa que não possa representar. Não pode perder geometria ou trocar objetos silenciosamente por blocos. O snapshot RBXM conserva o conteúdo nativo enquanto o suporte do portátil é resolvido.
 
-Pendências desta correção: comparar o mapa de Edit com Play, confirmar paredes e externos, conferir a renovação das malhas sem duplicações, testar a recusa de tipos não suportados, verificar o pacote regenerado e conferir a posição fixa de rebirth com saldos diferentes. Ainda não há resultados desses ensaios.
+A comparação Edit/Play do mapa e a verificação do pacote anterior estão registradas em `Resultados/Testes/mapa-edit-play.json` e na tarefa `2026-10-20-codex-a-mapa-rebirth.md`. O teste visual final da linha dinheiro/rebirth foi assumido pelo usuário. Nesta continuação, as raízes do Workspace e os fontes foram comparados antes da aplicação; nenhum snapshot manual foi substituído.
 
 ## Arte e persistência
 

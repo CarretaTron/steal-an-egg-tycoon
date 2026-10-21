@@ -24,8 +24,9 @@
 
 ## Estado para passagem
 
-- Diagnóstico e revisão das mudanças parciais em andamento.
+- Diagnóstico e revisão concluídos; nove fontes corrigidos/aplicados no Studio em Edit. O mapa não foi substituído e nenhum Play/simulador foi iniciado.
 - RAR recebido: SHA256 `9d64278d79144173b8e3c7f9b1c2b5e9a48a989d16dda5ea10c106e519ee9f4c`. Nove fontes adicionais importados para continuação; o backup `Backups/AntesEscolhaBase/` conserva os originais.
 - Comparação antes da aplicação: os 12 fontes ativos lidos no Studio correspondem à branch de partida, sem divergência extra; mapa com oito terrenos, sete biomas, 14 ninhos, 14 guardiões e raízes externas preservadas. O `Map/scene.json` do RAR é idêntico ao da branch.
-- Próximo passo: comparar fontes de Studio/repositório/RAR, integrar contratos e concluir empacotamento.
-- Resultados de testes novos serão registrados ao executar; nenhuma aprovação de jogabilidade presumida.
+- Testes novos executados: `Tests/claim_lifecycle_offline.py` (42 casos), `Tests/combat_offline.py` (359 verificações), `Tests/client_preview_guide_offline.py` (13 casos funcionais + 28 contratos estáticos). Dependências de engine simuladas, sem DataStore/Studio.
+- Compilação dos 24 fontes pelo Luau CLI aprovada; os nove alterados também compilaram no Studio antes da aplicação. Validação física, visual e replicação do fluxo novo ficam com o usuário; os relatórios históricos não certificam a nova etapa.
+- Próximo passo: regenerar portátil e cópias, conferir a igualdade dos fontes aplicados/empacotados e publicar a entrega.

@@ -87,6 +87,8 @@ A importação de 20/10/2026 foi validada por um clone novo do GitHub: os 140 ar
 
 ## Estado da versão
 
-A HUD inclui martelo dentro da própria base, livro, rebirth e missões por botões, dinheiro em destaque e seta de orientação. A correção atual preserva o mapa editado e mantém o contador de rebirth junto do saldo, em uma linha horizontal com espaço de 10 pixels; a compilação passou e o teste visual final foi assumido pelo usuário. Os relatórios anteriores incluem integração com dois clientes, regressões do servidor e ensaio móvel no simulador. O teste em celular físico e a rodada geral final de bugs ainda estão pendentes. Monetização, trocas e produção offline ficam para outra etapa.
+A continuação atual está em `codex-b/concluir-escolha-base-preview`, a partir da etapa iniciada em `codex-a/escolha-base-preview` e dos fontes parciais do RAR recebido em 21/10. O jogador nasce na praça, escolhe um terreno livre e monta seu kit manualmente. Paredes e cobertura são montadas por escolha explícita; a prévia de posicionamento mostra o objeto real semitransparente. Perfis antigos preservam o progresso. Consulte o [registro da continuação](coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md).
+
+A HUD, o mapa editado e a posição do rebirth junto ao saldo foram preservados. Os relatórios anteriores incluem integração com dois clientes, regressões do servidor e ensaio móvel no simulador; não são certificação da nova etapa. O teste visual do fluxo novo fica com o usuário, conforme a passagem anterior. O teste em celular físico e a rodada geral final de bugs continuam pendentes. Monetização, trocas e produção offline ficam para outra etapa.
 
 O repositório é público por solicitação do proprietário. A criação deste repositório não publica a experiência no Roblox.

@@ -2,6 +2,17 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-21 — Escolha de tycoon e construção manual
+
+- Continuação da branch `codex-a/escolha-base-preview` e dos nove fontes parciais do RAR recebido, preservando o mapa autorado e a HUD.
+- Entrada e respawn na praça; escolha de um terreno livre pela placa verde, com proximidade e propriedade validadas no servidor. Nenhuma base é atribuída automaticamente.
+- Kit inicial no inventário, sem máquinas posicionadas; paredes, cobertura, bateria e laser são montados pela ação gratuita de defesas no menu Construir. Perfis antigos mantêm layout, criaturas e proteção salvos.
+- Prévia com o modelo real semitransparente e não físico, rotação e contorno de validade. O cliente reaproveita as malhas replicadas, sem criar EditableMesh próprio.
+- Orientação automática para escolher terreno e montar a primeira linha; retomada após rebirth. Placa de terreno livre corrigida após escolha, falha e liberação. Combate ignora jogadores ainda sem base; defesas preservam as transparências do mapa editado.
+- Verificações novas: 42 casos de ciclo de vida e persistência, 359 verificações do módulo de combate, 13 casos do guia e 28 contratos estáticos do preview. São ensaios offline com dependências simuladas; os três programas reproduzíveis estão em `StealAnEggTycoonV3/Tests/`.
+- Os 24 fontes compilaram com Luau; os nove alterados também foram compilados e aplicados no Studio em Edit. Play, simulador e validação visual não foram iniciados nesta continuação, respeitando a passagem de testes para o usuário.
+- Registro: `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md`. Empacotamento e conferência da entrega registrados ao concluir.
+
 ## 2026-10-20 — Mapa editado preservado e rebirth junto ao saldo
 
 - `WorldFactory` preserva a praça, caminhos, paredes e bases editados no Studio. Somente as malhas de ovos e guardiões são renovadas por sessão, mantendo prompts e labels.
