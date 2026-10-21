@@ -7,15 +7,16 @@
 | Atualizado em | 2026-10-21, America/Sao_Paulo |
 | Branch | codex-b/base-fixa-seta-paredes |
 | Commit de partida | 62a925e37683ad28f651162946588c3df7fe32c2 |
-| Pedido autorizado | Restaurar estrutura pronta, impedir posicionamento livre, oferecer ocultar seta, suavizar orientação e mudar paredes inspiradas na referência enviada |
+| Pedido autorizado | Restaurar somente paredes/cobertura prontas; máquinas continuam livres para colocar e mover. Oferecer ocultar seta, suavizar orientação e mudar paredes inspiradas na referência enviada |
 
 ## Interpretação e escopo
 
-- Manter spawn na praça e escolha do terreno; restaurar estrutura e linha inicial prontas, com posições fixas e expansão por compra/upgrade validado pelo servidor.
-- Preservar identidades, níveis, criaturas, incubações e valores pendentes de perfis anteriores ao converter layouts para posições fixas.
+- Correção explícita do usuário após a primeira interpretação: **somente as paredes são prontas; máquinas podem ser posicionadas e movidas livremente**. Nenhuma conversão de layout para posições fixas será implementada.
+- Manter spawn na praça, escolha do terreno, kit em inventário, construção livre e preview. Paredes/cobertura ficam prontas para todas as bases, sem ação de montagem no menu.
+- Preservar identidades, níveis, criaturas, incubações, layouts e valores pendentes dos perfis anteriores.
 - Melhorar seta/caminho e permitir ocultar toda a orientação. Separar resolução de destino da renderização por quadro; evitar movimento a 6,7 atualizações por segundo.
 - Paredes da base com blocos cinza e studs, janelas largas emolduradas, placa superior e lasers vermelhos; preservar piso, posição dos oito terrenos e mapa externo.
-- Fontes previstos: Building, Bootstrap, Persistence, Config/novo layout compartilhado; Client/HudGuide; WorldFactory/Combat e módulo de estrutura. Atualizar pacote, mapa e documentação quando necessário.
+- Fontes previstos: Bootstrap/Persistence; Client/HudGuide; WorldFactory/Combat e módulo de estrutura. Building, produção e regras de posicionamento livre preservados. Atualizar pacote, mapa e documentação quando necessário.
 
 ## Sessões
 
