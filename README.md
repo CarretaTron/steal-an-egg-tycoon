@@ -1,5 +1,7 @@
 # Steal an Egg Tycoon
 
+Repositório público: [CarretaTron/steal-an-egg-tycoon](https://github.com/CarretaTron/steal-an-egg-tycoon).
+
 Projeto Roblox em desenvolvimento por duas pessoas com apoio de sessões separadas do Codex. Este repositório reúne os fontes, o projeto portátil do Studio, os arquivos de criação do Blender, as exportações, os backups e os relatórios de testes disponíveis nesta pasta.
 
 O ciclo do jogo é roubar um ovo, fugir do guardião, incubar na base, produzir recursos, processar, vender e expandir ou defender o tycoon. Há sete biomas, oito terrenos, construção livre, combate, roubo de criaturas, salvamento, livro de descobertas e missões.
@@ -35,6 +37,11 @@ Edite `Client/`, `Server/` e `Shared/`. `Resultados/Fontes/` contém cópias da 
 
 ## Abrir e continuar
 
+```sh
+git clone https://github.com/CarretaTron/steal-an-egg-tycoon.git
+cd steal-an-egg-tycoon
+```
+
 1. Clone este repositório e abra `StealAnEggTycoonV3/StealAnEggTycoonV3.rbxlx` no Roblox Studio.
 2. Pressione Play. O portátil recria o mapa e as malhas por sessão. Para testar DataStore e permissões de malha, associe a cópia a uma experiência em que você tenha acesso. Consulte o LEIA-ME antes de habilitar ensaios.
 3. No Blender, abra `StealAnEggTycoonV3/Blender/EggTycoonV3.blend`. O gerador `build_assets.py` e as exportações FBX estão na mesma pasta.
@@ -62,6 +69,8 @@ O exemplo [verificar-pacote.workflow.yml](docs/verificar-pacote.workflow.yml) pe
 Depois de alterar fontes, monte o portátil com `package_project.py`, atualize as cópias correspondentes em `Resultados/Fontes/` e a cópia do portátil na pasta principal, e execute o verificador. O empacotador parte do snapshot `Backups/AntesContinuacao/`; alterações manuais posteriores no mapa precisam ser exportadas e preservadas antes de reconstruir o pacote.
 
 Os atributos do Git preservam os bytes dos arquivos para manter válidos os hashes da entrega e os backups originais.
+
+A importação de 20/10/2026 foi validada por um clone novo do GitHub: os 140 arquivos versionados chegaram idênticos à pasta original, e o verificador do pacote passou também no clone.
 
 ## Estado da versão
 

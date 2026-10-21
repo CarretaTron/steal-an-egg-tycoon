@@ -8,6 +8,8 @@ Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. At
 - Adicionados guia para os Codex, protocolo de coordenação, estado atual, roadmap, registros de tarefa e modelos de issue/pull request.
 - Incluído exemplo de workflow para verificar a integridade do pacote no GitHub. O verificador local foi executado; a automação depende de ativação com permissão de publicação de workflows.
 - Visibilidade solicitada pelo proprietário: **pública**.
+- Repositório criado e enviado: https://github.com/CarretaTron/steal-an-egg-tycoon . Importação inicial no commit `2963104`.
+- Clone novo conferido: 140 arquivos idênticos aos locais e verificação do pacote aprovada também no clone. Os documentos de conclusão acompanham o commit seguinte.
 
 ## 2026-10-20 — HUD com botões e orientação
 

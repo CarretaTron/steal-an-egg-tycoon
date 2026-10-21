@@ -1,6 +1,6 @@
 # Estado atual — 20/10/2026
 
-A V3 jogável e a etapa de HUD estão nos arquivos existentes. A solicitação atual é colocar o projeto completo em um repositório GitHub público e preparar a colaboração de dois desenvolvedores com Codex. A criação e o endereço do remoto devem ser confirmados no `README.md` após a publicação; este documento não presume uma URL.
+A V3 jogável e a etapa de HUD estão nos arquivos existentes. O projeto completo foi publicado no repositório público https://github.com/CarretaTron/steal-an-egg-tycoon, com documentação para dois desenvolvedores usando Codex. A importação `2963104` contém 140 arquivos; um clone novo confirmou que todos chegaram idênticos e passou na verificação do pacote. Consulte também `coordination/tasks/2026-10-20-codex-a-repositorio.md`.
 
 ## Projeto preservado
 
@@ -65,4 +65,4 @@ Scripts `StudioQA`, `StudioRegression`, `StudioTraversal`, `StudioMobile` e `Stu
 
 ## Próxima continuidade
 
-Finalize primeiro a publicação do backup completo e os registros de colaboração. Novos recursos ficam sujeitos à próxima etapa solicitada. O usuário adiou a revisão geral de bugs; isso não significa que todos os critérios do projeto foram certificados. Testes físicos de celular e avaliação completa dos critérios restantes continuam pendentes. Monetização, trocas e renda offline são etapas futuras.
+A publicação do backup completo e os registros de colaboração estão concluídos. Leia as tarefas e busque as alterações do remoto antes da próxima etapa. O exemplo de workflow em `docs/verificar-pacote.workflow.yml` é opcional e ainda não está ativo; o verificador local foi executado com sucesso. Novos recursos ficam sujeitos à próxima etapa solicitada. O usuário adiou a revisão geral de bugs; isso não significa que todos os critérios do projeto foram certificados. Testes físicos de celular e avaliação completa dos critérios restantes continuam pendentes. Monetização, trocas e renda offline são etapas futuras.

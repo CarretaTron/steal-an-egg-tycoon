@@ -5,10 +5,10 @@ Este arquivo organiza pendências. Ele não autoriza implementar tudo de uma vez
 ## Etapa atual: backup e colaboração
 
 - Preservar os arquivos originais, RAR, fontes editáveis, cenas Blender, geometria, FBX, lugares Roblox, backups e relatórios.
-- Publicar o repositório público e registrar seu endereço após confirmar a criação e o envio.
+- Publicação concluída: https://github.com/CarretaTron/steal-an-egg-tycoon .
 - Disponibilizar instruções de instalação, empacotamento, coordenação por tarefa e histórico de mudanças.
 - O dono pode conceder ao amigo permissão de escrita; cada desenvolvedor usa sua própria autenticação. A leitura e o clone ficam públicos.
-- Confirmar que um clone contém os arquivos necessários para reproduzir a entrega.
+- Clone conferido: 140 arquivos idênticos aos locais e pacote validado no clone. Repetir a verificação quando a entrega mudar.
 
 ## Depois, conforme a próxima tarefa solicitada
 

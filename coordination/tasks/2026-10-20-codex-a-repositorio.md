@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Status | in_progress |
+| Status | done |
 | Responsável | Codex desta sessão / codex-a |
 | Atualizado em | 2026-10-20, America/Sao_Paulo |
 | Branch | main, importação inicial do repositório |
@@ -28,14 +28,17 @@ O subagente de documentação preparou as instruções de coordenação e estado
 - Inventário inicial: 127 arquivos, 10.567.710 bytes, incluindo o RAR original.
 - `verify_package.py`: 24 fontes e cópias correspondentes; 19 FBX; portátil legível; V2 incluída; oito scripts de teste desativados. Resultado em `StealAnEggTycoonV3/Resultados/Testes/validacao-pacote.json`.
 - `.gitattributes` preserva bytes para não invalidar hashes e não alterar backups ao clonar.
+- Clone novo do repositório público: os 140 arquivos versionados coincidem byte a byte com os locais. `verify_package.py` passou também no clone.
+- Importação completa enviada no commit `2963104`. Os registros de conclusão são enviados no commit seguinte.
 - Nenhum novo ensaio de jogabilidade foi executado nesta tarefa. Evidências anteriores continuam em `Resultados/Testes/`.
 
 ## Passagem
 
 - Remoto público criado: https://github.com/CarretaTron/steal-an-egg-tycoon . Conta autenticada pelo proprietário e autorização do GitHub CLI concluída.
 - O GitHub exige permissão adicional para publicar workflows ativos. O exemplo fica em `docs/verificar-pacote.workflow.yml`; esta importação usa o verificador local.
-- Próximo passo: enviar o histórico e verificar os arquivos no remoto.
-- Registrar URL real e confirmação do push em README, changelog e neste arquivo após concluir.
+- Resultado concluído: projeto completo no remoto público, com todos os arquivos originais e documentos de coordenação.
+- Próximo passo: o outro desenvolvedor clonar, ler `AGENTS.md` e abrir seu próprio registro de tarefa antes de editar.
+- README, changelog e estado atual registram a URL real, envio e validação por clone.
 - Para contribuição do amigo: escrita como colaborador ou fork/PR. Nenhuma identidade foi presumida nem convite enviado.
 - Sessões do Studio e Blender livres desta tarefa; não foi tomada posse das sessões abertas.
 
