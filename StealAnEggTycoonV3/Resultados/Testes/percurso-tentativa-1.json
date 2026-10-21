@@ -1,0 +1,21 @@
+{
+  "InitialPositionFixtures": 1,
+  "Duration": 28.44,
+  "Passed": [
+    "No existing transport or incubation for player 1",
+    "No existing transport or incubation for player 2",
+    "First natural cycle starts with zero cash",
+    "Held egg pickup begins real return route"
+  ],
+  "Success": false,
+  "OwnerPursuitStuds": 0,
+  "ThiefWalkedStuds": 0,
+  "OriginalProfilesRestored": true,
+  "OwnerWalkedStuds": 146.52804984081013,
+  "BatteryHits": 0,
+  "Suite": "EggTycoonV3_Traversal",
+  "Failed": [
+    "ServerScriptService.EggTycoonV3.StudioTraversal:157: MoveTo stalled: escape field guardian (10 studs remain)\nServerScriptService.EggTycoonV3.StudioTraversal:157 function walk\nServerScriptService.EggTycoonV3.StudioTraversal:211\nServerScriptService.EggTycoonV3.StudioTraversal:96\n"
+  ],
+  "RealDataStoreWritesDuringFixture": 0
+}

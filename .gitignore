@@ -1,0 +1,13 @@
+# Preservar fontes, resultados, backups, Blender, FBX, RBXLX e RAR.
+# Somente arquivos locais de execução, credenciais e lixo do sistema.
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+Desktop.ini
+.env
+.env.*
+!.env.example
+secrets/
+.venv/
+node_modules/

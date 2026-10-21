@@ -1,0 +1,29 @@
+{
+  "InitialPositionFixtures": 1,
+  "Success": true,
+  "Duration": 133.71,
+  "Passed": [
+    "No existing transport or incubation for player 1",
+    "No existing transport or incubation for player 2",
+    "First natural cycle starts with zero cash",
+    "Held egg pickup begins real return route",
+    "Walked egg reaches incubator and reserves habitat",
+    "First natural sale is exactly $32 with no cash fixture",
+    "Guardian visibly chases and physically returns home after leash",
+    "Egg escape traverses over 450 studs without position jumps",
+    "Actual timed baton raycasts destroy external battery",
+    "Victim retains ownership throughout carrying",
+    "Stolen creature completes physical route outside protected zones",
+    "Physical invasion and delivery transfer original creature once",
+    "Victim physically pursues the carrier for over thirty studs"
+  ],
+  "FirstNaturalSaleCash": 32,
+  "OwnerPursuitStuds": 486,
+  "ThiefWalkedStuds": 1088,
+  "OriginalProfilesRestored": true,
+  "OwnerWalkedStuds": 1175,
+  "BatteryHits": 10,
+  "Suite": "EggTycoonV3_Traversal",
+  "Failed": [],
+  "RealDataStoreWritesDuringFixture": 0
+}

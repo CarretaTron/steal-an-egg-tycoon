@@ -1,0 +1,59 @@
+{
+  "Started": 3.2141548999934457,
+  "SaveModes": [
+    "Persistente",
+    "Persistente"
+  ],
+  "Duration": 52.56,
+  "Passed": [
+    "Blender egg and guardian geometry replicated to client 1",
+    "Blender egg and guardian geometry replicated to client 2",
+    "No transfer active before QA for player 1",
+    "No transfer active before QA for player 2",
+    "Fourteen nests across seven biomes",
+    "Fourteen distinct guardian placements",
+    "Safe plaza and corridor; PvP plots",
+    "First cycle begins with zero cash",
+    "Server-validated egg pickup",
+    "Carrying slows movement by ten percent",
+    "Incubator reserves habitat before accepting egg",
+    "Natural hatch creates the original creature",
+    "First sale earned through production without a cash fixture",
+    "Weapons never damage an NPC humanoid",
+    "Weapons cannot damage players in the safe plaza",
+    "Active laser rejects inward crossing",
+    "Repeated validated weapon hits open battery for thirty seconds",
+    "Instant forged creature interaction is rejected",
+    "Ownership remains with victim while carrying",
+    "A stolen creature cannot enter a safe zone",
+    "Dropping transport durably returns creature",
+    "Death does not duplicate or delete the stolen creature",
+    "Rebirth is blocked while involved in a transfer",
+    "Confirmed delivery transfers creature exactly once",
+    "Rebirth resets purchases and creatures once",
+    "Rebirth restores free starter chain and permanent multiplier",
+    "Rebirth profile saves under a held lease",
+    "Persistent profile releases its lease",
+    "Released profile can be loaded again",
+    "Reload after rebirth does not resurrect transferred creatures",
+    "Saved layout reloads in relative plot coordinates"
+  ],
+  "Success": true,
+  "ClientGeometry": [
+    {
+      "GuardParts": 18,
+      "StreamRequest": true,
+      "MeshParts": 26,
+      "EggParts": 8
+    },
+    {
+      "GuardParts": 18,
+      "StreamRequest": true,
+      "MeshParts": 26,
+      "EggParts": 8
+    }
+  ],
+  "Suite": "EggTycoonV3",
+  "Failed": [],
+  "FirstNaturalSaleCash": 32
+}

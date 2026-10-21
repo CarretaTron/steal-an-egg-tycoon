@@ -1,0 +1,87 @@
+{
+  "Stage": "HUD",
+  "Desktop": {
+    "HammerHiddenOutside": true,
+    "HammerVisibleInside": true,
+    "LegacySecurity": false,
+    "BookTiles": 7,
+    "DesktopViewport": "1452, 824",
+    "ArrowTarget": "Ovo • Campo",
+    "ArrowVisible": true,
+    "LegacyObjective": false
+  },
+  "MobileLayout": {
+    "viewport": "705, 338",
+    "touch": true,
+    "money": [
+      {
+        "y": 142,
+        "x": 12,
+        "visible": true,
+        "text": "💵 $0",
+        "w": 218,
+        "h": 38
+      },
+      {
+        "y": 143,
+        "x": 91,
+        "visible": true,
+        "text": "♻️ 0",
+        "w": 120,
+        "h": 38
+      },
+      {
+        "y": 178,
+        "x": 17,
+        "visible": false,
+        "text": "+$0 /s",
+        "w": 240,
+        "h": 20
+      }
+    ],
+    "buttons": [
+      {
+        "y": 12,
+        "h": 44,
+        "name": "Nav_Construir",
+        "visible": true,
+        "w": 61,
+        "x": 10
+      },
+      {
+        "y": 62,
+        "h": 44,
+        "name": "Nav_Criaturas",
+        "visible": true,
+        "w": 61,
+        "x": 10
+      },
+      {
+        "y": 12,
+        "h": 44,
+        "name": "Nav_Rebirth",
+        "visible": true,
+        "w": 61,
+        "x": 78
+      },
+      {
+        "y": 62,
+        "h": 44,
+        "name": "Nav_Missoes",
+        "visible": true,
+        "w": 61,
+        "x": 78
+      }
+    ]
+  },
+  "MobileInteraction": {
+    "workshopUpgradesAvailable": true,
+    "missionPanel": true,
+    "guideTarget": "Ovo • Campo"
+  },
+  "Notes": [
+    "Verificação por cliques reais no Studio.",
+    "Os cliques no emulador precisaram de compensação do deslocamento horizontal de entrada do Studio.",
+    "Nenhum dinheiro ou progresso foi concedido para validar a HUD."
+  ]
+}

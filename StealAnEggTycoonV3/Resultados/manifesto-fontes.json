@@ -1,0 +1,98 @@
+[
+  {
+    "path": "Shared\\Art.luau",
+    "sha256": "cd4713ea75a4d74d6642f44f90f28203b0a87a31b0951f1ac3fefc3d62240183"
+  },
+  {
+    "path": "Shared\\BuildRules.luau",
+    "sha256": "c9979f81162715f48a15fbbc7ae5280669055a0be7a9c459793f982b4c3ae371"
+  },
+  {
+    "path": "Shared\\Config.luau",
+    "sha256": "c2e5014f83f81d96d00a0adbf5ac8550a3033633604ac4fdb85569d992079702"
+  },
+  {
+    "path": "Shared\\GeometryData.luau",
+    "sha256": "e4866591e1e6d3fadb12a1e2a98959d80f694894fa16bfe678d89aacf5b163fc"
+  },
+  {
+    "path": "Shared\\HudGuide.luau",
+    "sha256": "75cb559f3b451f621921bf83ca1c212e10b24a8610ce91d99a952005ef5be41b"
+  },
+  {
+    "path": "Server\\Bootstrap.server.luau",
+    "sha256": "9b74c9c31d8afc39edcc81ffbf01b4721177b10c88e70b161278e2fb4e28e265"
+  },
+  {
+    "path": "Server\\Building.luau",
+    "sha256": "8e0b3c0954d1b88aa086dd2f13a85e8e3cd171edd7d58beb0f0003bfca63ae63"
+  },
+  {
+    "path": "Server\\Combat.luau",
+    "sha256": "b2808483153a2be42964fbc347e36072d7948ca3be5be3f5d4e368dff313ea20"
+  },
+  {
+    "path": "Server\\Persistence.luau",
+    "sha256": "f3d329c0c04792dd6b320966c30135a62da6271f1295d2439cc328a0fd84afb9"
+  },
+  {
+    "path": "Server\\Production.luau",
+    "sha256": "a1e767801f81af403c2b8916331e16d6b46f26246c0dba173b00c62679469d02"
+  },
+  {
+    "path": "Server\\Progression.luau",
+    "sha256": "1a2d2a1c7cc7748c1a1092fa8fc193ca7195f7c0e16392a4f8c5503f0d2da301"
+  },
+  {
+    "path": "Server\\StudioMobile.server.luau",
+    "sha256": "093db2d8805cbf9e986eb59bc65e0896ee771fb89df563f668b3982c9f109f82"
+  },
+  {
+    "path": "Server\\StudioPersistenceQA.luau",
+    "sha256": "6eed3ee1886e1c25e0e5b19db1fcd3b94113fbe1b0345c29f7ee787205914f86"
+  },
+  {
+    "path": "Server\\StudioProgressionQA.luau",
+    "sha256": "99a4ba864c303c94f50de92c9ba7a3063ec2da7291b269f60722558647feb599"
+  },
+  {
+    "path": "Server\\StudioQA.server.luau",
+    "sha256": "eca47bba963061f51d61aacbf6e2875a244d01453c210ed513f55898485a31be"
+  },
+  {
+    "path": "Server\\StudioRegression.server.luau",
+    "sha256": "6d975e7ff25219258f1d781dd0cb44b684a71ca2297b3f926dbf8629bc9310f9"
+  },
+  {
+    "path": "Server\\StudioRulesQA.luau",
+    "sha256": "364a46063d01fb8019a0be465f67c2376665e3060c454e1c836c13e371bdcdcb"
+  },
+  {
+    "path": "Server\\StudioStress.server.luau",
+    "sha256": "92d8cb5db7fd96e585ff8ea985dede1c269548813939c141259df196f917cc21"
+  },
+  {
+    "path": "Server\\StudioTraversal.server.luau",
+    "sha256": "1dbf33c45f05b5ebaf9d498223a9d8e4b734eeedb4fa0b434dc4d02de63a6180"
+  },
+  {
+    "path": "Server\\WorldFactory.luau",
+    "sha256": "0ddb16d18701f5391697c7a475d9b2eeb6b996e04153d577f90010cc57f533e1"
+  },
+  {
+    "path": "Client\\Client.client.luau",
+    "sha256": "6c39940323ff6fdca73ba35e1fcec47fd052364bcec53adf25122545c2cf01c5"
+  },
+  {
+    "path": "Client\\StudioMobile.client.luau",
+    "sha256": "4ba750738556b5479b2b98b142c6471488f6f6a719b1517dc831662751d17f7d"
+  },
+  {
+    "path": "Client\\StudioQA.client.luau",
+    "sha256": "186771d34f53d34ba6297cec0ab766352e04d26d953664f7f7ab0fa74c435b36"
+  },
+  {
+    "path": "Client\\StudioStress.client.luau",
+    "sha256": "6f970e22a47a6734b7142f5d6625291b00b6bf9c63138655c0c21399acdc2592"
+  }
+]

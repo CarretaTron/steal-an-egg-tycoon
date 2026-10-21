@@ -1,0 +1,29 @@
+{
+  "Suite": "ProgressionFeature",
+  "Success": true,
+  "Checks": 12,
+  "RealDataStoreWrites": 0,
+  "Validated": [
+    "Sete missões configuradas",
+    "Objetivo incompleto não pode ser resgatado",
+    "Nascimento validado pelo servidor conclui o primeiro objetivo",
+    "Recompensa concede peças, sem dinheiro",
+    "Resgate único",
+    "Resgate persiste após normalização do perfil salvo",
+    "Resgate aguarda conclusão do transporte",
+    "Primeira venda conclui objetivo e concede recompensa",
+    "Três descobertas concluem exploração",
+    "Recursos vendidos avançam objetivo da fábrica",
+    "Somente contadores positivos conhecidos avançam objetivos",
+    "Perfil mantém somente missões e contadores configurados"
+  ],
+  "UI": {
+    "NativeClicks": true,
+    "BookCards": 7,
+    "MissionClaimButtons": 7,
+    "LoadedVisible3DPreviews": 2,
+    "OffscreenPreviewsRemainLazy": true,
+    "DiscoveryPreviewWasTemporaryUIFixture": true,
+    "DiscoveryFixtureSavedToProfile": false
+  }
+}

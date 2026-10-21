@@ -1,0 +1,52 @@
+{
+  "Players": 1,
+  "FPSAtLeast30": true,
+  "CleanupSaved": true,
+  "MobileViewport": true,
+  "Duration": 16.62,
+  "Client": {
+    "StreamRequest": true,
+    "MeshParts": 2363,
+    "WorstFrameMS": 21.5,
+    "Frames": 806,
+    "VisibleWidgets": 61,
+    "KeyboardEnabled": true,
+    "ReplicatedCreatures": 64,
+    "Seconds": 10.000525999814272,
+    "TopLevelBounds": [
+      {
+        "Y": 142,
+        "X": 12,
+        "Name": "Economia",
+        "Height": 38,
+        "Width": 360
+      },
+      {
+        "Y": 12,
+        "X": 10,
+        "Name": "Navegacao",
+        "Height": 94,
+        "Width": 130
+      }
+    ],
+    "ViewportX": 705,
+    "ViewportY": 338,
+    "ReplicatedBuilds": 456,
+    "OccupiedPlots": 8,
+    "GUIExists": true,
+    "P95FrameMS": 17.8,
+    "StreamedParts": 6141,
+    "Overflows": [],
+    "Viewport": "705, 338",
+    "OverflowCount": 0,
+    "AverageFPS": 80.59,
+    "TouchEnabled": true
+  },
+  "UIWithinViewport": true,
+  "Success": true,
+  "RealPlotId": 1,
+  "Builds": 456,
+  "Creatures": 64,
+  "GhostPlots": 7,
+  "Suite": "MobileForegroundEightPlots"
+}

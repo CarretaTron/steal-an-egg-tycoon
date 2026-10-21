@@ -1,0 +1,14 @@
+# Manter os bytes dos fontes e backups: o manifesto usa SHA-256.
+* -text
+*.luau diff
+*.py diff
+*.md diff
+*.json diff
+*.yml diff
+*.yaml diff
+*.blend binary
+*.blend1 binary
+*.fbx binary
+*.rar binary
+*.png binary
+*.rbxlx -diff -merge

@@ -1,0 +1,22 @@
+# Exemplo de workflow. Copiar para .github/workflows/verify.yml quando
+# a conta usada no envio tiver permissão para publicar workflows.
+name: Verificar pacote do projeto
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Conferir fontes, modelos, backup e projeto portátil
+        run: python StealAnEggTycoonV3/verify_package.py

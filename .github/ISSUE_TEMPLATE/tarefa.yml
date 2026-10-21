@@ -1,0 +1,48 @@
+name: Tarefa para desenvolvimento
+description: Definir escopo e responsável para os dois desenvolvedores/Codex.
+title: "[Tarefa] "
+body:
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: Qual resultado deve existir ao terminar? Inclua o pedido do usuário relevante.
+    validations:
+      required: true
+  - type: input
+    id: responsavel
+    attributes:
+      label: Responsável
+      placeholder: "Nome ou codex-a / codex-b"
+    validations:
+      required: true
+  - type: textarea
+    id: escopo
+    attributes:
+      label: Escopo e arquivos
+      description: Módulos, artefatos e áreas que este responsável vai alterar.
+    validations:
+      required: true
+  - type: textarea
+    id: sessoes
+    attributes:
+      label: Uso de Studio e Blender
+      description: Lugar/cena, responsável atual e necessidade de sessão exclusiva. Informe se não serão usados.
+  - type: textarea
+    id: validacao
+    attributes:
+      label: Critérios de conclusão e validação
+      description: Como o resultado será verificado? Indique dependências e limites do ensaio.
+    validations:
+      required: true
+  - type: input
+    id: registro
+    attributes:
+      label: Registro de coordenação
+      description: Caminho do arquivo próprio em coordination/tasks, criado a partir do template.
+      placeholder: coordination/tasks/2026-10-20-codex-a-nome-da-tarefa.md
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto e dependências
+      description: Tarefas relacionadas, mudanças do outro desenvolvedor e próximos passos conhecidos.

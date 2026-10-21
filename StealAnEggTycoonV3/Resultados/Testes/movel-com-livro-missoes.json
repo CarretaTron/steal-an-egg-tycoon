@@ -1,0 +1,73 @@
+{
+  "Players": 1,
+  "FPSAtLeast30": true,
+  "CleanupSaved": true,
+  "MobileViewport": true,
+  "Duration": 16.69,
+  "Client": {
+    "StreamRequest": true,
+    "MeshParts": 2363,
+    "WorstFrameMS": 6.3,
+    "Frames": 2401,
+    "VisibleWidgets": 20,
+    "KeyboardEnabled": true,
+    "ReplicatedCreatures": 64,
+    "Seconds": 10.002645396161824,
+    "TopLevelBounds": [
+      {
+        "Y": 16,
+        "X": 18,
+        "Name": "Economia",
+        "Height": 91,
+        "Width": 254
+      },
+      {
+        "Y": 16,
+        "X": 443,
+        "Name": "Seguranca",
+        "Height": 91,
+        "Width": 244
+      },
+      {
+        "Y": 117,
+        "X": 147.5,
+        "Name": "Objetivo",
+        "Height": 59,
+        "Width": 410
+      },
+      {
+        "Y": 257,
+        "X": 18,
+        "Name": "TextLabel",
+        "Height": 16,
+        "Width": 669
+      },
+      {
+        "Y": 190,
+        "X": 128.5,
+        "Name": "Navegacao",
+        "Height": 62,
+        "Width": 448
+      }
+    ],
+    "ViewportX": 705,
+    "ViewportY": 338,
+    "ReplicatedBuilds": 456,
+    "OccupiedPlots": 8,
+    "GUIExists": true,
+    "P95FrameMS": 5.1,
+    "StreamedParts": 6141,
+    "Overflows": [],
+    "Viewport": "705, 338",
+    "OverflowCount": 0,
+    "AverageFPS": 240.03,
+    "TouchEnabled": true
+  },
+  "UIWithinViewport": true,
+  "Success": true,
+  "RealPlotId": 1,
+  "Builds": 456,
+  "Creatures": 64,
+  "GhostPlots": 7,
+  "Suite": "MobileForegroundEightPlots"
+}
