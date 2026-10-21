@@ -6,6 +6,7 @@
 | Responsável | codex-b, continuação autorizada pelo proprietário |
 | Atualizado em | 2026-10-21, America/Sao_Paulo |
 | Branch | codex-b/concluir-escolha-base-preview |
+| PR | https://github.com/CarretaTron/steal-an-egg-tycoon/pull/1 — rascunho para o teste visual assumido pelo usuário |
 | Commit de partida | 2bd667ac454bfc4c5f8521fa155d946a05199884 |
 | Pedido autorizado | Continuar o estado do outro Codex: spawn central, escolha de tycoon, construção manual e prévia do modelo semitransparente; salvar alterações neste GitHub |
 
@@ -29,7 +30,7 @@
 - Comparação antes da aplicação: os 12 fontes ativos lidos no Studio correspondem à branch de partida, sem divergência extra; mapa com oito terrenos, sete biomas, 14 ninhos, 14 guardiões e raízes externas preservadas. O `Map/scene.json` do RAR é idêntico ao da branch.
 - Testes novos executados: `Tests/claim_lifecycle_offline.py` (42 casos), `Tests/combat_offline.py` (359 verificações), `Tests/client_preview_guide_offline.py` (13 casos funcionais + 28 contratos estáticos). Dependências de engine simuladas, sem DataStore/Studio.
 - Compilação dos 24 fontes pelo Luau CLI aprovada; os nove alterados também compilaram no Studio antes da aplicação. Validação física, visual e replicação do fluxo novo ficam com o usuário; os relatórios históricos não certificam a nova etapa.
-- Fontes enviados em `15924f0`. Portátil e cópias regenerados: 24 fontes, 1.562 instâncias do mapa, 32 segmentos de rua, oito terrenos, 14 ninhos e 14 guardiões; as paredes externas manuais e a V2 permanecem no pacote.
+- Fontes enviados em `15924f0`; pacote e evidências enviados em `9b4dcab`. Portátil e cópias regenerados: 24 fontes, 1.562 instâncias do mapa, 32 segmentos de rua, oito terrenos, 14 ninhos e 14 guardiões; as paredes externas manuais e a V2 permanecem no pacote.
 - Verificador reforçado: compara o Source, nome, tipo e hierarquia das 24 instâncias Luau embutidas aos fontes principais; os oito ensaios e executáveis da V2 precisam estar desativados. Nove adulterações em cópias temporárias foram recusadas, sem alterar os portáteis originais. Reprodução em `Tests/verify_package_offline.py`.
 - Igualdade dos nove fontes aplicados no Studio conferida por tamanho e hash normalizado. Studio ficou em Edit; oito ensaios desativados; nenhum perfil real foi alterado por teste desta continuação.
 - Evidências: `Resultados/Testes/escolha-base-preview.json`, `validacao-pacote.json` e programas de `Tests/`.
