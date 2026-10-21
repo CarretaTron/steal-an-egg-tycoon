@@ -3,6 +3,7 @@ local Lighting=game:GetService('Lighting')
 local C=require(RS.EggTycoonV3.Shared.Config)
 local A=require(RS.EggTycoonV3.Shared.Art)
 local F={}
+local preparedWorld
 local white=Color3.fromRGB(240,246,252)
 local dark=Color3.fromRGB(34,49,67)
 local gold=Color3.fromRGB(255,208,65)
@@ -30,10 +31,68 @@ local function crystal(p,cf,color,s)
  for x=-1,1,2 do part(p,'CrystalShard',Vector3.new(s,4*s,s),cf*CFrame.new(x*1.8*s,1.8*s,0)*CFrame.Angles(0,0,-x*.4),color,Enum.Material.Glass,false) end
  return q
 end
+local function renewArtModel(old,create)
+ local cf=old:GetPivot()
+ local replacement=create(cf)
+ replacement.Name=old.Name
+ for name,value in pairs(old:GetAttributes()) do replacement:SetAttribute(name,value) end
+ local parts={}
+ for _,p in ipairs(replacement:GetChildren()) do
+  if p:IsA('BasePart') then parts[p.Name]=parts[p.Name] or {};table.insert(parts[p.Name],p) end
+ end
+ local used={}
+ for _,p in ipairs(old:GetChildren()) do
+  if not p:IsA('BasePart') then continue end
+  used[p.Name]=(used[p.Name] or 0)+1
+  local target=parts[p.Name] and parts[p.Name][used[p.Name]]
+  if not target then continue end
+  -- Authored mesh appearance is retained, but content comes from this session.
+  if not p:GetAttribute('SessionArtPlaceholder') then
+   target.Size=p.Size;target.CFrame=p.CFrame;target.Color=p.Color;target.Material=p.Material
+   target.Transparency=p.Transparency;target.CastShadow=p.CastShadow
+   target:SetAttribute('RestCF',cf:ToObjectSpace(p.CFrame))
+  end
+  for _,child in ipairs(p:GetChildren()) do
+   if child:IsA('LayerCollector') or child:IsA('ProximityPrompt') then
+    local copy=child:Clone()
+    if copy:IsA('BillboardGui') or copy:IsA('SurfaceGui') then copy.Adornee=target end
+    copy.Parent=target
+   end
+  end
+ end
+ replacement.Parent=old.Parent
+ old:Destroy()
+ return replacement
+end
+local function prepareAuthoredWorld(world)
+ for _,name in ipairs({'Plots','Biomes','Nests','Guardians','Decorations'}) do
+  assert(world:FindFirstChild(name),'Mapa editado incompleto: falta '..name..'. O mapa foi preservado.')
+ end
+ -- Static map instances belong to Studio editing; only session mesh content is renewed.
+ for _,nest in ipairs(world.Nests:GetChildren()) do
+  local species=nest:GetAttribute('Species')
+  local egg=nest:FindFirstChild('Egg')
+  if egg and C.Species[species] then renewArtModel(egg,function(cf) return A.Egg(species,cf,1.25,nil) end) end
+ end
+ for _,guard in ipairs(world.Guardians:GetChildren()) do
+  local species=guard:GetAttribute('Species')
+  if C.Species[species] then
+   local cf=guard:GetPivot()
+   local fresh=renewArtModel(guard,function(pivot) return A.Creature(species,pivot,2,nil) end)
+   fresh:SetAttribute('HomeX',cf.X);fresh:SetAttribute('HomeY',cf.Y);fresh:SetAttribute('HomeZ',cf.Z)
+  end
+ end
+end
 function F.Build()
  local old=workspace:FindFirstChild('EggTycoonV3')
- if old and old:GetAttribute('MapVersion')==3 and old:GetAttribute('RuntimeGenerated')==game:GetService('RunService'):IsRunning() then return old end
- if old then old:Destroy() end
+ if old then
+  if game:GetService('RunService'):IsRunning() and preparedWorld~=old then
+   prepareAuthoredWorld(old)
+   old:SetAttribute('RuntimeGenerated',true)
+   preparedWorld=old
+  end
+  return old
+ end
  local world=Instance.new('Folder') world.Name='EggTycoonV3' world:SetAttribute('MapVersion',3) world.Parent=workspace
  world:SetAttribute('RuntimeGenerated',game:GetService('RunService'):IsRunning())
  local plots=folder(world,'Plots'); local biomes=folder(world,'Biomes');local nests=folder(world,'Nests');local guards=folder(world,'Guardians');local deco=folder(world,'Decorations')
@@ -137,6 +196,7 @@ function F.Build()
  Lighting.GlobalShadows=true Lighting.FogEnd=6000
  local atmosphere=Lighting:FindFirstChildOfClass('Atmosphere') or Instance.new('Atmosphere') atmosphere.Density=.15 atmosphere.Haze=.7 atmosphere.Color=Color3.fromRGB(196,224,255) atmosphere.Parent=Lighting
  local pilot=workspace:FindFirstChild('EggTycoonPilot') if pilot then pilot:Destroy() end
+ preparedWorld=world
  return world
 end
 return F

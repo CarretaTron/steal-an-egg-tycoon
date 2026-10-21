@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-21",
+  "task": "Escolha de tycoon, kit manual e preview semitransparente",
+  "branch": "codex-b/concluir-escolha-base-preview",
+  "sourceCommit": "15924f0",
+  "basis": "2bd667ac454bfc4c5f8521fa155d946a05199884 + RAR WIP recebido",
+  "archiveSha256": "9d64278d79144173b8e3c7f9b1c2b5e9a48a989d16dda5ea10c106e519ee9f4c",
+  "offline": [
+    {
+      "runner": "Tests/claim_lifecycle_offline.py",
+      "passed": 42,
+      "type": "functional cases",
+      "scope": "kit manual, migração, lobby, reservas, rollback, reentrada, incubação, escrow, rebirth"
+    },
+    {
+      "runner": "Tests/combat_offline.py",
+      "passed": 359,
+      "type": "assertions",
+      "scope": "terrenos livres, montagem explícita, combate, breach e restauração das propriedades autoradas; engine simulada"
+    },
+    {
+      "runner": "Tests/client_preview_guide_offline.py",
+      "functionalPassed": 13,
+      "staticPassed": 28,
+      "scope": "guia e contratos do preview; renderização não executada"
+    }
+  ],
+  "compilation": {
+    "luauCliSources": 24,
+    "studioEditSources": 9,
+    "success": true
+  },
+  "studio": {
+    "placeId": 119288590672557,
+    "mode": "Edit",
+    "newPlayTestsRun": 0,
+    "newSimulatorTestsRun": 0,
+    "appliedSourcesMatchRepository": true,
+    "disabledTestScripts": 8,
+    "authoredMapReplaced": false,
+    "sourceHashes": [
+      {
+        "bytes": 66809,
+        "path": "StarterPlayer.StarterPlayerScripts.EggTycoonV3_Client",
+        "hash": "5d4557ab"
+      },
+      {
+        "bytes": 7007,
+        "path": "ReplicatedStorage.EggTycoonV3.Shared.Art",
+        "hash": "cd9486b1"
+      },
+      {
+        "bytes": 4345,
+        "path": "ReplicatedStorage.EggTycoonV3.Shared.Config",
+        "hash": "32ea9bc9"
+      },
+      {
+        "bytes": 13409,
+        "path": "ReplicatedStorage.EggTycoonV3.Shared.HudGuide",
+        "hash": "6e2a24de"
+      },
+      {
+        "bytes": 42341,
+        "path": "ServerScriptService.EggTycoonV3.Bootstrap",
+        "hash": "b77eb50d"
+      },
+      {
+        "bytes": 8933,
+        "path": "ServerScriptService.EggTycoonV3.Building",
+        "hash": "f439942f"
+      },
+      {
+        "bytes": 13018,
+        "path": "ServerScriptService.EggTycoonV3.Combat",
+        "hash": "2713cd29"
+      },
+      {
+        "bytes": 20991,
+        "path": "ServerScriptService.EggTycoonV3.Persistence",
+        "hash": "40236633"
+      },
+      {
+        "bytes": 8270,
+        "path": "ServerScriptService.EggTycoonV3.Production",
+        "hash": "42701fbd"
+      }
+    ]
+  },
+  "limits": [
+    "Play, simulador e testes visuais assumidos pelo usuário na passagem anterior; não foram iniciados nesta continuação.",
+    "Dependências da engine simuladas nos ensaios offline; física, replicação e toque do fluxo novo precisam de verificação no jogo.",
+    "Relatórios históricos não certificam a nova etapa."
+  ]
+}

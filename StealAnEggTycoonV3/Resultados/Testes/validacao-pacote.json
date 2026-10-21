@@ -5,5 +5,18 @@
   "disabledTestScripts": 8,
   "portableParses": true,
   "allSourceCopiesMatch": true,
-  "v2BackupIncluded": true
+  "v2BackupIncluded": true,
+  "embeddedSourceInstancesVerified": 24,
+  "embeddedSourceHierarchyMatches": true,
+  "allEmbeddedSourcesMatch": true,
+  "v2BackupExecutablesDisabled": true,
+  "authoredMapIncluded": true,
+  "authoredSceneInstances": 1562,
+  "authoredPartsVerified": 1287,
+  "ringRoadSegmentsVerified": 32,
+  "plots": 8,
+  "nests": 14,
+  "guardians": 14,
+  "manualOuterWallsIncluded": true,
+  "renewableSessionArtPlaceholders": 460
 }
