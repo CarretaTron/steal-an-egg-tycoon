@@ -16,17 +16,19 @@ local function ownsPlot(state)
  return state and state.Player and state.Plot and state.Plot.Parent
   and state.Plot:GetAttribute("OwnerUserId")==state.Player.UserId
 end
-local function defensesBuilt(state)
- -- Profiles predating manual assembly already owned a complete shell.
- return state.Profile.DefensesBuilt~=false
-end
 function Combat.new(ctx)
  return setmetatable({ctx=ctx,C=ctx.Config,PartDefaults=setmetatable({},{__mode="k"}),LabelDefaults=setmetatable({},{__mode="k"}),PlotPresentation=setmetatable({},{__mode="k"})},Combat)
 end
 function Combat:SetPartVisible(part,visible)
  local original=self.PartDefaults[part]
- if not original then
-  original={Transparency=part.Transparency,CanCollide=part.CanCollide,CanTouch=part.CanTouch,CanQuery=part.CanQuery}
+ local revision=part:GetAttribute("BaseShellRevision")
+ local hasShellDefaults=part:GetAttribute("BaseShellTransparency")~=nil
+ if not original or original.Revision~=revision or original.HasShellDefaults~=hasShellDefaults then
+  original={Revision=revision,HasShellDefaults=hasShellDefaults}
+  for _,key in ipairs({"Transparency","CanCollide","CanTouch","CanQuery"}) do
+   local value=part:GetAttribute("BaseShell"..key)
+   original[key]=value==nil and part[key] or value
+  end
   self.PartDefaults[part]=original
  end
  part.Transparency=visible and original.Transparency or 1
@@ -35,28 +37,33 @@ function Combat:SetPartVisible(part,visible)
  part.CanQuery=visible and original.CanQuery or false
 end
 function Combat:ApplyPlotDefenses(plot,owned,built,open)
+ built=true -- The shell is part of every plot; only its powered entrance depends on ownership.
  local previous=self.PlotPresentation[plot]
- if previous and previous.Owned==owned and previous.Built==built and previous.Open==open then return end
+ local generation=plot:GetAttribute("BaseShellGeneration")
+ if previous and previous.Owned==owned and previous.Built==built and previous.Open==open and previous.Generation==generation then return end
  for _,part in ipairs(plot:GetChildren()) do
   if part:IsA("BasePart") then
-   if defenseNames[part.Name] then
+   if defenseNames[part.Name] or part:GetAttribute("BaseShellPart") then
     local isLaser=part.Name=="Laser" or part.Name=="LaserBeam"
-    self:SetPartVisible(part,owned and built and (not isLaser or not open))
+    self:SetPartVisible(part,not isLaser or (owned and not open))
     if isLaser then part.CanCollide=false;part.CanTouch=false end
     if part.Name=="Laser" then part:SetAttribute("Open",not built or open or not owned) end
    elseif part.Name=="Battery" then
     self:SetPartVisible(part,owned)
     for _,label in ipairs(part:GetDescendants()) do
      if label:IsA("BillboardGui") or label:IsA("SurfaceGui") then
-      if self.LabelDefaults[label]==nil then self.LabelDefaults[label]=label.Enabled end
+      if self.LabelDefaults[label]==nil then
+       local saved=label:GetAttribute("BaseShellEnabled")
+       self.LabelDefaults[label]=saved==nil and label.Enabled or saved
+      end
       label.Enabled=owned and self.LabelDefaults[label] or false
      end
     end
    end
   end
  end
- plot:SetAttribute("DefensesBuilt",owned and built or false)
- self.PlotPresentation[plot]={Owned=owned,Built=built,Open=open}
+ plot:SetAttribute("DefensesBuilt",true)
+ self.PlotPresentation[plot]={Owned=owned,Built=true,Open=open,Generation=generation}
 end
 function Combat:SetPlotVacant(plot)
  if not plot then return end
@@ -65,34 +72,13 @@ end
 function Combat:BuildDefenses(state)
  local function reject(message) self.ctx:Toast(state.Player,message);return false end
  if not state or not state.Player then return false end
- if not state.Ready or not ownsPlot(state) then return reject("Escolha uma tycoon antes de montar as defesas.") end
+ if not state.Ready or not ownsPlot(state) then return reject("Escolha uma tycoon para usar a base pronta.") end
  if state.Leaving or state.OperationBusy then return reject("Aguarde a operação atual terminar.") end
- local root=rootOf(state.Player)
- local position=root and state.Plot:GetPivot():PointToObjectSpace(root.Position)
- if not position or math.abs(position.X)>79 or position.Z < -79 or position.Z>79 or position.Y < -4 or position.Y>30 then
-  return reject("Entre na sua base para montar as paredes e a cobertura.")
- end
- if state.Carry or (self.ctx.HasTransfer and self.ctx:HasTransfer(state)) then return reject("Conclua o transporte ou roubo antes de montar as defesas.") end
- local now=os.clock()
- if (state.LastCombat or 0)>0 and now-state.LastCombat<self.C.CombatLock or (state.Runtime.BreachUntil or 0)>now then
-  return reject("Construção bloqueada durante a invasão.")
- end
- if defensesBuilt(state) then self.ctx:Sync(state);return true end
- local perimeter=0
- for _,part in ipairs(state.Plot:GetChildren()) do if part.Name=="Perimeter" and part:IsA("BasePart") then perimeter+=1 end end
- if perimeter<5 or not state.Plot:FindFirstChild("Roof") or not state.Plot:FindFirstChild("Laser") or not state.Plot:FindFirstChild("Battery") then
-  return reject("A estrutura da defesa está incompleta neste mapa.")
- end
- local price=self.C.DefensesPrice or 0
- if type(price)~="number" or price~=price or price<0 or price==math.huge then return reject("Preço de defesa inválido.") end
- if state.Profile.Cash<price then return reject("Dinheiro insuficiente.") end
- -- This synchronous decision happens once, before any visual or network update.
- state.Profile.Cash-=price
+ -- Compatibility with an old client: acknowledge the ready shell without charging
+ -- or clearing a breach that is already in progress.
  state.Profile.DefensesBuilt=true
- state.Runtime.Positions={}
- self:ApplyPlotDefenses(state.Plot,true,true,false)
+ self:ApplyPlotDefenses(state.Plot,true,true,(state.Runtime.BreachUntil or 0)>os.clock())
  self.ctx:Sync(state)
- self.ctx:Toast(state.Player,"Paredes e cobertura montadas! A bateria agora alimenta sua porta a laser.")
  return true
 end
 function Combat:Reset(state)
@@ -105,10 +91,10 @@ function Combat:Reset(state)
  r.Positions={}
  state.Energy=100
  state.LastCombat=0
- if ownsPlot(state) then self:ApplyPlotDefenses(state.Plot,true,defensesBuilt(state),false) end
+ if ownsPlot(state) then state.Profile.DefensesBuilt=true;self:ApplyPlotDefenses(state.Plot,true,true,false) end
 end
 function Combat:DamageBattery(attacker,owner,damage)
- if not ownsPlot(attacker) or not ownsPlot(owner) or not owner.Ready or not attacker.Ready or not defensesBuilt(owner) then return end
+ if not ownsPlot(attacker) or not ownsPlot(owner) or not owner.Ready or not attacker.Ready then return end
  if type(damage)~="number" or damage~=damage or damage<=0 or damage==math.huge then return end
  if owner==attacker or attacker.Leaving or owner.Leaving or (owner.Runtime.BreachUntil or 0)>os.clock() then return end
  local r=owner.Runtime
@@ -212,9 +198,8 @@ function Combat:Step(dt)
     r.BatteryUpgradeDeferred=false
    self.ctx:Toast(s.Player,"Bateria reconstruída. Entrada protegida.")
   end
-  local built=defensesBuilt(s)
-  local open=not built or (r.BreachUntil or 0)>now
-  self:ApplyPlotDefenses(s.Plot,true,built,open)
+  local open=(r.BreachUntil or 0)>now
+  self:ApplyPlotDefenses(s.Plot,true,true,open)
   local battery=s.Plot:FindFirstChild("Battery")
   if battery then
    battery:SetAttribute("HP",r.BatteryHP)
@@ -223,7 +208,7 @@ function Combat:Step(dt)
    local label=s.Plot:FindFirstChild("BatteryLabel",true)
    local text=label and label:FindFirstChild("Text",true)
    if text and text:IsA("TextLabel") then
-    text.Text=not built and "MONTE AS PAREDES PARA ATIVAR" or open and ("RECONSTRUINDO • "..math.ceil(r.BreachUntil-now).."s") or ("BATERIA "..math.ceil(r.BatteryHP).." / "..r.BatteryMax)
+    text.Text=open and ("RECONSTRUINDO • "..math.ceil(r.BreachUntil-now).."s") or ("BATERIA "..math.ceil(r.BatteryHP).." / "..r.BatteryMax)
    end
   end
   -- ApplyPlotDefenses restores authored transparency and query settings on each

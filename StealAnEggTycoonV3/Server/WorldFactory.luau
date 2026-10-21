@@ -2,6 +2,7 @@ local RS=game:GetService('ReplicatedStorage')
 local Lighting=game:GetService('Lighting')
 local C=require(RS.EggTycoonV3.Shared.Config)
 local A=require(RS.EggTycoonV3.Shared.Art)
+local BaseShell=require(RS.EggTycoonV3.Shared.BaseShell)
 local F={}
 local preparedWorld
 local white=Color3.fromRGB(240,246,252)
@@ -86,6 +87,8 @@ end
 function F.Build()
  local old=workspace:FindFirstChild('EggTycoonV3')
  if old then
+  local plots=old:FindFirstChild('Plots')
+  if plots then for _,plot in ipairs(plots:GetChildren()) do if plot:IsA('Model') then BaseShell.Apply(plot) end end end
   if game:GetService('RunService'):IsRunning() and preparedWorld~=old then
    prepareAuthoredWorld(old)
    old:SetAttribute('RuntimeGenerated',true)
@@ -116,22 +119,11 @@ function F.Build()
   local cf=C.PlotCFrame(id)
   local floor=part(plot,'Floor',Vector3.new(160,1,160),cf*CFrame.new(0,-.5,0),Color3.fromRGB(151,188,125),Enum.Material.SmoothPlastic,true)
   floor.TopSurface=Enum.SurfaceType.Studs floor.PivotOffset=floor.CFrame:ToObjectSpace(cf) plot.PrimaryPart=floor
-  for s=-1,1,2 do
-   local wall=part(plot,'Perimeter',Vector3.new(1.4,28,160),cf*CFrame.new(s*80,14,0),Color3.fromRGB(116,170,187),Enum.Material.Glass,true) wall.Transparency=.65
-   part(plot,'Frame',Vector3.new(2.4,28,2.4),cf*CFrame.new(s*79,14,-79),dark,Enum.Material.Metal,true)
-   part(plot,'Frame',Vector3.new(2.4,28,2.4),cf*CFrame.new(s*79,14,79),dark,Enum.Material.Metal,true)
-   local front=part(plot,'Perimeter',Vector3.new(72,28,1.4),cf*CFrame.new(s*44,14,-80),Color3.fromRGB(116,170,187),Enum.Material.Glass,true) front.Transparency=.65
-  end
-  local rear=part(plot,'Perimeter',Vector3.new(160,28,1.4),cf*CFrame.new(0,14,80),Color3.fromRGB(116,170,187),Enum.Material.Glass,true) rear.Transparency=.65
-  local roof=part(plot,'Roof',Vector3.new(162,1,162),cf*CFrame.new(0,28,0),Color3.fromRGB(168,210,225),Enum.Material.Glass,true) roof.Transparency=.85
-  part(plot,'RoofFrame',Vector3.new(163,1,2),cf*CFrame.new(0,28,-80),dark,Enum.Material.Metal,true)
-  part(plot,'DoorHeader',Vector3.new(16,10,1.4),cf*CFrame.new(0,23,-80),dark,Enum.Material.Metal,true)
-  local laser=part(plot,'Laser',Vector3.new(16,18,1),cf*CFrame.new(0,9,-80),Color3.fromRGB(255,78,102),Enum.Material.Neon,false) laser.Transparency=.58
-  for x=-6,6,3 do part(plot,'LaserBeam',Vector3.new(.22,18,.22),cf*CFrame.new(x,9,-80),Color3.fromRGB(255,78,102),Enum.Material.Neon,false) end
   local battery=part(plot,'Battery',Vector3.new(6,7,4),cf*CFrame.new(24,3.5,-86),Color3.fromRGB(73,228,158),Enum.Material.Metal,true) battery:SetAttribute('PlotId',id)
   local label=A.Label(plot,battery,'BATERIA','200 / 200',Color3.fromRGB(113,255,176),95) label.Name='BatteryLabel'
   local owner=sign(plot,cf*CFrame.new(0,20,-81),42,string.format('TYCOON %02d',id),'BASE DISPONÍVEL',gold) owner.Name='OwnerSign'
   folder(plot,'Structures');folder(plot,'Creatures')
+  BaseShell.Apply(plot)
   part(deco,'PlotRoad',Vector3.new(20,.3,100),cf*CFrame.new(0,.15,-130),Color3.fromRGB(210,198,154),Enum.Material.Pavement,true)
   plot.Parent=plots task.wait()
  end

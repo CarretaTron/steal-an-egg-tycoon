@@ -148,9 +148,10 @@ for _,part in ipairs(plot:GetChildren()) do
     original[part]={Transparency=part.Transparency,CanCollide=part.CanCollide,
         CanTouch=part.CanTouch,CanQuery=part.CanQuery}
 end
-local function shell(hidden,message)
+local function shell(laserHidden,message)
     for _,part in ipairs(plot:GetChildren()) do
         if defenses[part.Name] then
+            local hidden=laserHidden and (part.Name=="Laser" or part.Name=="LaserBeam")
             local snapshot=original[part]
             expect(part.Transparency==(hidden and 1 or snapshot.Transparency),message.." transparency "..part.Name)
             expect(part.CanQuery==(not hidden and snapshot.CanQuery),message.." raycast "..part.Name)
@@ -168,13 +169,14 @@ expect(plot.Battery.Transparency==1 and not plot.Battery.CanQuery,"Vacant batter
 expect(not plot.Battery.BatteryLabel.Enabled,"Vacant battery label hidden")
 local owner=makeState(1,plot,false);ctx.States[1]=owner
 combat:Reset(owner);combat:Step(.1)
-shell(true,"Claim without defenses")
+shell(false,"Claim receives ready walls and roof")
+expect(owner.Profile.DefensesBuilt==true,"Reset migrates optional-defense WIP profile to the ready shell")
 expect(plot.Battery.Transparency==original[plot.Battery].Transparency,"Claim restores authored battery")
 expect(plot.Battery.CanQuery and plot.Battery.BatteryLabel.Enabled,"Claim restores battery raycasts and label")
-expect(plot.Laser:GetAttribute("Open")==true,"Unbuilt laser is open")
-expect(combat:BuildDefenses(owner)==true,"Owner assembles complete defense kit")
+expect(plot.Laser:GetAttribute("Open")==false,"Claim powers the ready laser")
+expect(combat:BuildDefenses(owner)==true,"Legacy assembly request acknowledges ready shell")
 local cash=owner.Profile.Cash
-expect(cash==9975,"Defense cost applied once")
+expect(cash==10000,"Ready walls never charge an assembly price")
 expect(combat:BuildDefenses(owner)==true and owner.Profile.Cash==cash,"Repeated assembly does not charge")
 combat:Step(.1)
 shell(false,"Built defense after Step")
@@ -227,16 +229,134 @@ nextOwner.Profile.DefensesBuilt=nil;combat:Reset(nextOwner);combat:Step(.1)
 shell(false,"Legacy complete shell")
 nextOwner.Profile.DefensesBuilt=false;combat:Reset(nextOwner)
 ctx.TransferActive=true;cash=nextOwner.Profile.Cash
-expect(combat:BuildDefenses(nextOwner)==false and nextOwner.Profile.Cash==cash,"Transfer blocks assembly without charge")
+expect(combat:BuildDefenses(nextOwner)==true and nextOwner.Profile.Cash==cash,"Legacy request during transport leaves ready shell and cash unchanged")
 ctx.TransferActive=false;nextOwner.LastCombat=now
-expect(combat:BuildDefenses(nextOwner)==false,"Combat cooldown blocks assembly")
+expect(combat:BuildDefenses(nextOwner)==true,"Legacy request during combat cannot change ready shell")
 nextOwner.LastCombat=0;nextOwner.Profile.Cash=0
-expect(combat:BuildDefenses(nextOwner)==false,"Insufficient cash blocks assembly")
+expect(combat:BuildDefenses(nextOwner)==true,"Ready shell does not require cash")
 nextOwner.Profile.Cash=10000
-for index,part in ipairs(plot.Children) do if part.Name=="Roof" then table.remove(plot.Children,index);break end end
-expect(combat:BuildDefenses(nextOwner)==false,"Incomplete authored shell is rejected without replacing the map")
-expect(nextOwner.Profile.Cash==10000 and nextOwner.Profile.DefensesBuilt==false,"Failed assembly preserves profile")
+nextOwner.Runtime.BreachUntil=now+30
+expect(combat:BuildDefenses(nextOwner)==true and plot.Laser:GetAttribute("Open")==true,"Legacy assembly cannot close an active breach")
+expect(nextOwner.Profile.Cash==10000 and nextOwner.Profile.DefensesBuilt==true,"Compatibility request preserves cash and ready defenses")
+local fresh=append(plot,node("Part","NewTrim",{Transparency=1,CanCollide=false,CanTouch=false,CanQuery=false}))
+fresh:SetAttribute("BaseShellPart",true);fresh:SetAttribute("BaseShellRevision",1)
+fresh:SetAttribute("BaseShellTransparency",.24);fresh:SetAttribute("BaseShellCanCollide",true)
+fresh:SetAttribute("BaseShellCanTouch",true);fresh:SetAttribute("BaseShellCanQuery",true)
+plot:SetAttribute("BaseShellGeneration",1)
+combat:ApplyPlotDefenses(plot,true,true,true)
+expect(fresh.Transparency==.24 and fresh.CanCollide and fresh.CanQuery,"Shell generation invalidates cached presentation and restores authored defaults")
+combat:SetPlotVacant(plot)
+expect(fresh.Transparency==.24 and fresh.CanCollide,"New shell decorations remain visible and solid while vacant")
+local powered=plot:FindFirstChild("Laser")
+powered:SetAttribute("BaseShellTransparency",.76);powered:SetAttribute("BaseShellRevision",1)
+powered.Transparency=1
+plot:SetAttribute("BaseShellGeneration",2)
+combat:ApplyPlotDefenses(plot,true,true,false)
+expect(powered.Transparency==.76,"Claim restores a laser created in a hidden vacant state")
 print("PASS Combat offline: "..checks.." checks; no Studio, physics, or replication test performed")
+'''
+
+
+SHELL_PRELUDE = r'''
+Enum.Material={SmoothPlastic="Plastic",Glass="Glass",Neon="Neon"}
+Enum.SurfaceType={Smooth="Smooth",Studs="Studs"}
+Enum.NormalId={Front="Front"}
+Enum.Font={GothamBlack="Black",GothamBold="Bold"}
+local UDim2={fromScale=function(x,y) return {X=x,Y=y} end}
+function Node:GetChildren() return table.clone(self.Children) end
+function Node:FindFirstChildWhichIsA(class) return self:FindFirstChildOfClass(class) end
+function Node:Destroy()
+    local parent=self.Parent
+    if parent and type(parent)=="table" then
+        for i,child in ipairs(parent.Children) do if child==self then table.remove(parent.Children,i);break end end
+        if parent[self.Name]==self then parent[self.Name]=nil end
+    end
+    rawset(self,"Parent",nil);rawset(self,"_Parent",nil);self.Destroyed=true
+end
+local auto={}
+auto.__index=function(n,key) if key=="Parent" then return rawget(n,"_Parent") end return Node[key] end
+auto.__newindex=function(n,key,value)
+    if key=="Parent" then rawset(n,"_Parent",value);if value then table.insert(value.Children,n) end
+    else rawset(n,key,value) end
+end
+local Instance={new=function(class)
+    return setmetatable({ClassName=class,Name=class,Children={},Attributes={},Enabled=true,
+        Transparency=0,CanCollide=true,CanTouch=true,CanQuery=true},auto)
+end}
+local Shell=(function()
+'''
+
+SHELL_TESTS = r'''
+end)()
+local plot=makePlot(1)
+local floor=append(plot,node("Part","Floor",{CFrame=CFrame.new(0,-.5,0),Size=Vector3.new(160,1,160)}))
+plot.PrimaryPart=floor
+local structures=append(plot,node("Folder","Structures"))
+local machine=append(structures,node("Part","Perimeter"))
+local creatures=append(plot,node("Folder","Creatures"))
+local custom=append(plot,node("Part","AuthoredDecoration"))
+local sign=append(plot,node("Part","OwnerSign"))
+local gui=append(sign,node("SurfaceGui","SurfaceGui"))
+local title=append(gui,node("TextLabel","Title",{Text="TYCOON 01"}))
+local subtitle=append(gui,node("TextLabel","Subtitle",{Text="BASE DISPONÍVEL"}))
+local pivot,battery=plot:GetPivot(),plot.Battery
+local originalPerimeter=plot:FindFirstChild("Perimeter")
+Shell.Apply(plot)
+local roof=plot:FindFirstChild("Roof")
+expect(originalPerimeter.Destroyed,"Shell upgrade replaces old envelope only")
+expect(plot.PrimaryPart==floor and floor.Parent==plot and plot:GetPivot()==pivot,"Shell preserves floor and pivot identity")
+expect(plot.Battery==battery and battery.Parent==plot,"Shell preserves authored battery identity")
+expect(structures.Parent==plot and machine.Parent==structures and creatures.Parent==plot and custom.Parent==plot,"Shell preserves machinery, creatures and unrelated decorations")
+expect(plot:FindFirstChild("OwnerSign")==sign and title.Parent==gui and subtitle.Parent==gui,"Shell preserves owner sign and Title/Subtitle objects")
+expect(title.Text=="TYCOON 01" and subtitle.Text=="BASE DISPONÍVEL","Restyling does not replace owner text")
+expect(roof.CanCollide and roof.Size.X==162 and roof.Size.Z==162 and roof.CFrame.Position.Y==28,"Solid roof preserves original dimensions and height")
+expect(roof.TopSurface==Enum.SurfaceType.Studs,"Roof has a studded upper surface")
+local laser=plot:FindFirstChild("Laser")
+expect(laser.Size.X==16 and laser.CFrame.Position.Z==-80 and not laser.CanCollide,"Front laser keeps exact sixteen-stud opening")
+expect(laser.Transparency==1 and laser:GetAttribute("BaseShellTransparency")==.76,"Vacant laser is off with an exported restoration default")
+expect(battery.Transparency==1 and not battery.CanQuery and not battery.BatteryLabel.Enabled,"Vacant battery and label are off")
+local count,perimeter,windows=0,0,0
+for _,part in ipairs(plot:GetChildren()) do
+    if part:IsA("BasePart") and part:GetAttribute("BaseShellPart") then
+        count+=1
+        for _,value in pairs(part.Attributes) do expect(type(value)=="number" or type(value)=="string" or type(value)=="boolean","Shell attributes support authored-map export") end
+        if part.Name=="Perimeter" then
+            perimeter+=1
+            expect(part.CanCollide,"Every wall panel prevents a shortcut")
+            if part.Material==Enum.Material.Glass then
+                windows+=1
+                expect(part.FrontSurface==Enum.SurfaceType.Smooth,"Glass panes stay smooth")
+            else expect(part.FrontSurface==Enum.SurfaceType.Studs,"Opaque wall vertical faces have studs") end
+        end
+    end
+end
+expect(perimeter==15 and windows==5,"Five broad window walls keep the legacy perimeter contract")
+local generation=plot:GetAttribute("BaseShellGeneration")
+Shell.Apply(plot)
+expect(#plot:GetChildren()==count+5 and plot:FindFirstChild("Roof")==roof,"Repeated shell Apply is idempotent")
+expect(plot:GetAttribute("BaseShellGeneration")==generation,"Idempotent Apply does not invalidate caches")
+local function blocked(x,y,z)
+    for _,p in ipairs(plot:GetChildren()) do
+        if p:IsA("BasePart") and p.CanCollide and p:GetAttribute("BaseShellPart") then
+            local pos=p.CFrame.Position
+            if math.abs(x-pos.X)<=p.Size.X/2 and math.abs(y-pos.Y)<=p.Size.Y/2 and math.abs(z-pos.Z)<=p.Size.Z/2 then return true end
+        end
+    end
+    return false
+end
+local sealed,samples=true,0
+for along=-79,79,5 do for y=1,27,3 do
+    for _,side in ipairs({-1,1}) do sealed=sealed and blocked(side*80,y,along);samples+=1 end
+    sealed=sealed and blocked(along,y,80);samples+=1
+    if math.abs(along)>=8 then sealed=sealed and blocked(along,y,-80);samples+=1 end
+end end
+expect(sealed,"All sampled wall and glass positions are physically sealed")
+expect(not blocked(0,4,-80) and not blocked(0,16,-80),"The central doorway stays open to walking avatars")
+expect(blocked(0,28,0) and blocked(75,28,75),"Roof collision closes the upper shortcut")
+Shell.Apply(plot,true)
+expect(plot:FindFirstChild("Roof")~=roof and plot:GetAttribute("BaseShellGeneration")==generation+1,"Explicit rebuild increments presentation generation")
+expect(plot.PrimaryPart==floor and plot:FindFirstChild("OwnerSign")==sign and plot.Battery==battery,"Explicit rebuild still preserves protected authored instances")
+print("PASS BaseShell offline: "..checks.." assertions, "..samples.." wall samples; no Studio rendering or physics test performed")
 '''
 
 
@@ -267,7 +387,13 @@ def main():
         script = Path(temporary) / "combat.luau"
         script.write_text(PRELUDE + source + "\n" + TESTS, encoding="utf-8")
         result = subprocess.run([str(cli), str(script)], check=False)
-        raise SystemExit(result.returncode)
+        if result.returncode:
+            raise SystemExit(result.returncode)
+        shell_source = (project / "Shared" / "BaseShell.luau").read_text(encoding="utf-8-sig")
+        shell_script = Path(temporary) / "base_shell.luau"
+        shell_script.write_text(PRELUDE.split("local Combat=(function()", 1)[0] + SHELL_PRELUDE + shell_source + "\n" + SHELL_TESTS, encoding="utf-8")
+        shell_result = subprocess.run([str(cli), str(shell_script)], check=False)
+        raise SystemExit(shell_result.returncode)
 
 
 if __name__ == "__main__":
