@@ -45,7 +45,7 @@ function Persistence.new(ctx)
 end
 
 function Persistence:Default()
- return {Version=3,StarterPlaced=true,DefensesBuilt=false,Cash=0,Rebirths=0,SpeedLevel=0,WeaponLevel=0,BatteryLevel=1,ProcessorLevel=1,
+ return {Version=3,StarterPlaced=true,DefensesBuilt=true,Cash=0,Rebirths=0,SpeedLevel=0,WeaponLevel=0,BatteryLevel=1,ProcessorLevel=1,
   Discovered={},Progress={Stats={},Claimed={}},Inventory=copy(self.Ctx.Config.StarterInventory),Builds={},StoredHabitats={},Creatures={},Incubations={},ResourceEscrow={},TransferRefs={}}
 end
 
@@ -54,8 +54,8 @@ function Persistence:Normalize(raw)
  local p=self:Default()
  -- Existing profiles have already received their kit; an empty saved layout can be intentional.
  p.StarterPlaced=raw.StarterPlaced~=false
- -- Old saves already had their fixed perimeter. New saves explicitly start open.
- p.DefensesBuilt=raw.DefensesBuilt==nil or raw.DefensesBuilt==true
+ -- Walls and roof are part of every claimed plot, including saves from the optional-defense WIP.
+ p.DefensesBuilt=true
  p.Cash=number(raw.Cash,0)
  p.Rebirths=math.floor(number(raw.Rebirths,0,0,100000))
  p.SpeedLevel=math.floor(number(raw.SpeedLevel,0,0,5))

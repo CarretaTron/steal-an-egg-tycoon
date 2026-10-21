@@ -26,5 +26,7 @@
 
 ## Passagem
 
-- Diagnóstico em andamento. O cliente atual atualiza a seta dentro da rotina limitada a 0,15 segundo; mover câmera/jogador entre atualizações causa os saltos vistos na referência.
+- Diagnóstico: o cliente atualiza a seta dentro da rotina limitada a 0,15 segundo; mover câmera/jogador entre atualizações causa os saltos vistos na referência.
+- Primeira correção concluída: paredes prontas em perfis novos, saves WIP antes abertos, escolha da base e rebirth. A migração preserva máquinas, criaturas e incubações. Os 44 casos offline do ciclo de vida passaram; Bootstrap e Persistence compilaram.
+- Snapshot anterior à mudança das paredes: `Backups/AntesParedesProntas/`, incluindo portátil, cena JSON e RBXM nativo exportado agora do Studio. Baseline para preservação: 1.136 peças fora da casca das bases, incluindo pisos e baterias, guardadas em memória para comparar após aplicar o visual.
 - Publicar fontes e artefatos nesta branch durante a execução. Manter PR anterior atualizado ao integrar a continuação, sem perder o histórico.

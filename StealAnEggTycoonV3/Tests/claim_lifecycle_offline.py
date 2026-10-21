@@ -69,7 +69,7 @@ ctx.Services.Persistence=persistence
 local building=Building.new(ctx)
 local production=Production.new(ctx)
 local fresh=persistence:Default()
-check(fresh.DefensesBuilt==false and #fresh.Builds==0,"New profile starts with an open, empty base")
+check(fresh.DefensesBuilt==true and #fresh.Builds==0,"New profile includes ready walls and roof with no machines positioned")
 for kind,count in pairs(Config.StarterInventory) do check(fresh.Inventory[kind]==count,"Free kit inventory: "..kind) end
 local starter={Profile=fresh,Generation=0,Runtime={}}
 building:Starter(starter);building:Starter(starter)
@@ -84,7 +84,9 @@ local old={Version=3,Cash=125,Inventory={Habitat=2,Belt=9},Builds={
 local migrated=persistence:Normalize(old)
 check(migrated.DefensesBuilt==true,"An old save without the defense field preserves existing protection")
 old.DefensesBuilt=false
-check(persistence:Normalize(old).DefensesBuilt==false,"An explicitly open saved base stays open")
+local fromOptionalDefense=persistence:Normalize(old)
+check(fromOptionalDefense.DefensesBuilt==true,"An optional-defense WIP save receives ready walls and roof")
+check(#fromOptionalDefense.Builds==3 and fromOptionalDefense.Creatures[1].Id=="old-creature" and fromOptionalDefense.Incubations[1].Remaining==7,"Defense migration preserves machines, creatures and remaining incubation")
 check(#migrated.Builds==3 and migrated.Builds[1].Level==2 and migrated.Inventory.Belt==9,"Migration preserves saved layout, upgrades and kit balances")
 local lobby={Player={UserId=1,Parent=Players,Near=true},Profile=migrated,Runtime={},Generation=0,Ready=true,LastCombat=0,Energy=100}
 local before=persistence:Snapshot(lobby)
@@ -125,7 +127,7 @@ ctx.Services.Building={Render=function(_,s)
  if s.FailRender then error("Injected renderer failure") end
 end}
 ctx.Services.Production={RenderCreatures=function() end}
-ctx.Services.Combat={Reset=function(_,s) s.Runtime.BatteryHP=200 end,SetPlotVacant=function(_,p) p.DefenseVacant=true end}
+ctx.Services.Combat={Reset=function(_,s) s.Runtime.BatteryHP=200;s.Runtime.DefenseAtReset=s.Profile.DefensesBuilt end,SetPlotVacant=function(_,p) p.DefenseVacant=true end}
 -- No storage call is needed when testing rebirth's state transition.
 persistence.Save=function() return true end
 '''
@@ -135,6 +137,7 @@ local function playerState(uid,profile)
  return {Player={UserId=uid,Parent=Players,Near=true},Profile=profile or persistence:Default(),Runtime={},Generation=0,Ready=true,LastCombat=0,Energy=100}
 end
 local claimant=playerState(2)
+claimant.Profile.DefensesBuilt=false -- Simulate an already loaded optional-defense WIP profile.
 claimant.Player.Near=false
 check(not claimPlot(claimant,1) and not claimant.Plot,"A distant player cannot claim a plot")
 claimant.Player.Near=true
@@ -148,6 +151,7 @@ check(not claimPlot(competitor,1) and not competitor.Plot,"Concurrent contender 
 claimant.YieldRender=false
 local resumedAgain,claimed=coroutine.resume(claim)
 check(resumedAgain and claimed and claimant.Plot==plots[1] and claimant.PlotId==1,"The reserved claim finishes with one owner")
+check(claimant.Profile.DefensesBuilt==true and claimant.Runtime.DefenseAtReset==true,"Claim activates ready protection before Combat.Reset even for a WIP profile")
 check(not claimPlot(claimant,2) and plots[2].OwnerUserId==0,"One player cannot acquire a second plot")
 check(#claimant.Profile.Builds==0 and claimant.Profile.Inventory.Belt==Config.StarterInventory.Belt,"Claiming a fresh profile leaves the full kit unplaced")
 check(plots[1].Children.ClaimLabel.Enabled==false and plots[1].Children.ClaimLabel.Parent==plots[1].Children.ClaimPad,"Claim hides a legacy plot-parented free-base label")
@@ -176,10 +180,10 @@ check(packetState.Profile.Cash==157,"Repeated processing cannot duplicate the re
 local noPlot=playerState(6);noPlot.Profile.Cash=Config.RebirthCost
 rebirth(noPlot)
 check(noPlot.Profile.Rebirths==0 and noPlot.Profile.Cash==Config.RebirthCost,"An unclaimed profile cannot rebirth")
-claimant.Profile.Cash=Config.RebirthCost;claimant.Profile.DefensesBuilt=true
+claimant.Profile.Cash=Config.RebirthCost;claimant.Profile.DefensesBuilt=false
 claimant.Profile.Discovered={['1']=true}
 rebirth(claimant)
-check(claimant.Profile.Rebirths==1 and claimant.Profile.Cash==0 and claimant.Profile.DefensesBuilt==false,"Rebirth resets purchased protection and cash")
+check(claimant.Profile.Rebirths==1 and claimant.Profile.Cash==0 and claimant.Profile.DefensesBuilt==true and claimant.Runtime.DefenseAtReset==true,"Rebirth resets cash while keeping ready walls and roof")
 check(claimant.Plot==plots[1] and #claimant.Profile.Builds==0 and claimant.Profile.Inventory.Habitat==Config.StarterInventory.Habitat,"Rebirth keeps the chosen plot and restores an unplaced kit")
 check(claimant.Profile.Discovered['1']==true,"Rebirth keeps discoveries")
 print("CLAIM LIFECYCLE TESTS",passed,"PASSED")
