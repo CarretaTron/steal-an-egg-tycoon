@@ -13,7 +13,7 @@ Este repositório reúne o projeto inteiro, incluindo fontes, arquivos do Roblox
 
 - Edite os fontes em `StealAnEggTycoonV3/Client/`, `Server/` e `Shared/`. `Resultados/Fontes/` e os pacotes em `Resultados/` são cópias de entrega. Atualize-os pelo empacotador quando a tarefa exigir nova entrega.
 - Configuração central: `Shared/Config.luau`. O servidor decide dinheiro, propriedade, construção, dano, missões e persistência. Preserve essa autoridade.
-- O mapa portátil é produzido por `Server/WorldFactory.luau`. Uma edição manual no mapa do Studio não altera o gerador. Para torná-la reproduzível, atualize o gerador ou inclua uma exportação versionada e documente como aplicá-la.
+- `Server/WorldFactory.luau` preserva o mapa existente e renova apenas ovos/guardiões por sessão; gera o mapa básico quando não existe um mundo. Edições manuais são versionadas em `StealAnEggTycoonV3/Map/`: reexporte `AuthoredMap.rbxm` e `scene.json` no modo Editar antes de executar o empacotador. Não substitua esse mapa pelo snapshot antigo. Consulte `Map/README.md`.
 - Preserve o protótipo V2 desativado, backups, tentativas de teste e os arquivos originais. Não exclua artefatos para reduzir o repositório sem solicitação.
 - Os arquivos de criação estão em `StealAnEggTycoonV3/Blender/`: `.blend`, gerador Python, `geometry.json` e FBX. Combine a posse de arquivos binários antes de editá-los; Git não mescla duas cenas Blender com segurança. Registre qual fonte gerou cada exportação.
 

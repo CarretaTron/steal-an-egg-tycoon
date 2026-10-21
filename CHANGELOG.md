@@ -2,6 +2,15 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-20 — Mapa editado preservado e rebirth junto ao saldo
+
+- `WorldFactory` preserva a praça, caminhos, paredes e bases editados no Studio. Somente as malhas de ovos e guardiões são renovadas por sessão, mantendo prompts e labels.
+- Mapa autorado versionado em `Map/AuthoredMap.rbxm` e `Map/scene.json`; empacotador e verificador incluem o mapa atual e atualizam as cópias da entrega.
+- Comparação Edit/Play confirmou os 32 segmentos da praça e as 82 peças das paredes com transformações, cores e materiais preservados; 14 ovos e prompts, 14 guardiões e inicialização repetida conferidos. Evidência em `Resultados/Testes/mapa-edit-play.json`.
+- Rebirth fica imediatamente ao lado do dinheiro, com espaço de 10 pixels e um único layout horizontal. Não há reposicionamento concorrente por frame. Valores grandes ajustam a fonte quando necessário.
+- Scripts compilados no Studio; pacote verificado. O teste visual final da linha dinheiro/rebirth fica com o usuário, que assumiu os testes. Não foi iniciado novo Play nem simulador para essa revisão visual.
+- Registro: `coordination/tasks/2026-10-20-codex-a-mapa-rebirth.md`.
+
 ## 2026-10-20 — Preparação do repositório compartilhado
 
 - Inclusão do projeto completo disponível na pasta: fontes, portátil `.rbxlx`, arquivos `.blend`/`.blend1`, geometria, gerador Blender, 19 exportações FBX, backups da V2 e V3, RAR original e resultados dos ensaios.

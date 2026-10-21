@@ -2,6 +2,8 @@
 
 A V3 jogável e a etapa de HUD estão nos arquivos existentes. O projeto completo foi publicado no repositório público https://github.com/CarretaTron/steal-an-egg-tycoon, com documentação para dois desenvolvedores usando Codex. A importação `2963104` contém 140 arquivos; um clone novo confirmou que todos chegaram idênticos e passou na verificação do pacote. Consulte também `coordination/tasks/2026-10-20-codex-a-repositorio.md`.
 
+A tarefa atual, na branch `codex-a/preservar-mapa-rebirth`, preserva o mapa editado e coloca o contador de rebirth junto do saldo. A comparação Edit → Play, compilação e verificação do novo pacote passaram. O teste visual final da nova linha dinheiro/rebirth foi assumido pelo usuário, sem nova execução automática de Play ou simulador.
+
 ## Projeto preservado
 
 O inventário anterior à criação dos documentos de colaboração contém 127 arquivos, totalizando 10.567.710 bytes, incluindo o RAR original na raiz. Há 24 fontes Luau na árvore principal e 19 exportações FBX. Documentação e registros criados depois aumentam esse total.
@@ -10,7 +12,9 @@ O inventário anterior à criação dos documentos de colaboração contém 127 
 |---|---|
 | `StealAnEggTycoonV3/Client/`, `Server/`, `Shared/` | Fontes editáveis da versão atual |
 | `StealAnEggTycoonV3/Blender/` | Cena Blender, cena original, backup `.blend1`, gerador Python, geometria e 19 FBX |
-| `StealAnEggTycoonV3/StealAnEggTycoonV3.rbxlx` | Lugar portátil que recria mapa e malhas ao iniciar |
+| `StealAnEggTycoonV3/Map/` | Captura do mapa editado: `AuthoredMap.rbxm` nativo e `scene.json` para empacotamento |
+| `StealAnEggTycoonV3/export_authored_map.luau` | Exportação da captura após alterações manuais no mapa |
+| `StealAnEggTycoonV3/StealAnEggTycoonV3.rbxlx` | Lugar portátil; a correção passa a embutir o mapa de `Map/scene.json` e renovar a arte por sessão |
 | `StealAnEggTycoonV3/Resultados/` | Pacote de entrega e cópias derivadas dos fontes, arte e relatórios |
 | `StealAnEggTycoonV3/Backups/` | V2 e estados anteriores preservados; não são a versão ativa |
 | `StealAnEggTycoonV3.rar` | Arquivo original recebido, preservado integralmente |
@@ -40,6 +44,18 @@ O visual segue as referências enviadas: atalhos coloridos, contornos pretos, te
 
 A orientação acompanha expedição, transporte, incubação e produção. O transporte de criatura roubada recebe rota pelo anel externo, evitando a praça segura. A implementação principal dessa etapa está em `Client/Client.client.luau` e `Shared/HudGuide.luau`; o empacotador inclui o módulo novo.
 
+O contador de rebirth fica imediatamente ao lado do texto do dinheiro, com espaço de 10 pixels. `UIListLayout` é o único responsável pelas posições; os textos usam largura natural, e o ajuste de fonte para valores grandes é cacheado por texto e viewport. Não há disputa de posição entre a atualização da HUD e o redimensionamento. A conferência visual final fica com o usuário.
+
+## Preservação do mapa — correção em andamento
+
+`WorldFactory` passa a reutilizar o mapa editado em vez de reconstruir o cenário antigo a cada Play. Apenas as malhas de ovos e guardiões são renovadas por sessão. O mapa manual é preservado em `Map/AuthoredMap.rbxm`, um snapshot nativo exato que inclui paredes e objetos externos; `Map/scene.json` fornece o cenário estático e os pivôs transparentes usados para recriar a arte de sessão.
+
+O empacotador passa a usar `scene.json`, em lugar do mapa antigo do backup, e a atualizar as cópias de fontes e mapa da entrega automaticamente. Alterações manuais futuras funcionam diretamente no Play da sessão editada, mas precisam ser reexportadas com `export_authored_map.luau` antes do empacotamento para chegarem ao GitHub e ao portátil. Nenhum backup anterior deve ser excluído.
+
+O exportador JSON deve falhar diante de tipos não suportados, como uma Union ou uma malha decorativa que não possa representar. Não pode perder geometria ou trocar objetos silenciosamente por blocos. O snapshot RBXM conserva o conteúdo nativo enquanto o suporte do portátil é resolvido.
+
+Pendências desta correção: comparar o mapa de Edit com Play, confirmar paredes e externos, conferir a renovação das malhas sem duplicações, testar a recusa de tipos não suportados, verificar o pacote regenerado e conferir a posição fixa de rebirth com saldos diferentes. Ainda não há resultados desses ensaios.
+
 ## Arte e persistência
 
 Os dados do Blender são reconstruídos com EditableMesh e convertidos em conteúdo estático pelo AssetService por sessão. A geometria dos ovos e guardiões foi vista em dois clientes. As 19 exportações FBX acompanham o projeto como alternativa manual; a rota FBX não foi necessária no lugar testado. O gerador Blender grava ao lado do script ou no caminho definido por `ET_OUT`.
@@ -65,4 +81,4 @@ Scripts `StudioQA`, `StudioRegression`, `StudioTraversal`, `StudioMobile` e `Stu
 
 ## Próxima continuidade
 
-A publicação do backup completo e os registros de colaboração estão concluídos. Leia as tarefas e busque as alterações do remoto antes da próxima etapa. O exemplo de workflow em `docs/verificar-pacote.workflow.yml` é opcional e ainda não está ativo; o verificador local foi executado com sucesso. Novos recursos ficam sujeitos à próxima etapa solicitada. O usuário adiou a revisão geral de bugs; isso não significa que todos os critérios do projeto foram certificados. Testes físicos de celular e avaliação completa dos critérios restantes continuam pendentes. Monetização, trocas e renda offline são etapas futuras.
+A publicação do backup completo e os registros de colaboração estão concluídos. A correção de mapa/rebirth está aplicada no Studio e no pacote; consulte o registro da branch e aguarde o teste visual final assumido pelo usuário. Leia as tarefas e busque as alterações do remoto antes de trabalhar em paralelo. O exemplo de workflow em `docs/verificar-pacote.workflow.yml` é opcional e ainda não está ativo; o verificador local do novo pacote passou. Novos recursos ficam sujeitos à próxima etapa solicitada. O usuário adiou a revisão geral de bugs; isso não significa que todos os critérios do projeto foram certificados. Testes físicos de celular e avaliação completa dos critérios restantes continuam pendentes. Monetização, trocas e renda offline são etapas futuras.

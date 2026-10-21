@@ -1,0 +1,20 @@
+{
+  "Stage": "PreservacaoMapaEditado",
+  "RoadSegments": 32,
+  "WallParts": 82,
+  "RoadsUnchanged": true,
+  "WallsUnchanged": true,
+  "ProbeAfterExportSurvived": true,
+  "Eggs": 14,
+  "Prompts": 14,
+  "Guardians": 14,
+  "GuardianMeshes": 348,
+  "LabelsValid": true,
+  "Idempotent": true,
+  "Notes": [
+    "Comparação realizada antes da interrupção dos testes pelo usuário.",
+    "Marcador temporário inserido após a exportação foi preservado em Play e removido depois.",
+    "Verificação de idempotência executada em Script do servidor, no mesmo contexto do Bootstrap.",
+    "Nenhuma nova validação em simulador móvel foi executada nesta etapa."
+  ]
+}

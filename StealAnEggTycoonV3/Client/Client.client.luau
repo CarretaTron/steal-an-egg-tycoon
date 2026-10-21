@@ -130,8 +130,23 @@ local function sizeButton(btn,enabled)
 end
 
 local cashBox=frame(gui,{Name='Economia',AnchorPoint=Vector2.new(0,1),Position=UDim2.new(0,18,1,-22),Size=UDim2.fromOffset(460,83),BackgroundTransparency=1})
-local cashText=label(cashBox,'💵 $0',{Position=UDim2.fromOffset(0,0),Size=UDim2.fromOffset(292,58),TextSize=46,TextColor3=colors.Green,Font=Enum.Font.FredokaOne,TextStrokeTransparency=0})
-local rebirthText=label(cashBox,'♻️ 0',{Position=UDim2.fromOffset(300,7),Size=UDim2.fromOffset(150,48),TextSize=31,TextColor3=colors.Purple,TextStrokeTransparency=0})
+hud.EconomyRow=frame(cashBox,{Name='EconomyRow',Size=UDim2.new(1,0,0,58),BackgroundTransparency=1})
+create('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,SortOrder=Enum.SortOrder.LayoutOrder,VerticalAlignment=Enum.VerticalAlignment.Center,Padding=UDim.new(0,10)},hud.EconomyRow)
+local cashText=label(hud.EconomyRow,'💵 $0',{LayoutOrder=1,AutomaticSize=Enum.AutomaticSize.X,Size=UDim2.fromOffset(0,58),TextSize=46,TextScaled=false,TextWrapped=false,TextColor3=colors.Green,Font=Enum.Font.FredokaOne,TextStrokeTransparency=0})
+local rebirthText=label(hud.EconomyRow,'♻️ 0',{LayoutOrder=2,AutomaticSize=Enum.AutomaticSize.X,Size=UDim2.fromOffset(0,48),TextSize=31,TextScaled=false,TextWrapped=false,TextColor3=colors.Purple,TextStrokeTransparency=0})
+function hud:FitEconomy()
+ local width=self.EconomyWidth or 460
+ local cashSize,rebirthSize=self.EconomyCompact and 31 or 46,self.EconomyCompact and 24 or 31
+ local key=cashText.Text..'|'..rebirthText.Text..'|'..width..'|'..cashSize
+ if self.EconomyFitKey==key then return end
+ self.EconomyFitKey=key
+ self.TextService=self.TextService or game:GetService('TextService')
+ local measure=Vector2.new(1000000,1000000)
+ local used=self.TextService:GetTextSize(cashText.Text,cashSize,cashText.Font,measure).X+self.TextService:GetTextSize(rebirthText.Text,rebirthSize,rebirthText.Font,measure).X+18
+ local scale=math.min(1,math.max(1,width-8)/math.max(1,used))
+ cashText.TextSize=math.max(14,math.floor(cashSize*scale))
+ rebirthText.TextSize=math.max(14,math.floor(rebirthSize*scale))
+end
 local incomeText=label(cashBox,'+$0 /s',{Position=UDim2.fromOffset(5,57),Size=UDim2.fromOffset(292,23),TextSize=17,TextColor3=colors.Text,TextStrokeTransparency=0})
 
 local nav=frame(gui,{Name='Navegacao',AnchorPoint=Vector2.new(0,.5),Position=UDim2.new(0,18,.48,0),Size=UDim2.fromOffset(176,256),BackgroundTransparency=1})
@@ -604,7 +619,10 @@ end
 local function refreshHUD()
  cashText.Text='💵 '..money(state.Cash)
  incomeText.Text='+'..money(state.Income)..' /s'
- rebirthText.Text='♻️ '..tostring(state.Rebirths or 0)
+ local rebirths=math.max(0,math.floor(tonumber(state.Rebirths) or 0))
+ rebirthText.Text='♻️ '..(rebirths>=10000 and money(rebirths):sub(2) or tostring(rebirths))
+ rebirthText:SetAttribute('FullCount',rebirths)
+ hud:FitEconomy()
  local ready=collectionUI:ReadyMissions()
  hud.MissionBadge.Visible=ready>0;hud.MissionBadge.Text=tostring(ready)
  carryBox.Visible=state.Carrying==true and not build
@@ -637,15 +655,18 @@ local function responsive()
   end
  end
  cashBox.Position=UDim2.new(0,compact and 12 or 18,1,touch and compact and -100 or -18)
- cashBox.Size=UDim2.fromOffset(compact and 360 or 460,touch and compact and 38 or compact and 56 or 83)
- cashText.Size=UDim2.fromOffset(compact and 218 or 292,compact and 38 or 58)
- cashText.TextSize=compact and 31 or 46
- rebirthText.Position=UDim2.fromOffset(compact and 225 or 300,compact and 1 or 7)
- rebirthText.Size=UDim2.fromOffset(compact and 120 or 150,compact and 38 or 48)
- rebirthText.TextSize=compact and 24 or 31
+ -- The list layout alone positions the natural-width labels, keeping the counter
+ -- ten pixels beside the amount without a second writer resetting its X position.
+ local economyWidth=math.min(compact and 360 or 460,math.max(216,viewport.X-24))
+ cashBox.Size=UDim2.fromOffset(economyWidth,touch and compact and 38 or compact and 56 or 83)
+ hud.EconomyRow.Size=UDim2.new(1,0,0,compact and 38 or 58)
+ local cashHeight,rebirthHeight=compact and 38 or 58,compact and 38 or 48
+ if cashText.Size.Y.Offset~=cashHeight then cashText.Size=UDim2.fromOffset(0,cashHeight) end
+ if rebirthText.Size.Y.Offset~=rebirthHeight then rebirthText.Size=UDim2.fromOffset(0,rebirthHeight) end
+ hud.EconomyCompact=compact;hud.EconomyWidth=economyWidth;hud:FitEconomy()
  incomeText.Position=UDim2.fromOffset(5,compact and 36 or 57)
  incomeText.TextSize=compact and 13 or 17
- incomeText.Size=UDim2.fromOffset(240,20)
+ incomeText.Size=UDim2.fromOffset(math.min(240,economyWidth),20)
  incomeText.Visible=not (touch and compact)
  local panelWidth=math.min(700,viewport.X-(compact and 158 or 240))
  if viewport.X<560 then panelWidth=viewport.X-24 end
@@ -920,8 +941,6 @@ function hud:Update(dt)
  self.Timer+=dt
  if self.Timer<.15 then return end
  self.Timer=0
- local cashWidth=math.max(65,cashText.TextBounds.X)
- rebirthText.Position=UDim2.fromOffset(math.min(cashWidth+14,cashBox.AbsoluteSize.X-115),rebirthText.Position.Y.Offset)
  local inside=self:InsidePlot()
  if self.Inside~=inside then
   self.Inside=inside
