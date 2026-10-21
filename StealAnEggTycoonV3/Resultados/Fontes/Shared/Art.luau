@@ -32,6 +32,19 @@ function A.Init()
  assets:SetAttribute('Revision',Data.Revision)
  initialized=true
 end
+-- Clients reuse the server's static meshes for placement previews. No assets are
+-- generated, removed or uploaded here; bind only after the complete set arrived.
+function A.UseReplicatedAssets()
+ local replicated={}
+ for name in pairs(Data.Meshes) do
+  local mesh=assets:FindFirstChild(name)
+  if not mesh or not mesh:IsA('MeshPart') then return false,'Malha ainda não carregada: '..name end
+  replicated[name]=mesh
+ end
+ templates=replicated
+ initialized=true
+ return true
+end
 local function meshModel(name,cf,scale,parent)
  local defs=Data.Models[name] assert(defs,'Modelo ausente: '..name)
  local m=Instance.new('Model') m.Name=name m.ModelStreamingMode=Enum.ModelStreamingMode.Atomic

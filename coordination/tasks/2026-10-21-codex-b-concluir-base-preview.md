@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Status | in_progress |
+| Status | review — código e pacote concluídos; teste visual com o usuário |
 | Responsável | codex-b, continuação autorizada pelo proprietário |
 | Atualizado em | 2026-10-21, America/Sao_Paulo |
 | Branch | codex-b/concluir-escolha-base-preview |
@@ -29,4 +29,9 @@
 - Comparação antes da aplicação: os 12 fontes ativos lidos no Studio correspondem à branch de partida, sem divergência extra; mapa com oito terrenos, sete biomas, 14 ninhos, 14 guardiões e raízes externas preservadas. O `Map/scene.json` do RAR é idêntico ao da branch.
 - Testes novos executados: `Tests/claim_lifecycle_offline.py` (42 casos), `Tests/combat_offline.py` (359 verificações), `Tests/client_preview_guide_offline.py` (13 casos funcionais + 28 contratos estáticos). Dependências de engine simuladas, sem DataStore/Studio.
 - Compilação dos 24 fontes pelo Luau CLI aprovada; os nove alterados também compilaram no Studio antes da aplicação. Validação física, visual e replicação do fluxo novo ficam com o usuário; os relatórios históricos não certificam a nova etapa.
-- Próximo passo: regenerar portátil e cópias, conferir a igualdade dos fontes aplicados/empacotados e publicar a entrega.
+- Fontes enviados em `15924f0`. Portátil e cópias regenerados: 24 fontes, 1.562 instâncias do mapa, 32 segmentos de rua, oito terrenos, 14 ninhos e 14 guardiões; as paredes externas manuais e a V2 permanecem no pacote.
+- Verificador reforçado: compara o Source, nome, tipo e hierarquia das 24 instâncias Luau embutidas aos fontes principais; os oito ensaios e executáveis da V2 precisam estar desativados. Nove adulterações em cópias temporárias foram recusadas, sem alterar os portáteis originais. Reprodução em `Tests/verify_package_offline.py`.
+- Igualdade dos nove fontes aplicados no Studio conferida por tamanho e hash normalizado. Studio ficou em Edit; oito ensaios desativados; nenhum perfil real foi alterado por teste desta continuação.
+- Evidências: `Resultados/Testes/escolha-base-preview.json`, `validacao-pacote.json` e programas de `Tests/`.
+- Próximo passo do usuário: conferir no Play a praça → escolha de uma base livre → kit manual → preview/giro/colocação; conferir dois jogadores disputando terreno, saída/reentrada e base antiga restaurada. Não habilitar os ensaios históricos sem adaptá-los ao novo fluxo de escolha.
+- Studio liberado após a aplicação em Edit; Blender não utilizado. CHANGELOG, estado atual e instruções atualizados. Continuar a partir desta branch, buscando o remoto antes de editar; a `main` ainda pode apontar para a importação anterior até integração.

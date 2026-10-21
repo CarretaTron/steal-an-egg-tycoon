@@ -10,6 +10,7 @@ local player=Players.LocalPlayer
 local package=ReplicatedStorage:WaitForChild("EggTycoonV3")
 local C=require(package.Shared:WaitForChild("Config"))
 local Rules=require(package.Shared:WaitForChild("BuildRules"))
+local Art=require(package.Shared:WaitForChild("Art"))
 local remotes=package:WaitForChild("Remotes")
 local command=remotes:WaitForChild("Command")
 local stateRemote=remotes:WaitForChild("State")
@@ -33,7 +34,7 @@ end
 function hud:InsidePlot()
  local character=player.Character;local root=character and character:FindFirstChild('HumanoidRootPart')
  local cf=state.PlotCFrame or (state.PlotId and C.PlotCFrame(state.PlotId))
- if not root or not cf or not state.PlotId then return false end
+ if not root or not cf or not state.PlotId or state.NeedsClaim then return false end
  local at=cf:PointToObjectSpace(root.Position)
  return math.abs(at.X)<79 and at.Z>-79 and at.Z<79 and at.Y>=-4 and at.Y<28
 end
@@ -283,9 +284,55 @@ button(carryBox,"SOLTAR [G]",colors.Card,function() send("Drop") end,{AnchorPoin
 
 cancelBuild=function()
  build=nil buildBar.Visible=false
- if ghostPart then ghostPart:Destroy() ghostPart=nil end
- if ghostArrow then ghostArrow:Destroy() ghostArrow=nil end
+ if hud.PreviewRoot then hud.PreviewRoot:Destroy();hud.PreviewRoot=nil end
+ hud.PreviewModel=nil;hud.PreviewHighlight=nil;hud.PreviewArrowHeads=nil
+ ghostPart=nil;ghostArrow=nil
  lastCandidateKey=nil
+end
+gui.Destroying:Connect(function() cancelBuild() end)
+function hud:CreateBuildPreview(kind,existing)
+ local root=Instance.new('Folder');root.Name='LocalBuildPreview';self.PreviewRoot=root
+ local model
+ if existing then
+  local world=workspace:FindFirstChild('EggTycoonV3');local plots=world and world:FindFirstChild('Plots')
+  local own=plots and state.PlotId and plots:FindFirstChild(string.format('Plot_%02d',state.PlotId))
+  local structures=own and own:FindFirstChild('Structures')
+  if structures then for _,candidate in ipairs(structures:GetChildren()) do
+   if candidate:IsA('Model') and candidate:GetAttribute('BuildId')==existing.Id then model=candidate:Clone();break end
+  end end
+ end
+ if not model then
+  local bound,reason=Art.UseReplicatedAssets()
+  assert(bound,reason or 'As malhas ainda estão sendo carregadas.')
+  model=Art.Structure(kind,CFrame.identity,root)
+ end
+ model.Name='Ghost_'..kind;model.Parent=root
+ for _,object in ipairs(model:GetDescendants()) do
+  if object:IsA('LuaSourceContainer') or object:IsA('ProximityPrompt') or object:IsA('ClickDetector') or object:IsA('DragDetector') or object:IsA('LayerCollector') or object:IsA('GuiObject') then
+   object:Destroy()
+  elseif object:IsA('BasePart') then
+   object.Anchored=true;object.CanCollide=false;object.CanTouch=false;object.CanQuery=false;object.CastShadow=false
+   object.Transparency=math.max(.45,object.Transparency);object.LocalTransparencyModifier=0
+  elseif object:IsA('ParticleEmitter') or object:IsA('Trail') or object:IsA('Beam') then object.Enabled=false
+  elseif object:IsA('Sound') then object:Stop() end
+ end
+ assert(model:FindFirstChildWhichIsA('BasePart',true),'Modelo de prévia vazio.')
+ self.PreviewModel=model
+ self.PreviewHighlight=create('Highlight',{Name='PreviewValidity',Adornee=model,FillTransparency=.96,OutlineTransparency=0,FillColor=colors.Green,OutlineColor=colors.Green,DepthMode=Enum.HighlightDepthMode.Occluded},root)
+ ghostPart=create('Part',{Name='PreviewFootprint',Anchored=true,CanCollide=false,CanQuery=false,CanTouch=false,CastShadow=false,Material=Enum.Material.Neon,Transparency=.85,Size=Vector3.new(C.Items[kind].W+.3,.08,C.Items[kind].D+.3),Color=colors.Green},root)
+ ghostArrow=create('Part',{Name='PreviewDirection',Anchored=true,CanCollide=false,CanQuery=false,CanTouch=false,CastShadow=false,Material=Enum.Material.Neon,Transparency=.15,Size=Vector3.new(.22,.12,3),Color=colors.Text},root)
+ self.PreviewArrowHeads={}
+ for _,side in ipairs({-1,1}) do
+  local part=ghostArrow:Clone();part.Name='PreviewDirectionHead';part.Size=Vector3.new(.22,.12,1.05);part.Parent=root
+  table.insert(self.PreviewArrowHeads,{Part=part,Side=side})
+ end
+ local cf=state.PlotCFrame or C.PlotCFrame(state.PlotId)
+ local initial=existing and C.ItemCFrame(cf,existing) or cf
+ model:PivotTo(initial)
+ ghostPart.CFrame=initial*CFrame.new(0,.04,0)
+ ghostArrow.CFrame=initial*CFrame.new(0,1,-C.Items[kind].D/2-1.5)
+ for _,head in ipairs(self.PreviewArrowHeads) do head.Part.CFrame=ghostArrow.CFrame*CFrame.new(head.Side*.3,0,-1)*CFrame.Angles(0,head.Side*.65,0) end
+ root.Parent=workspace
 end
 beginBuild=function(kind,existing)
  if not hud:InsidePlot() then toast("Entre na sua tycoon para construir.") return end
@@ -293,12 +340,12 @@ beginBuild=function(kind,existing)
  if (state.LastCombatRemaining or 0)>0 then toast("Sua base está sob ataque. Aguarde para editar.") return end
  if not existing and (state.Inventory[kind] or 0)<1 then toast("Compre uma unidade antes de construir.") return end
  cancelBuild()
+ local ready,reason=pcall(function() hud:CreateBuildPreview(kind,existing) end)
+ if not ready then cancelBuild();toast('Não foi possível preparar a prévia. Aguarde as malhas carregarem e tente novamente.');warn('[EggTycoonV3] Build preview:',reason);return end
  build={Kind=kind,R=existing and existing.R or 0,Id=existing and existing.Id or nil}
  selection.Visible=false selectedId=nil highlight.Adornee=nil
  buildBar.Visible=true
  if UserInputService.TouchEnabled then panel.Visible=false end
- ghostPart=create("Part",{Name="LocalBuildPreview",Anchored=true,CanCollide=false,CanQuery=false,CanTouch=false,Material=Enum.Material.Neon,Transparency=.55,Size=Vector3.new(C.Items[kind].W,.6,C.Items[kind].D),Color=colors.Green},workspace)
- ghostArrow=create("Part",{Name="LocalDirection",Anchored=true,CanCollide=false,CanQuery=false,CanTouch=false,Material=Enum.Material.Neon,Transparency=.15,Size=Vector3.new(1.2,.3,3),Color=colors.Text},workspace)
  touchPoint=nil
  buildTitle.Text=(existing and "MOVER  •  " or "COLOCAR  •  ")..string.upper(C.Items[kind].Name)
  toast(UserInputService.TouchEnabled and "Toque no chão da sua base para posicionar. Use COLOCAR para confirmar." or "Aponte para o chão da sua base. Clique para colocar; R gira; Esc cancela.")
@@ -333,6 +380,19 @@ local function upgradeCard(kind,title,description,level,maxLevel,price,color)
  label(box,description,{Position=UDim2.fromOffset(12,40),Size=UDim2.new(1,-24,0,42),TextSize=13,TextWrapped=true,TextColor3=colors.Muted})
  local buy=button(box,level>=maxLevel and "NÍVEL MÁXIMO" or "MELHORAR  "..money(price),color,function() if level<maxLevel then send("Upgrade",{Kind=kind}) end end,{Position=UDim2.fromOffset(12,94),Size=UDim2.new(1,-24,0,35),TextSize=16,TextColor3=colors.Text})
  sizeButton(buy,level<maxLevel)
+end
+function hud:DefenseCard()
+ local built=state.DefensesBuilt==true
+ local price=math.max(0,tonumber(C.DefensesPrice) or 0)
+ local box=card(174,'Build_Defenses')
+ label(box,'🛡️ Paredes e cobertura',{Position=UDim2.fromOffset(12,8),Size=UDim2.new(1,-24,0,30),TextSize=20,TextColor3=colors.Blue})
+ label(box,built and 'Sua base já tem perímetro, cobertura e entrada protegida.' or 'Sua base começa aberta. Monte as paredes, a cobertura e a entrada protegida nas posições fixas do terreno quando quiser.',{Position=UDim2.fromOffset(12,42),Size=UDim2.new(1,-24,0,62),TextSize=14,TextWrapped=true,TextColor3=colors.Muted})
+ local install=button(box,built and 'PRONTO ✓' or ('MONTAR DEFESAS • '..(price==0 and 'GRÁTIS' or money(price))),built and colors.Card or colors.Blue,function()
+  if built then return end
+  if not self:InsidePlot() then toast('Entre na sua tycoon para montar as defesas.');return end
+  send('BuildDefenses')
+ end,{Name='BuildDefenses',Position=UDim2.fromOffset(12,116),Size=UDim2.new(1,-24,0,44),TextSize=16})
+ sizeButton(install,not built)
 end
 function collectionUI:Discovered(index)
  return (state.Discovered or {})[tostring(index)]==true or (state.Discovered or {})[index]==true
@@ -510,6 +570,7 @@ panelRefresh=function()
    upgradeCard('Speed','👟 Velocidade','Corra mais para escapar dos guardiões.',speed,5,C.SpeedPrices[speed+1] or 0,colors.Green)
    upgradeCard('Processor','⚙️ Processamento','Mais valor em cada recurso processado.',processor,3,C.ProcessorPrices[processor] or 0,colors.Gold)
   else
+   if shopTab=='Máquinas' then hud:DefenseCard() end
    for _,kind in ipairs(shopTab=='Máquinas' and {'Habitat','Incubator','Processor','Seller'} or {'Belt','Curve','Merge'}) do itemCard(kind) end
   end
   local hint=card(78)
@@ -724,7 +785,7 @@ local function worldPoint(screen)
  return ray.Origin+ray.Direction*distance
 end
 local function updateGhost()
- if not build or not ghostPart then return end
+ if not build or not ghostPart or not hud.PreviewModel then return end
  local cf=plotFrame()
  if not cf then return end
  local point
@@ -746,13 +807,16 @@ local function updateGhost()
   if (state.LastCombatRemaining or 0)>0 then valid=false reason="Edição bloqueada durante combate." end
   build.Valid=valid build.Reason=reason build.Candidate=candidate lastCandidateKey=key
   ghostPart.Color=valid and colors.Green or colors.Red
+  hud.PreviewHighlight.OutlineColor=ghostPart.Color;hud.PreviewHighlight.FillColor=ghostPart.Color
   buildHint.Text=valid and ("Posição válida  •  "..x..", "..z.."  •  saída indicada em branco") or tostring(reason or "Posição inválida")
   buildHint.TextColor3=valid and colors.Green or colors.Red
   sizeButton(placeButton,valid)
  end
  local itemCF=C.ItemCFrame(cf,candidate)
- ghostPart.CFrame=itemCF*CFrame.new(0,.45,0)
+ hud.PreviewModel:PivotTo(itemCF)
+ ghostPart.CFrame=itemCF*CFrame.new(0,.04,0)
  ghostArrow.CFrame=itemCF*CFrame.new(0,1,-C.Items[build.Kind].D/2-1.5)
+ for _,head in ipairs(hud.PreviewArrowHeads or {}) do head.Part.CFrame=ghostArrow.CFrame*CFrame.new(head.Side*.3,0,-1)*CFrame.Angles(0,head.Side*.65,0) end
 end
 
 local function selectAt(screen)
@@ -769,6 +833,7 @@ local function selectAt(screen)
  local params=RaycastParams.new()
  params.FilterType=Enum.RaycastFilterType.Exclude
  local excluded=player.Character and {player.Character} or {}
+ if hud.PreviewRoot then table.insert(excluded,hud.PreviewRoot) end
  local own=plot()
  if own then
   for _,part in ipairs(own:GetChildren()) do
@@ -802,7 +867,7 @@ local function aim()
  return mouse.Hit.Position
 end
 local function attack()
- if not equipped or state.Carrying or build or modal then return end
+ if not equipped or state.Carrying or build or modal or state.NeedsClaim or not state.PlotId then return end
  local kind=equipped:GetAttribute("WeaponKind")
  if not C.Weapons[kind] then return end
  send("Attack",{Weapon=kind,Target=aim()})
@@ -813,6 +878,12 @@ local function hookTool(tool)
  if not tool:IsA("Tool") or hookedTools[tool] then return end
  hookedTools[tool]=true
  tool.Equipped:Connect(function()
+  if state.NeedsClaim or not state.PlotId then
+   equipped=nil;crosshair.Visible=false;mobileAttack.Visible=false
+   local humanoid=player.Character and player.Character:FindFirstChildOfClass('Humanoid')
+   if humanoid then humanoid:UnequipTools() end
+   return
+  end
   equipped=tool
   crosshair.Visible=UserInputService.TouchEnabled and tool:GetAttribute("WeaponKind")~="Baton"
   mobileAttack.Visible=UserInputService.TouchEnabled
@@ -958,11 +1029,15 @@ stateRemote.OnClientEvent:Connect(function(snapshot)
  if type(snapshot)~="table" then return end
  state=snapshot
  state.Builds=state.Builds or {} state.Creatures=state.Creatures or {} state.Inventory=state.Inventory or {} state.Pending=state.Pending or {}
+ if state.NeedsClaim or not state.PlotId then
+  cancelBuild();equipped=nil;crosshair.Visible=false;mobileAttack.Visible=false
+  selectedId=nil;selection.Visible=false;highlight.Adornee=nil
+ end
  if state.Carrying and build then cancelBuild() end
  lastCandidateKey=nil
  refreshHUD()
  -- Avoid destroying shop buttons on every energy tick.
- local signature=tostring(#state.Builds)..":"..tostring(#state.Creatures)..":"..tostring(state.BatteryLevel)..":"..tostring(state.WeaponLevel)..":"..tostring(state.SpeedLevel)..":"..tostring(state.ProcessorLevel)
+ local signature=tostring(#state.Builds)..":"..tostring(#state.Creatures)..":"..tostring(state.BatteryLevel)..":"..tostring(state.WeaponLevel)..":"..tostring(state.SpeedLevel)..":"..tostring(state.ProcessorLevel)..":"..tostring(state.DefensesBuilt)..":"..tostring(state.NeedsClaim)
  for kind in pairs(C.Items) do signature..=kind..tostring(state.Inventory[kind] or 0) end
  if panelName=="Missoes" then
   local previous=collectionUI.Tab;collectionUI.Tab="Missões";signature=collectionUI:Signature();collectionUI.Tab=previous

@@ -44,7 +44,11 @@ O Studio usa EggTycoonV3_DEV_v1, separado do nome LIVE usado em servidores publi
 
 ## Evidência incluída
 
-Os arquivos JSON em Testes guardam os resultados obtidos nesta continuação:
+Nesta etapa de escolha de base, os programas reproduzíveis de `Tests/` passaram: 42 casos de ciclo de vida, 359 verificações de combate, 13 casos funcionais do guia e 28 contratos estáticos do preview. Os 24 fontes compilaram; os nove alterados foram aplicados e conferidos no Studio em Edit. Consulte `Resultados/Testes/escolha-base-preview.json` e `Tests/README.md`.
+
+São testes offline com a engine simulada. Play, simulador e testes visuais do fluxo novo não foram executados nesta continuação, conforme a passagem anterior para o usuário. Ainda é necessário conferir no jogo a escolha das bases com dois jogadores, a montagem manual, a aparência do preview e a reentrada em outro terreno.
+
+Os JSON anteriores em `Resultados/Testes/` preservam os seguintes resultados históricos da V3; não são certificação do novo fluxo de escolha:
 
 - Integração com dois clientes: 31 verificações, incluindo primeira venda natural de $32, geometria replicada, bateria, roubo, morte, entrega, rebirth e recarga persistente.
 - Regressões do servidor: 98 verificações de construção, circuitos, armazenamento, pagamento único, recuperação com falhas simuladas, bateria e combate. Os casos de falhas usam DataStore em memória e não escrevem perfis reais.

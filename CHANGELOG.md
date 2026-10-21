@@ -6,12 +6,13 @@ Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. At
 
 - Continuação da branch `codex-a/escolha-base-preview` e dos nove fontes parciais do RAR recebido, preservando o mapa autorado e a HUD.
 - Entrada e respawn na praça; escolha de um terreno livre pela placa verde, com proximidade e propriedade validadas no servidor. Nenhuma base é atribuída automaticamente.
-- Kit inicial no inventário, sem máquinas posicionadas; paredes, cobertura, bateria e laser são montados pela ação gratuita de defesas no menu Construir. Perfis antigos mantêm layout, criaturas e proteção salvos.
+- Kit inicial no inventário, sem máquinas posicionadas; paredes, cobertura e entrada a laser são montadas pela ação gratuita de defesas no menu Construir. A bateria externa fica fixa e só protege uma base com defesas montadas. Perfis antigos mantêm layout, criaturas e proteção salvos.
 - Prévia com o modelo real semitransparente e não físico, rotação e contorno de validade. O cliente reaproveita as malhas replicadas, sem criar EditableMesh próprio.
 - Orientação automática para escolher terreno e montar a primeira linha; retomada após rebirth. Placa de terreno livre corrigida após escolha, falha e liberação. Combate ignora jogadores ainda sem base; defesas preservam as transparências do mapa editado.
 - Verificações novas: 42 casos de ciclo de vida e persistência, 359 verificações do módulo de combate, 13 casos do guia e 28 contratos estáticos do preview. São ensaios offline com dependências simuladas; os três programas reproduzíveis estão em `StealAnEggTycoonV3/Tests/`.
 - Os 24 fontes compilaram com Luau; os nove alterados também foram compilados e aplicados no Studio em Edit. Play, simulador e validação visual não foram iniciados nesta continuação, respeitando a passagem de testes para o usuário.
-- Registro: `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md`. Empacotamento e conferência da entrega registrados ao concluir.
+- Pacote regenerado e conferido: 24 fontes embutidos idênticos e nos caminhos corretos, mapa autorado com 1.562 instâncias, V2 preservada e oito ensaios desativados. Nove adulterações temporárias do portátil foram recusadas pelo verificador reforçado. Nenhuma publicação da experiência foi feita.
+- Registro: `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md`; evidência em `Resultados/Testes/escolha-base-preview.json` e `validacao-pacote.json`.
 
 ## 2026-10-20 — Mapa editado preservado e rebirth junto ao saldo
 

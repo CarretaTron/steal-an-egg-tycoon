@@ -26,6 +26,7 @@ C.Items = {
 }
 C.BatteryHP={200,450,900,1800}
 C.BatteryPrices={5000,25000,100000}
+C.DefensesPrice=0 -- The starter walls/roof kit is assembled explicitly by its owner.
 C.BreachTime=30
 C.CombatLock=10
 C.SpeedPrices={500,1500,4500,13500,40500}

@@ -1,5 +1,7 @@
 # Tarefa: escolher tycoon, montar base e prévia do modelo
 
+Passagem em 21/10/2026: o usuário transferiu esta etapa ao codex-b, junto com o RAR contendo os fontes parciais. A continuação e seus resultados estão em `2026-10-21-codex-b-concluir-base-preview.md`, branch `codex-b/concluir-escolha-base-preview`. O registro abaixo preserva o planejamento original e não indica disputa atual pela sessão.
+
 | Campo | Valor |
 |---|---|
 | Status | in_progress |

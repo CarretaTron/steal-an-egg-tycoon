@@ -1,6 +1,7 @@
 -- Local mission guidance; the server remains authoritative over every interaction.
 local Players=game:GetService('Players')
 local GuiService=game:GetService('GuiService')
+local Rules=require(script.Parent.BuildRules)
 local Guide={}
 Guide.__index=Guide
 
@@ -45,7 +46,7 @@ function Guide:TrackMission(id)
  self.Selected=id;self.Active=true
 end
 function Guide:Stop()
- self.Active=false;self.Selected=nil;self:Hide()
+ self.Active=false;self.Selected=nil;self.AutomaticSetup=false;self:Hide()
 end
 function Guide:Hide()
  self.Marker.Visible=false
@@ -58,6 +59,58 @@ function Guide:BuildGoal(state,kind,name)
   if build.Kind==kind then return self.Config.ItemCFrame(cf,build).Position+Vector3.new(0,2,0),name end
  end
  return (cf*CFrame.new(0,2,-65)).Position,'Sua tycoon'
+end
+function Guide:ClaimGoal(position)
+ local world=workspace:FindFirstChild('EggTycoonV3')
+ local plots=world and world:FindFirstChild('Plots')
+ local target,distance
+ if plots then for _,plot in ipairs(plots:GetChildren()) do
+  local owner=plot:GetAttribute('OwnerUserId')
+  if not owner or owner==0 then
+   local pad=plot:FindFirstChild('ClaimPad',true)
+   if pad and pad:IsA('BasePart') then
+    local point=pad.Position+Vector3.new(0,2,0)
+    local d=(point-position).Magnitude
+    if not distance or d<distance then target=point;distance=d end
+   end
+  end
+ end end
+ return target,target and 'Escolha esta tycoon' or nil
+end
+function Guide:SetupGoal(state)
+ local cf=state.PlotCFrame or (state.PlotId and self.Config.PlotCFrame(state.PlotId))
+ if not cf then return end
+ -- A snapshot owns an immutable build list; validate its conveyor graph once.
+ if self.SetupBuilds==state.Builds and self.SetupPlot==state.PlotId and self.SetupCF==cf then
+  return self.SetupPosition,self.SetupCaption
+ end
+ self.SetupBuilds=state.Builds;self.SetupPlot=state.PlotId;self.SetupCF=cf
+ self.SetupPosition=nil;self.SetupCaption=nil
+ local present={}
+ for _,build in ipairs(state.Builds or {}) do present[build.Kind]=true end
+ for _,step in ipairs({
+  {Kind='Incubator',X=-32,Z=-40,Caption='Monte a incubadora 🔨'},
+  {Kind='Habitat',X=0,Z=16,Caption='Monte o habitat 🔨'},
+  {Kind='Processor',X=0,Z=-16,Caption='Monte o processador 🔨'},
+  {Kind='Seller',X=0,Z=-36,Caption='Monte o vendedor 🔨'},
+ }) do
+  if not present[step.Kind] then
+   self.SetupPosition=(cf*CFrame.new(step.X,2,step.Z)).Position
+   self.SetupCaption=step.Caption
+   return self.SetupPosition,self.SetupCaption
+  end
+ end
+ local graph=Rules.Graph(state.Builds or {})
+ local firstHabitat
+ for _,build in ipairs(state.Builds or {}) do if build.Kind=='Habitat' then
+  firstHabitat=firstHabitat or build
+  if Rules.Trace(state.Builds,build.Id,graph) then return end
+ end end
+ if firstHabitat then
+  self.SetupPosition=self.Config.ItemCFrame(cf,firstHabitat).Position+Vector3.new(0,2,0)
+  self.SetupCaption='Conecte habitat → processador → vendedor'
+ end
+ return self.SetupPosition,self.SetupCaption
 end
 function Guide:EggGoal(state,position)
  local species=1
@@ -104,6 +157,7 @@ function Guide:StolenRoute(state,position)
  return Vector3.new(math.sin(nextAngle)*330,2,math.cos(nextAngle)*330),'Contorne a praça'
 end
 function Guide:Resolve(state,position)
+ if state.NeedsClaim or not state.PlotId then return self:ClaimGoal(position) end
  if state.Carrying then
   if tostring(state.Carry):lower():find('ovo',1,true) then return self:BuildGoal(state,'Incubator','Incubadora') end
   return self:StolenRoute(state,position)
@@ -136,7 +190,7 @@ function Guide:Resolve(state,position)
   if plots then for _,plot in ipairs(plots:GetChildren()) do
    local owner=plot:GetAttribute('OwnerUserId')
    local battery=plot:FindFirstChild('Battery')
-   if battery and owner and owner~=0 and owner~=Players.LocalPlayer.UserId then
+   if battery and plot:GetAttribute('DefensesBuilt')==true and owner and owner~=0 and owner~=Players.LocalPlayer.UserId then
     local d=(battery.Position-position).Magnitude
     if not distance or d<distance then point=battery.Position;distance=d end
    end
@@ -144,14 +198,35 @@ function Guide:Resolve(state,position)
   return point,point and 'Bateria rival' or nil
  elseif selected=='explorer' or selected=='collector' then return self:EggGoal(state,position) end
 end
+function Guide:AutomaticGoal(state,position)
+ -- Claiming a plot must work before the optional mission guide is enabled.
+ if state.NeedsClaim or not state.PlotId then return self:ClaimGoal(position) end
+ local rebirths=math.max(0,math.floor(tonumber(state.Rebirths) or 0))
+ if self.SetupRebirth~=rebirths then
+  if self.SetupRebirth~=nil then self.AutomaticSetup=nil;self.SetupBuilds=nil end
+  self.SetupRebirth=rebirths
+ end
+ if self.AutomaticSetup==nil then
+  -- Existing layouts keep the previous opt-in mission behavior. An empty kit
+  -- receives onboarding until its first complete production line is assembled.
+  self.AutomaticSetup=#(state.Builds or {})==0 and #(state.Creatures or {})==0
+ end
+ if not self.AutomaticSetup then return end
+ if state.Carrying then return self:Resolve(state,position) end
+ local point,caption=self:SetupGoal(state)
+ if not point then self.AutomaticSetup=false;return end
+ -- Explicitly tracked missions take precedence over the automatic setup hint.
+ if not self.Selected then return point,caption end
+end
 function Guide:Update(state,menuOpen)
  if menuOpen and not self.WasOpen then self.Active=true end
  self.WasOpen=menuOpen==true
  local character=Players.LocalPlayer.Character
  local root=character and character:FindFirstChild('HumanoidRootPart')
  local camera=workspace.CurrentCamera
- if not self.Active or not root or not camera or not state.PlotId then self:Hide();return end
- local goal,caption=self:Resolve(state,root.Position)
+ if not root or not camera then self:Hide();return end
+ local goal,caption=self:AutomaticGoal(state,root.Position)
+ if not goal and self.Active then goal,caption=self:Resolve(state,root.Position) end
  if not goal then self:Hide();return end
  local flat=Vector3.new(goal.X-root.Position.X,0,goal.Z-root.Position.Z)
  if flat.Magnitude<9 then self:Hide();return end
