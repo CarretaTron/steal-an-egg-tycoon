@@ -1,6 +1,17 @@
 # Estado atual — 21/10/2026
 
-## Etapa atual: catálogo de decoração
+## Etapa atual: bases de jardim com portal laser
+
+As oito bases conectadas agora usam `Shared/BaseShell.luau` revisão 2: pavilhão aberto com cercas de madeira, pilares claros, borda turquesa, teto transparente sólido e portal com sete feixes vermelhos. Estrutura pronta, máquinas livres, escolha do terreno e spawn na praça continuam como na versão mais recente de codex-b. Lasers desligados em terrenos livres; a propriedade e a bateria continuam controladas pelo servidor.
+
+A branch `codex/bases-laser` integra a continuação `07112df` e o catálogo `204e284`, preservando também as melhorias de Client/HudGuide encontradas no Studio. O checkout principal antigo continua com seu WIP intacto. A versão atual e o portátil estão no checkout gerenciado `C:/Users/alexp/.codex/worktrees/bases-laser/Roblox aura`; a entrega de bases fica em `Resultados/BasesLaser/`.
+
+Validação em Edit aprovada: 2.651 verificações estruturais, 118 de apresentação e raios até a bateria, oito pivôs/identidades e idempotência, 1.329 peças externas preservadas e 25 fontes compilados. Apenas BaseShell foi alterado no aplicativo. Mapa capturado com 3.098 instâncias; portátil e 25 fontes/cópias verificados. Não houve Play, reinício, acesso a perfis nem dois clientes nesta etapa.
+
+O catálogo em X=1600 foi retirado temporariamente do Workspace apenas durante a captura do mapa principal e restaurado em seguida. Seus RBXM e fontes continuam na entrega própria. `Map/scene.json` captura o cenário jogável com as bases novas; `Resultados/BasesLaser/PlotsLaser.rbxm` preserva as oito estruturas e `Backups/AntesBaseLaser/` conserva o estado anterior. Consulte o registro `coordination/tasks/2026-10-21-codex-a-bases-laser.md`.
+
+## Histórico: catálogo de decoração
+
 
 O pedido de bases deste chat foi interrompido pelo usuário. Seus fontes locais permanecem preservados; as branches de codex-b contêm continuação posterior e não foram sobrescritas. Esta etapa adiciona somente arte e um catálogo separado, sem alterar os sistemas ou paredes do jogo.
 

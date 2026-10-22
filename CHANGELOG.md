@@ -2,6 +2,16 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-21 — Bases de jardim com portal laser
+
+- Oito estruturas substituídas por pavilhões originais: cercas cruzadas de madeira, pilares creme, arenito, borda turquesa, cobertura transparente sólida, placa dourada e emblema de ovo. Sete feixes vermelhos na entrada; terrenos livres mantêm o laser desligado.
+- Inspiração visual de duas bases reconstruídas a partir dos mapas locais. Não havia uma base laser nesses arquivos; o portal é próprio. Nenhum sistema ou script dos mapas de referência foi executado.
+- `Shared/BaseShell.luau` revisão 2 mantém abertura 16×18, grade livre, pisos, pivôs, bateria, placa e conteúdo dos jogadores. Cada estrutura tem 133 peças. A revisão impede que o visual antigo volte no próximo Play.
+- Continuação moderna de codex-b integrada ao catálogo em checkout isolado; controles de seta e recorte de teto já existentes no Studio foram capturados em Client/HudGuide. Não foram implementados nesta etapa. WIP antigo da pasta original preservado.
+- Validação em Edit: 2.651 verificações estruturais em clones, 118 de apresentação do módulo Combat e acesso à bateria por raios, oito aplicações idempotentes, 1.329 peças externas preservadas e 25 fontes compilados. Somente BaseShell mudou no Studio. Sem Play, perfis, dois clientes ou teste de desempenho.
+- Mapa exportado: 3.098 instâncias em sete raízes, incluindo 2.199 peças estáticas. Pacote atualizado e verificado: 25 fontes, oito ensaios desativados e backup V2. Catálogo decorativo preservado e entregue separadamente.
+- Registro: `coordination/tasks/2026-10-21-codex-a-bases-laser.md`; entrega e prévias em `Resultados/BasesLaser/`; backup em `Backups/AntesBaseLaser/`. Branch `codex/bases-laser`.
+
 ## 2026-10-21 — Escolha de tycoon e construção manual
 
 - Continuação da branch `codex-a/escolha-base-preview` e dos nove fontes parciais do RAR recebido, preservando o mapa autorado e a HUD.

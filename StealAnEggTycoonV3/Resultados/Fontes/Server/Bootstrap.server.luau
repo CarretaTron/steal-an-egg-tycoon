@@ -314,7 +314,7 @@ local function rebirth(state)
  state.OperationBusy=true;state.Generation+=1
  local p=state.Profile
  p.Rebirths+=1;p.Cash=0;p.SpeedLevel=0;p.WeaponLevel=0;p.BatteryLevel=1;p.ProcessorLevel=1
-  p.Inventory=copy(Config.StarterInventory);p.Builds={};p.Creatures={};p.StoredHabitats={};p.Incubations={};p.ResourceEscrow={};p.StarterPlaced=true;p.DefensesBuilt=false;state.Pending={}
+  p.Inventory=copy(Config.StarterInventory);p.Builds={};p.Creatures={};p.StoredHabitats={};p.Incubations={};p.ResourceEscrow={};p.StarterPlaced=true;p.DefensesBuilt=true;state.Pending={}
  local pending=state.Plot:FindFirstChild("Incubations");if pending then pending:ClearAllChildren() end
  ctx.Services.Building:Render(state);ctx.Services.Production:RenderCreatures(state);ctx.Services.Combat:Reset(state)
  ctx:GrantTools(state);ctx:ApplySpeed(state);ctx:Sync(state)
@@ -481,6 +481,7 @@ claimPlot=function(state,id)
  plot:SetAttribute("OwnerUserId",state.Player.UserId);claimAvailable(plot,false)
  local ok,err=xpcall(function()
   ctx.Services.Persistence:RestoreIncubations(state)
+  state.Profile.DefensesBuilt=true
   ctx.Services.Combat:Reset(state)
   ctx.Services.Building:Render(state);ctx.Services.Production:RenderCreatures(state);makeDeliveryPad(state)
   for habitatId,pending in pairs(state.Pending) do renderPending(state,habitatId,pending) end

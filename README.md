@@ -85,6 +85,10 @@ Os atributos do Git preservam os bytes dos arquivos para manter válidos os hash
 
 A importação de 20/10/2026 foi validada por um clone novo do GitHub: os 140 arquivos versionados chegaram idênticos à pasta original, e o verificador do pacote passou também no clone.
 
+## Bases atuais — 21/10/2026
+
+As oito bases têm visual de pavilhão com cercas de madeira e portal laser, em `Shared/BaseShell.luau` revisão 2. A branch `codex/bases-laser` reúne a continuação moderna de codex-b, as melhorias de HUD já encontradas no Studio e o catálogo de decoração. Máquinas continuam livres e guardadas no kit inicial; a estrutura da base vem pronta. Veja `Resultados/BasesLaser/README.md` para prévias e validação. O portátil desta branch foi regenerado com os 25 fontes e o mapa capturado nesta etapa.
+
 ## Estado da versão
 
 A continuação atual está em `codex-b/concluir-escolha-base-preview`, a partir da etapa iniciada em `codex-a/escolha-base-preview` e dos fontes parciais do RAR recebido em 21/10. O jogador nasce na praça, escolhe um terreno livre e monta seu kit manualmente. Paredes e cobertura são montadas por escolha explícita; a prévia de posicionamento mostra o objeto real semitransparente. Perfis antigos preservam o progresso. Consulte o [registro da continuação](coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md).

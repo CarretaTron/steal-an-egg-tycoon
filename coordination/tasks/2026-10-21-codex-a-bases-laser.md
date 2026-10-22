@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Status | in_progress |
+| Status | done |
 | Responsável | codex-a, sessão principal |
 | Atualizado em | 2026-10-21, America/Sao_Paulo |
 | Branch | codex/bases-laser |
@@ -32,8 +32,17 @@
 
 ## Mudanças e validação
 
-Em andamento. Referências, backup, visual final e resultados serão registrados ao concluir.
+- Dois referenciais primitivos reconstruídos e vistos no Studio; removidos os temporários após a inspeção. Nenhum script de referência executado; nenhuma base laser encontrada. Criado pavilhão próprio com portal laser.
+- BaseShell revisão 2 aplicado às oito bases (133 peças por base). Piso, pivô, bateria, OwnerSign/labels, pastas de jogadores e claim preservados. Nenhuma mudança em economia, layout salvo ou defesa lógica.
+- Comparação dos 25 fontes atuais encontrou Client/HudGuide mais recentes no Studio; capturados conscientemente no checkout isolado. GeometryData difere apenas no newline final; mantido fonte remoto. Somente BaseShell.Source foi modificado no aplicativo; 24 fontes continuam idênticos ao início.
+- Backup dos 25 fontes e das bases anteriores em Backups/AntesBaseLaser. ArteBases contém fonte de projeto, referências e ensaio reproduzível; fonte canônico em Shared/BaseShell.
+- Resultados/BasesLaser/validacao-studio.json: 2.651 verificações estruturais, 118 de apresentação Combat em clone isolado, raios para Battery, oito pivôs/identidades e Apply repetido, 1.329 peças externas preservadas. Serialização nativa ida/volta aprovada; 25 fontes compilaram.
+- Map/AuthoredMap.rbxm e scene.json reexportados em Edit (3.098 instâncias, sete raízes). Catálogo próprio retirado temporariamente durante captura e restaurado. Nenhum temporário incluído no cenário final.
+- Portátil regenerado a partir dos fontes modernos capturados e mapa novo. Verificador aprovado: 25 fontes/cópias, oito ensaios desativados, 2.199 peças estáticas, 32 segmentos da praça, oito bases, 14 ninhos/guardiões e V2 preservada.
+- Sem Play, reinício, dois clientes, perfis ou desempenho nesta tarefa. Demonstração ModeloBaseLaser.rbxm é somente fixture isolada com OwnerUserId=-1; não é substituto funcional de um plot.
 
 ## Passagem
 
-Registro publicado antes das alterações no Studio. Não publicar experiência Roblox. Manter protótipos e backups.
+Registro inicial publicado em 8b75ae8; entrega acompanha o commit final da branch. Não publicada a experiência Roblox.
+
+Studio e Blender liberados. Próximo passo: usuário conferir visual em Play ao escolher terreno; não há nova tarefa de mecânica pendente. Documentos e changelog atualizados. As alterações locais antigas permanecem intactas na pasta original. A versão atual está no checkout gerenciado e no portátil da entrega. Não importar snapshots de oito plots por cima do mapa existente.

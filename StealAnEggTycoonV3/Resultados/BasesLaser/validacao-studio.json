@@ -1,0 +1,122 @@
+{
+  "NativeRoundtrip": true,
+  "Presentation": {
+    "Failures": [],
+    "Scope": "Combat appearance on isolated preview clone; no attacks or profiles",
+    "Mode": "Edit",
+    "Passed": true,
+    "Assertions": 118
+  },
+  "Structure": {
+    "Clones": 2,
+    "Assertions": 2651,
+    "PartsPerPlot": 133,
+    "Geometry": {
+      "RoofSamples": 49,
+      "DoorHalfWidth": 7.5,
+      "EntrySamples": 15,
+      "BuildHalf": 72,
+      "WallHeights": [
+        1,
+        8,
+        17,
+        26
+      ],
+      "GridLines": 444,
+      "WallSamples": 312,
+      "DoorHeightSamples": [
+        1,
+        9,
+        17
+      ],
+      "BuildTestHeight": [
+        0.5,
+        18
+      ]
+    },
+    "Failures": [],
+    "Mode": "Edit",
+    "Passed": true,
+    "Limitations": [
+      "Unparented clones only. No Play, physics simulation, DataStore, profile, weapon or theft execution.",
+      "Coverage is sampled at the stated positions. It is not a complete volumetric proof or a walking test.",
+      "Segments use oriented part boxes. Sealing only counts Block Parts; other shapes are conservative obstacles.",
+      "Owned/vacant checks cover Shell.Apply output; Combat presentation transitions are not executed."
+    ]
+  },
+  "Preservation": {
+    "UnchangedParts": 1329,
+    "Failures": [],
+    "Passed": true,
+    "Plots": [
+      {
+        "Revision": 2,
+        "Name": "Plot_03",
+        "Parts": 133
+      },
+      {
+        "Revision": 2,
+        "Name": "Plot_07",
+        "Parts": 133
+      },
+      {
+        "Revision": 2,
+        "Name": "Plot_01",
+        "Parts": 133
+      },
+      {
+        "Revision": 2,
+        "Name": "Plot_05",
+        "Parts": 133
+      },
+      {
+        "Revision": 2,
+        "Name": "Plot_02",
+        "Parts": 133
+      },
+      {
+        "Revision": 2,
+        "Name": "Plot_06",
+        "Parts": 133
+      },
+      {
+        "Revision": 2,
+        "Name": "Plot_04",
+        "Parts": 133
+      },
+      {
+        "Revision": 2,
+        "Name": "Plot_08",
+        "Parts": 133
+      }
+    ]
+  },
+  "Compilation": {
+    "Mode": "Edit",
+    "Compiled": 25,
+    "UnchangedScripts": 24,
+    "Failures": []
+  },
+  "Package": {
+    "sources": 25,
+    "deliveredSourceCopies": 25,
+    "fbx": 19,
+    "disabledTestScripts": 8,
+    "portableParses": true,
+    "allSourceCopiesMatch": true,
+    "v2BackupIncluded": true,
+    "embeddedSourceInstancesVerified": 25,
+    "embeddedSourceHierarchyMatches": true,
+    "allEmbeddedSourcesMatch": true,
+    "v2BackupExecutablesDisabled": true,
+    "authoredMapIncluded": true,
+    "authoredSceneInstances": 3098,
+    "authoredPartsVerified": 2199,
+    "ringRoadSegmentsVerified": 32,
+    "plots": 8,
+    "nests": 14,
+    "guardians": 14,
+    "manualOuterWallsIncluded": true,
+    "renewableSessionArtPlaceholders": 460
+  }
+}

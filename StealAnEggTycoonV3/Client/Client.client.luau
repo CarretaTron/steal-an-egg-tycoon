@@ -215,6 +215,11 @@ local ghostPart=nil
 local ghostArrow=nil
 local lastCandidateKey=nil
 hud.Guide=require(package.Shared:WaitForChild("HudGuide")).new({Gui=gui,Config=C})
+hud.GuideToggle=button(gui,'OCULTAR SETA',colors.Card,function()
+ hud.Guide:SetHidden(not hud.Guide:IsHidden())
+ hud.GuideToggle.Text=hud.Guide:IsHidden() and 'MOSTRAR SETA' or 'OCULTAR SETA'
+ hud.GuideToggle.BackgroundColor3=hud.Guide:IsHidden() and colors.Card or Color3.fromRGB(68,86,98)
+end,{Name='GuideVisibility',Position=UDim2.fromOffset(18,420),Size=UDim2.fromOffset(176,44),TextSize=14,ZIndex=20})
 local highlight=Instance.new("Highlight")
 highlight.FillTransparency=.88
 highlight.OutlineColor=colors.Blue
@@ -289,7 +294,10 @@ cancelBuild=function()
  ghostPart=nil;ghostArrow=nil
  lastCandidateKey=nil
 end
-gui.Destroying:Connect(function() cancelBuild() end)
+gui.Destroying:Connect(function()
+ cancelBuild()
+ if hud.RestoreRoofCutaway then hud:RestoreRoofCutaway() end
+end)
 function hud:CreateBuildPreview(kind,existing)
  local root=Instance.new('Folder');root.Name='LocalBuildPreview';self.PreviewRoot=root
  local model
@@ -380,19 +388,6 @@ local function upgradeCard(kind,title,description,level,maxLevel,price,color)
  label(box,description,{Position=UDim2.fromOffset(12,40),Size=UDim2.new(1,-24,0,42),TextSize=13,TextWrapped=true,TextColor3=colors.Muted})
  local buy=button(box,level>=maxLevel and "NÍVEL MÁXIMO" or "MELHORAR  "..money(price),color,function() if level<maxLevel then send("Upgrade",{Kind=kind}) end end,{Position=UDim2.fromOffset(12,94),Size=UDim2.new(1,-24,0,35),TextSize=16,TextColor3=colors.Text})
  sizeButton(buy,level<maxLevel)
-end
-function hud:DefenseCard()
- local built=state.DefensesBuilt==true
- local price=math.max(0,tonumber(C.DefensesPrice) or 0)
- local box=card(174,'Build_Defenses')
- label(box,'🛡️ Paredes e cobertura',{Position=UDim2.fromOffset(12,8),Size=UDim2.new(1,-24,0,30),TextSize=20,TextColor3=colors.Blue})
- label(box,built and 'Sua base já tem perímetro, cobertura e entrada protegida.' or 'Sua base começa aberta. Monte as paredes, a cobertura e a entrada protegida nas posições fixas do terreno quando quiser.',{Position=UDim2.fromOffset(12,42),Size=UDim2.new(1,-24,0,62),TextSize=14,TextWrapped=true,TextColor3=colors.Muted})
- local install=button(box,built and 'PRONTO ✓' or ('MONTAR DEFESAS • '..(price==0 and 'GRÁTIS' or money(price))),built and colors.Card or colors.Blue,function()
-  if built then return end
-  if not self:InsidePlot() then toast('Entre na sua tycoon para montar as defesas.');return end
-  send('BuildDefenses')
- end,{Name='BuildDefenses',Position=UDim2.fromOffset(12,116),Size=UDim2.new(1,-24,0,44),TextSize=16})
- sizeButton(install,not built)
 end
 function collectionUI:Discovered(index)
  return (state.Discovered or {})[tostring(index)]==true or (state.Discovered or {})[index]==true
@@ -570,7 +565,6 @@ panelRefresh=function()
    upgradeCard('Speed','👟 Velocidade','Corra mais para escapar dos guardiões.',speed,5,C.SpeedPrices[speed+1] or 0,colors.Green)
    upgradeCard('Processor','⚙️ Processamento','Mais valor em cada recurso processado.',processor,3,C.ProcessorPrices[processor] or 0,colors.Gold)
   else
-   if shopTab=='Máquinas' then hud:DefenseCard() end
    for _,kind in ipairs(shopTab=='Máquinas' and {'Habitat','Incubator','Processor','Seller'} or {'Belt','Curve','Merge'}) do itemCard(kind) end
   end
   local hint=card(78)
@@ -649,6 +643,23 @@ end
 local function plotFrame()
  return state.PlotCFrame or (state.PlotId and C.PlotCFrame(state.PlotId))
 end
+function hud:RestoreRoofCutaway()
+ if self.CutawayRoof and self.CutawayRoof.Parent then self.CutawayRoof.LocalTransparencyModifier=0 end
+ self.CutawayRoof=nil;self.CutawayPlot=nil
+end
+function hud:UpdateRoofCutaway(targetPlot,enabled)
+ if not enabled or not targetPlot or targetPlot:GetAttribute('OwnerUserId')~=player.UserId then
+  self:RestoreRoofCutaway();return
+ end
+ local roof=targetPlot:FindFirstChild('Roof')
+ if not roof or not roof:IsA('BasePart') then self:RestoreRoofCutaway();return end
+ if self.CutawayPlot~=targetPlot or self.CutawayRoof~=roof then
+  self:RestoreRoofCutaway()
+  self.CutawayPlot=targetPlot;self.CutawayRoof=roof
+ end
+ -- Rendering only: the roof remains solid, queryable and opaque for everyone else.
+ if roof.LocalTransparencyModifier~=1 then roof.LocalTransparencyModifier=1 end
+end
 local function refreshSelection()
  if not hud:InsidePlot() then selection.Visible=false;highlight.Adornee=nil;return end
  local b=selectedBuild()
@@ -705,6 +716,18 @@ local function responsive()
  nav.AnchorPoint=touch and compact and Vector2.zero or Vector2.new(0,.5)
  nav.Size=UDim2.fromOffset(sidebarWidth,touch and compact and 94 or sidebarHeight)
  nav.Position=touch and compact and UDim2.fromOffset(10,12) or UDim2.new(0,compact and 10 or 18,.47,0)
+ if touch and compact and height>=300 then
+  hud.GuideToggle.Position=UDim2.fromOffset(10,114)
+  hud.GuideToggle.Size=UDim2.fromOffset(130,44)
+ elseif compact then
+  -- Short landscapes reserve the upper-right strip for alerts.
+  hud.GuideToggle.Position=UDim2.fromOffset(math.max(10,viewport.X-166),88)
+  hud.GuideToggle.Size=UDim2.fromOffset(150,44)
+ else
+  hud.GuideToggle.Position=UDim2.fromOffset(18,math.min(height-150,height*.47+sidebarHeight/2+12))
+  hud.GuideToggle.Size=UDim2.fromOffset(sidebarWidth,44)
+ end
+ hud.GuideToggle.TextSize=compact and 12 or 14
  for index,b in ipairs(navButtons) do
   if touch and compact then
    local column=index>2 and 1 or 0;local row=(index-1)%2
@@ -766,6 +789,7 @@ local function panelVisibility()
  local small=UserInputService.TouchEnabled
  cashBox.Visible=not (small and panel.Visible)
  nav.Visible=not (panel.Visible and (small or workspace.CurrentCamera.ViewportSize.X<560))
+ hud.GuideToggle.Visible=not panel.Visible
 end
 
 -- One listener per persistent container; card refreshes do not add listeners.
@@ -1022,7 +1046,7 @@ function hud:Update(dt)
    selectedId=nil;selection.Visible=false;highlight.Adornee=nil
   end
  end
- if self.Guide then self.Guide:Update(state,panel.Visible and panelName=='Missoes') end
+ self:UpdateRoofCutaway(plot(),inside or build~=nil)
 end
 
 stateRemote.OnClientEvent:Connect(function(snapshot)
@@ -1034,6 +1058,7 @@ stateRemote.OnClientEvent:Connect(function(snapshot)
   selectedId=nil;selection.Visible=false;highlight.Adornee=nil
  end
  if state.Carrying and build then cancelBuild() end
+ hud:UpdateRoofCutaway(plot(),hud:InsidePlot() or build~=nil)
  lastCandidateKey=nil
  refreshHUD()
  -- Avoid destroying shop buttons on every energy tick.
@@ -1059,6 +1084,10 @@ local ghostElapsed=0
 RunService.RenderStepped:Connect(function(dt)
  elapsed+=dt ghostElapsed+=dt
  hud:Update(dt)
+ if hud.Guide then
+  hud.Guide:Update(state,panel.Visible and panelName=='Missoes',dt)
+  hud.Guide:Render(dt)
+ end
  if ghostElapsed>.06 then ghostElapsed=0 updateGhost() end
  if elapsed>3 then elapsed=0 scanCreatures() responsive() collectionUI:LoadVisiblePreviews() end
  local now=os.clock()

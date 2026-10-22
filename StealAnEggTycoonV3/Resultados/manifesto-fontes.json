@@ -4,6 +4,10 @@
     "sha256": "226f43229d6f5f4ff19c63a48a720dd9ede80fd942d7670eeebaf7b1caa167de"
   },
   {
+    "path": "Shared/BaseShell.luau",
+    "sha256": "117add3ce903a40c1fd5dadd224a65eed7515e50ca0d8b2a4e510d75c8b36b80"
+  },
+  {
     "path": "Shared/BuildRules.luau",
     "sha256": "c9979f81162715f48a15fbbc7ae5280669055a0be7a9c459793f982b4c3ae371"
   },
@@ -17,11 +21,11 @@
   },
   {
     "path": "Shared/HudGuide.luau",
-    "sha256": "08597ca98cb8c708949c22912c00977728c2cea0e30f8f1569471bdaecc91d57"
+    "sha256": "06071881e911764b3972848b2b0aa232a1982636f6201e46bc2faed4c33dea36"
   },
   {
     "path": "Server/Bootstrap.server.luau",
-    "sha256": "ef0177ca60c6cba3d3113ba49b74fc93309b80bd8f7ca94b4399a939e8ea79d9"
+    "sha256": "54e011f66204879b21824c0ff9edf61c63704279c2c1e47f853d4890d36683d3"
   },
   {
     "path": "Server/Building.luau",
@@ -29,11 +33,11 @@
   },
   {
     "path": "Server/Combat.luau",
-    "sha256": "4c9aa415ccf884868dbc80fc3f5e110319d20e9d846f003d8c9e31cf8dfb0ba5"
+    "sha256": "11812e5b0f39b1958f246a259dadf2d7893c16c2e9cf06543142220032a8e1a6"
   },
   {
     "path": "Server/Persistence.luau",
-    "sha256": "9df353df32e6f4c8b9dc0e1dc7b7ddc6478897103f463cd0966b3d3828f21aba"
+    "sha256": "f09105b21d1f65706beea244d048537af7570a6e5cb30259551ddebbeba67fbc"
   },
   {
     "path": "Server/Production.luau",
@@ -77,11 +81,11 @@
   },
   {
     "path": "Server/WorldFactory.luau",
-    "sha256": "c6c5ce0d654323db72efcd4962732a64cb8a8f271633ff8fb893c54340f302f3"
+    "sha256": "9f93a6d142bb88b63f8c7e774c03c0e70acc6816309a67db62faa6d1af902ec3"
   },
   {
     "path": "Client/Client.client.luau",
-    "sha256": "b53283382a363eccec22f573ece96aa8378aaf3c75b5b0bcb96d43e58090ca1e"
+    "sha256": "6a1cfe5d98e55cebc4091f1243f07ad2064828ae28d2256f9820a39732018c09"
   },
   {
     "path": "Client/StudioMobile.client.luau",
