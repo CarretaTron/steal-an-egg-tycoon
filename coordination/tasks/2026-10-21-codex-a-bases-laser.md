@@ -6,6 +6,7 @@
 | Responsável | codex-a, sessão principal |
 | Atualizado em | 2026-10-21, America/Sao_Paulo |
 | Branch | codex/bases-laser |
+| PR | https://github.com/CarretaTron/steal-an-egg-tycoon/pull/2 |
 | Commit de partida | 07112df + catálogo 204e284 integrados no checkout isolado |
 | Pedido autorizado | Substituir o visual antigo das oito bases por estrutura original inspirada nas melhores bases dos mapas locais, com portal laser |
 
@@ -43,6 +44,6 @@
 
 ## Passagem
 
-Registro inicial publicado em 8b75ae8; entrega acompanha o commit final da branch. Não publicada a experiência Roblox.
+Registro inicial publicado em 8b75ae8; entrega publicada em cf93ae6. Não publicada a experiência Roblox.
 
 Studio e Blender liberados. Próximo passo: usuário conferir visual em Play ao escolher terreno; não há nova tarefa de mecânica pendente. Documentos e changelog atualizados. As alterações locais antigas permanecem intactas na pasta original. A versão atual está no checkout gerenciado e no portátil da entrega. Não importar snapshots de oito plots por cima do mapa existente.
