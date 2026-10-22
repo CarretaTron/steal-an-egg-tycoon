@@ -1,5 +1,17 @@
 # Estado atual — 21/10/2026
 
+## Etapa atual: catálogo de decoração
+
+O pedido de bases deste chat foi interrompido pelo usuário. Seus fontes locais permanecem preservados; as branches de codex-b contêm continuação posterior e não foram sobrescritas. Esta etapa adiciona somente arte e um catálogo separado, sem alterar os sistemas ou paredes do jogo.
+
+Há vinte modelos originais do Blender prontos em `Workspace/CatalogoDecoracao/Modelos_Para_Copiar`, próximo de X=1600, e uma biblioteca limpa em `ServerStorage/BibliotecaDecoracao`. Selecione um Model, use F para enquadrar e Ctrl+D para copiar. A cena, gerador, geometria e vinte FBX estão em `StealAnEggTycoonV3/Blender/Decoracao/`; a entrega nativa e os relatórios estão em `StealAnEggTycoonV3/Resultados/Decoracao/`.
+
+Conferência aprovada: vinte modelos, 97 malhas permanentes, 10.716 triângulos; tamanhos, cores, materiais, pivôs e ancoragem; 1.656 peças e 25 scripts anteriores preservados. Recarga por ID de três malhas e serialização nativa de ida e volta verificadas. Sem Play, reinício ou dois clientes nesta etapa. O catálogo não exige execução de scripts para copiar seus modelos.
+
+A branch `codex-a/catalogo-decoracao-blender` entrega a arte separadamente. O portátil principal não foi remontado com os fontes locais antigos da etapa interrompida. Antes de integrar ao trabalho mais recente de codex-b, preserve essa base e incorpore os novos arquivos de arte. O exportador de `Map/scene.json` atualmente recusa malhas decorativas; mova a vitrine para ServerStorage antes de capturar só o cenário principal. Cópias colocadas no cenário exigem ampliar o exportador ou preservar a entrega nativa, sem substituir geometria por blocos. Consulte `coordination/tasks/2026-10-21-codex-a-catalogo-decoracao.md`.
+
+## Histórico anterior deste checkout
+
 A V3 jogável e a etapa de HUD estão nos arquivos existentes. O projeto completo foi publicado no repositório público https://github.com/CarretaTron/steal-an-egg-tycoon, com documentação para dois desenvolvedores usando Codex. A importação `2963104` contém 140 arquivos; um clone novo confirmou que todos chegaram idênticos e passou na verificação do pacote. Consulte também `coordination/tasks/2026-10-20-codex-a-repositorio.md`.
 
 A tarefa atual, na branch `codex-b/concluir-escolha-base-preview`, continua a etapa iniciada em `codex-a/escolha-base-preview`. O usuário transferiu a continuação e forneceu um RAR com nove fontes mais recentes ainda não integrados ao pacote. Essa versão passa a nascer na praça, escolher terreno e montar o kit manualmente, com prévia do objeto real semitransparente. O mapa editado e a HUD anterior são preservados. Consulte `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md` para validações e passagem.

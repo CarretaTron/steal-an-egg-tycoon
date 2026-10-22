@@ -13,6 +13,15 @@ Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. At
 - Os 24 fontes compilaram com Luau; os nove alterados também foram compilados e aplicados no Studio em Edit. Play, simulador e validação visual não foram iniciados nesta continuação, respeitando a passagem de testes para o usuário.
 - Pacote regenerado e conferido: 24 fontes embutidos idênticos e nos caminhos corretos, mapa autorado com 1.562 instâncias, V2 preservada e oito ensaios desativados. Nove adulterações temporárias do portátil foram recusadas pelo verificador reforçado. Nenhuma publicação da experiência foi feita.
 - Registro: `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md`; evidência em `Resultados/Testes/escolha-base-preview.json` e `validacao-pacote.json`.
+## 2026-10-21 — Catálogo de árvores e decoração
+
+- Etapa de bases interrompida a pedido do usuário; alterações locais anteriores preservadas, sem nova aplicação nesta tarefa. A continuação de codex-b e o mapa atual do Studio não foram substituídos.
+- Três mapas locais examinados como dados; nove referências primitivas reconstruídas e vistas para selecionar silhuetas e paletas. Nenhum script dos mapas de referência foi executado.
+- Vinte modelos originais criados no Blender: seis árvores, sete plantas e sete complementos, com 97 malhas e 10.716 triângulos. Cena, gerador, geometria e vinte FBX finais em `Blender/Decoracao/`.
+- Importação permanente via FBX/Importer validada primeiro numa árvore. Escala, orientação, cores sRGB, pivôs no chão e colisões simples aplicados. Vitrine em `Workspace/CatalogoDecoracao`, próximo de X=1600; biblioteca limpa em `ServerStorage/BibliotecaDecoracao`.
+- Conferência em Edit aprovada para os vinte modelos/97 MeshParts. As 1.656 peças e os 25 scripts existentes ficaram idênticos ao início. Três malhas de amostra foram recarregadas por ID e os pacotes nativos passaram pela ida e volta de serialização. Não houve Play, reinício do Studio ou ensaio com dois clientes.
+- Entrega independente em `Resultados/Decoracao/`; portátil e snapshot principal não foram regenerados a partir do checkout antigo. O exportador JSON principal ainda precisa de suporte para malhas decorativas antes de incluir cópias no mapa.
+- Registro: `coordination/tasks/2026-10-21-codex-a-catalogo-decoracao.md`. Branch: `codex-a/catalogo-decoracao-blender`.
 
 ## 2026-10-20 — Mapa editado preservado e rebirth junto ao saldo
 
