@@ -2,6 +2,14 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-22 — Geradores apoiados na grama
+
+- Corrigido vão de 1 stud: a montagem herdava Y1 do piso interno, enquanto o chão externo está em Y0. A geometria Blender não precisava de alteração.
+- Generator revisão 3 mede o apoio por raycast e move visual, painel e Battery juntos, preservando identidade, X/Z, rotação e HP. Ignora plots, guardiões, ninhos e personagens; sem apoio válido mantém a pose anterior.
+- Edit: 320 verificações nos oito geradores e 68 em quatro cenários de montagem, incluindo terreno sem Parent, piso elevado, ausência de chão e reconstrução sem deslocamento acumulado. 25 fontes da árvore principal compilados.
+- Play iniciado pelo usuário: leitura do servidor confirmou os oito geradores na revisão 3, pés em Y0 e Battery centro Y3,5. Nenhum teste foi iniciado/interrompido pelo agente; não houve teste completo de combate ou clientes adicionais.
+- Snapshot de Edit com 2.974 instâncias/201 malhas; fontes, mapa e portátil em Resultados/GeradorNoChao/. Backup em Backups/AntesApoioGerador/. Registro: coordination/tasks/2026-10-22-codex-a-gerador-chao.md.
+
 ## 2026-10-22 — Gerador industrial com vida no painel
 
 - Oito baterias visuais substituídas por geradores originais do Blender: carcaça verde, grelhas, portas, ferragens, chassi cinza com studs e console superior inclinado. Sete malhas permanentes por gerador, 4.072 vértices e 7.452 triângulos.

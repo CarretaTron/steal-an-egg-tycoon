@@ -38,3 +38,7 @@ O painel substitui a tampa superior frontal. Seu centro relativo à origem do mo
 A `SurfaceGui` usa **FixedSize**, canvas **1024 × 320** e fonte de **90 pixels** para a contagem de vida. As informações aparecem diretamente na superfície física do painel, sem legenda flutuante. O texto verdadeiro, a vida e o estado de reconstrução são criados e atualizados pelo servidor; a geometria e o texto de demonstração da cena Blender não calculam vida nem dinheiro.
 
 O retângulo de tela e os textos da coleção de prévia são referências visuais e **ficam fora do FBX**. Não importe essa prévia junto com o painel nativo já instalado. Preserve a identidade da peça `Battery` e a autoridade do servidor ao ajustar o visual. Os arquivos e backups das versões anteriores permanecem preservados.
+
+## Apoio no chão — revisão 3
+
+Generator mede o piso externo com raycast, ignorando terrenos/máquinas, guardiões, ninhos e personagens. A origem das sete malhas e do painel e a hitbox Battery compartilham esse apoio. O mapa autoral tinha o piso interno em Y1 e a grama em Y0; a revisão anterior herdava um vão de 1 stud. A geometria Blender já tinha a origem no chão e foi preservada. Sem superfície válida, mantém a pose anterior.

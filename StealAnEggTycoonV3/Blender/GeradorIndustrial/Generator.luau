@@ -1,7 +1,7 @@
 -- Blender-authored generator presentation. Battery remains the authoritative hitbox.
 local Data = require(script.Parent.GeneratorData)
 local AssetService = game:GetService('AssetService')
-local Generator = {Revision = 2}
+local Generator = {Revision = 3}
 local prototypes = {}
 local signatures = setmetatable({}, {__mode = 'k'})
 local colors = {
@@ -139,6 +139,32 @@ function Generator.Update(plot, hp, maximum, open, remaining, level)
   or (hp / maximum <= .35 and 'INTEGRIDADE BAIXA' or 'LASER ATIVO')
 end
 
+-- The external ground can be lower than the authored plot floor.
+-- Ignore all plot contents and characters; never use the generator itself as support.
+local function groundOrigin(plot, battery)
+ local origin = battery.CFrame * CFrame.new(0, -3.5, 0)
+ local excluded = {plot}
+ local world = workspace:FindFirstChild('EggTycoonV3')
+ if world then
+  for _, name in ipairs({'Plots', 'Guardians', 'Nests'}) do
+   local container = world:FindFirstChild(name)
+   if container then table.insert(excluded, container) end
+  end
+ end
+ for _, player in ipairs(game:GetService('Players'):GetPlayers()) do
+  if player.Character then table.insert(excluded, player.Character) end
+ end
+ local params = RaycastParams.new()
+ params.FilterType = Enum.RaycastFilterType.Exclude
+ params.FilterDescendantsInstances = excluded
+ params.RespectCanCollide = true
+ local hit = workspace:Raycast(origin.Position + Vector3.new(0, 8, 0), Vector3.new(0, -72, 0), params)
+ if hit and hit.Normal.Y >= .8 then
+  origin += Vector3.new(0, hit.Position.Y - origin.Position.Y, 0)
+ end
+ return origin
+end
+
 function Generator.Apply(plot)
  assert(plot and plot:IsA('Model'), 'Generator.Apply expects a plot Model')
  local battery = plot:FindFirstChild('Battery')
@@ -152,7 +178,7 @@ function Generator.Apply(plot)
  for _, def in ipairs(Data.Meshes) do prototype(def) end
  local staging = Instance.new('Model')
  staging.Name = 'GeneratorVisual'
- local origin = battery.CFrame * CFrame.new(0, -3.5, 0)
+ local origin = groundOrigin(plot, battery)
  for _, def in ipairs(Data.Meshes) do
   local p = prototype(def):Clone()
   p.Name = def.Name; p.Size = def.Size; p.CFrame = origin * def.LocalCF
@@ -178,6 +204,7 @@ function Generator.Apply(plot)
    object:Destroy()
   end
  end
+ battery.CFrame = origin * CFrame.new(0, 3.5, 0)
  battery.Size = Vector3.new(12, 7, 6); battery.Anchored = true
  battery.Transparency = 1
  battery:SetAttribute('BaseShellTransparency', 1)

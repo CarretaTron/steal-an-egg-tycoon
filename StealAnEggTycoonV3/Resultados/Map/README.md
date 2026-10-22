@@ -41,3 +41,7 @@ Backup da captura anterior em Backups/AntesRemoverCercasTeto/MapRev3/. Portátil
 Captura atual: oito raízes,2.974 instâncias e201 MeshParts permanentes. Oito geradores de sete malhas instalados sob as Battery originais; oito painéis SurfaceGui e nenhuma BillboardGui de bateria. Root Battery segue Part com colisão/consulta; as malhas visuais e painel não usam física. Sem prévia temporária no mapa.
 
 CanvasSize1024 × 320, SizingModeFixedSize e LightInfluence0 preservados para os visores. Backup anterior em Backups/AntesGeradorIndustrial/MapAnterior/. Portátil com28 fontes conferido; sem novo Play.
+
+## Apoio dos geradores — 22/10/2026
+
+Generator revisão 3 posiciona os oito conjuntos no chão externo: Battery centro Y3,5, pés em Y0; antes estavam 1 stud acima da grama. Identidade, X/Z e orientação das baterias, pisos e restante do cenário preservados. Snapshot nativo e JSON renovados em Edit, com as mesmas 2.974 instâncias e 201 malhas. Evidências da revisão em Resultados/GeradorNoChao/.

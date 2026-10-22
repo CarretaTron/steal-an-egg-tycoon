@@ -1,0 +1,62 @@
+{
+  "AuthoredMap.rbxm": {
+    "sha256": "8586bbb9770861564e58621f6388ed5aaca1bb8a3bcd3461b6c00fd54213ca5a",
+    "bytes": 441832
+  },
+  "Generator.luau": {
+    "sha256": "4342e6002287f120e61cb63548fbd23a59c19bb7f604869866eac718caaa4464",
+    "bytes": 9831
+  },
+  "manifesto-fontes.json": {
+    "sha256": "6956c5c28e3067aa1ab0c7e2fde45c7f6990344fb4522cada383a296d3d212ee",
+    "bytes": 3796
+  },
+  "PlotsAntes.rbxm": {
+    "sha256": "70b7712983b058871715fc8b57edf9f7a35734666620e97e11245ed7cd003e6b",
+    "bytes": 64206
+  },
+  "README.md": {
+    "sha256": "f13a85cf9225e3fe802dcf552d64c51c6ea53d9c0b4b0073d170756866a14a5b",
+    "bytes": 1891
+  },
+  "scene.json": {
+    "sha256": "fca6fe3c6a9d2af9e5c76b2fee57f460a1bf6a0e430652a56eb982b5a45ba2a6",
+    "bytes": 3356177
+  },
+  "StealAnEggTycoonV3.rbxlx": {
+    "sha256": "bf72f5475ae1da7ce59e4d0ad1c0141d96eccd51b757622ea5f95811e93a07e9",
+    "bytes": 4140606
+  },
+  "validacao-pacote.json": {
+    "sha256": "734de3a26b68aecb4bf1d06ad738931463a2cfb2c7787b105f9ab75d35a06eed",
+    "bytes": 307
+  },
+  "validacao-play-leitura.json": {
+    "sha256": "94d6890dd88bcb5d8d3e37c5d97ca4e3aeac59c448ba3eb5f244f16995e05052",
+    "bytes": 1191
+  },
+  "validacao-portatil.json": {
+    "sha256": "e7096f9211fa7a60dbb058d635553353d707e403e3b19e66848175bc6085123b",
+    "bytes": 225
+  },
+  "validacao-studio.json": {
+    "sha256": "1dbab5efcf12622655e19dd57c96cc9071b92a5772b72de96114037be3ebd27f",
+    "bytes": 1360
+  },
+  "Transferencia/Before.zst": {
+    "sha256": "45cf3dc10be299046e96703cdd470c8fb1a62061136197abdfef2eaab3cbf35c",
+    "bytes": 50981
+  },
+  "Transferencia/Map.zst": {
+    "sha256": "65b38f8aa03ed2cf43b8addbb683f924c6c951140120dc2bb9273a1c710671ce",
+    "bytes": 406196
+  },
+  "Transferencia/Report.zst": {
+    "sha256": "e8160e00aaa790f6f365709c87a7fde5f522c9bde034660c20c43b3de9bc1348",
+    "bytes": 371
+  },
+  "Transferencia/Scene.zst": {
+    "sha256": "3b63878cb0cb2de267a57a66f75dd0a0fbb6666ee064e0a91ae5c87c6282e694",
+    "bytes": 85851
+  }
+}

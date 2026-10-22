@@ -1,6 +1,14 @@
 # Estado atual — 22/10/2026
 
-## Etapa atual: gerador industrial com painel de vida
+## Etapa atual: geradores apoiados no chão
+
+Generator revisão 3 corrige o vão de 1 stud do mapa autoral. A origem é medida no piso externo, ignorando plots e personagens; Battery e as sete malhas mais painel se deslocam juntos. Os oito conjuntos têm pés em Y0 e Battery centro Y3,5, mantendo identidade, X/Z, orientação e HP. Sem chão válido a pose anterior é preservada. Blender/FBX e IDs de malha permanecem os mesmos.
+
+Edit: 320 verificações nos oito terrenos e 68 em quatro montagens (básica sem Parent, autoral, elevada e sem apoio), com idempotência e reconstrução sem drift; 25 fontes principais compilados. Durante Play iniciado pelo usuário, leitura do servidor confirmou os oito apoios em Y0. O agente não controlou o teste, não acessou perfis e não executou nova bateria geral de combate.
+
+Fontes/mapa/portátil atualizados em Resultados/GeradorNoChao/; mesmo total de 2.974 instâncias e 201 MeshParts. Backup em Backups/AntesApoioGerador/. Registro: coordination/tasks/2026-10-22-codex-a-gerador-chao.md; branch codex/gerador-apoio-chao integrada à codex/bases-blender/PR #3. Checkout de D:/Roblox aura conserva seu WIP anterior; entrega nova copiada para sua pasta Resultados/GeradorNoChao/.
+
+## Revisão anterior: gerador industrial com painel de vida
 
 Oito geradores originais do Blender substituem as baterias visuais: carcaça verde, grelhas, portas, ferragens e chassi cinza com studs. Console superior inclinado com SurfaceGui 1024 × 320: vida em números grandes, barra, nível ativo e contagem de reconstrução. As legendas flutuantes BatteryLabel foram removidas.
 
