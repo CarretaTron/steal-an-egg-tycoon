@@ -41,7 +41,7 @@ O lugar vinculado pode conter edições manuais do mapa. A correção atual faz 
 
 Use `StealAnEggTycoonV3/export_authored_map.luau` para atualizar `Map/AuthoredMap.rbxm` e `Map/scene.json`. O RBXM nativo preserva o mapa exato, incluindo paredes e objetos externos. O JSON representa o cenário estático e os pivôs transparentes usados para repor a arte por sessão; ele é a entrada do mapa portátil. Registre os arquivos exportados e a comparação Edit → Play na tarefa. Preserve os backups anteriores.
 
-O exportador JSON deve recusar tipos que não consegue preservar, como Unions ou malhas decorativas ainda não suportadas. Não ignore o erro, não descarte esses objetos e não os substitua silenciosamente por blocos. Preserve o snapshot nativo e atualize o suporte antes de gerar um pacote que se declare equivalente. A correção do mapa ainda aguarda sua validação de Edit → Play e do pacote; os testes anteriores não comprovam esse comportamento novo.
+O exportador JSON preserva MeshParts visuais permanentes com InitialSize e colisores Part separados. Deve recusar tipos que não consegue preservar, como Unions, rigs, SurfaceAppearance, malhas físicas ou referências temporárias fora da arte renovável. Não ignore o erro, não descarte esses objetos e não os substitua silenciosamente por blocos. Preserve o snapshot nativo e atualize o suporte antes de gerar um pacote que se declare equivalente. A comparação histórica do mapa está registrada em Resultados/Testes/mapa-edit-play.json. Mudanças posteriores exigem evidência própria: a revisão industrial atual foi conferida em Edit e no XML do pacote, sem novo Play.
 
 ### Arquivos Blender e exportações
 

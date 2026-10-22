@@ -1,0 +1,208 @@
+{
+  "Validation": {
+    "Structure": {
+      "Clones": 2,
+      "Passed": true,
+      "PartsPerPlot": 68,
+      "Assertions": 1846,
+      "Failures": [],
+      "Mode": "Edit",
+      "Geometry": {
+        "RoofSamples": 49,
+        "DoorHalfWidth": 7.5,
+        "DoorHeightSamples": {
+          "1": 1,
+          "2": 9,
+          "3": 17
+        },
+        "BuildHalf": 72,
+        "BuildTestHeight": {
+          "1": 0.5,
+          "2": 18
+        },
+        "WallHeights": {
+          "1": 1,
+          "2": 8,
+          "3": 17,
+          "4": 26
+        },
+        "WallSamples": 240,
+        "GridLines": 444,
+        "EntrySamples": 15
+      },
+      "Limitations": {
+        "1": "Unparented clones only. No Play, physics simulation, DataStore, profile, weapon or theft execution.",
+        "2": "Coverage is sampled at the stated positions. It is not a complete volumetric proof or a walking test.",
+        "3": "Segments use oriented part boxes. Sealing only counts Block Parts; other shapes are conservative obstacles.",
+        "4": "Owned/vacant checks cover Shell.Apply output; Combat presentation transitions are not executed."
+      }
+    },
+    "UnchangedScripts": 23,
+    "Passed": true,
+    "ModifiedExistingScripts": {
+      "1": "StarterPlayer.StarterPlayerScripts.EggTycoonV3_Client",
+      "2": "ReplicatedStorage.EggTycoonV3.Shared.BaseShell"
+    },
+    "Failures": [],
+    "Selection": {
+      "Before": "RoofCollision",
+      "RoofSecurityPreserved": true,
+      "After": "IndustrialSelectionProbe",
+      "ClientCompiled": true,
+      "Assertions": 3,
+      "Mode": "Edit",
+      "Passed": true,
+      "Limitations": {
+        "1": "Raycast fixture in Edit only; no mouse input, touch, walking or Play."
+      }
+    },
+    "Compiled": 26,
+    "Plots": {
+      "1": {
+        "Name": "Plot_05",
+        "Parts": 68
+      },
+      "2": {
+        "Name": "Plot_08",
+        "Parts": 68
+      },
+      "3": {
+        "Name": "Plot_02",
+        "Parts": 68
+      },
+      "4": {
+        "Name": "Plot_03",
+        "Parts": 68
+      },
+      "5": {
+        "Name": "Plot_04",
+        "Parts": 68
+      },
+      "6": {
+        "Name": "Plot_07",
+        "Parts": 68
+      },
+      "7": {
+        "Name": "Plot_01",
+        "Parts": 68
+      },
+      "8": {
+        "Name": "Plot_06",
+        "Parts": 68
+      }
+    },
+    "PreservedNonFloorParts": 1321,
+    "Mode": "Edit",
+    "Assertions": 1688,
+    "FloorAppearanceUpdated": 8
+  },
+  "Assets": {
+    "Meshes": {
+      "1": {
+        "SourceName": "BI_Estrutura",
+        "Name": "BI_Estrutura",
+        "MeshId": "rbxassetid://91581920722312",
+        "Center": {
+          "1": 0,
+          "2": 15.5,
+          "3": 4.099998474121094
+        },
+        "Size": {
+          "1": 162.39999389648438,
+          "2": 23,
+          "3": 154.1999969482422
+        }
+      },
+      "2": {
+        "SourceName": "BI_Colunas",
+        "Name": "BI_Colunas",
+        "MeshId": "rbxassetid://108200689025321",
+        "Center": {
+          "1": 0,
+          "2": 14.299999237060547,
+          "3": 0
+        },
+        "Size": {
+          "1": 165.1999969482422,
+          "2": 28.599998474121094,
+          "3": 165.1999969482422
+        }
+      },
+      "3": {
+        "SourceName": "BI_Roof",
+        "Name": "Roof",
+        "MeshId": "rbxassetid://111989643331949",
+        "Center": {
+          "1": 0,
+          "2": 28.399999618530273,
+          "3": 0
+        },
+        "Size": {
+          "1": 162,
+          "2": 2.2600021362304688,
+          "3": 162
+        }
+      },
+      "4": {
+        "SourceName": "BI_MoldurasBrancas",
+        "Name": "BI_MoldurasBrancas",
+        "MeshId": "rbxassetid://113713296016071",
+        "Center": {
+          "1": 0,
+          "2": 14.5,
+          "3": 6.060001373291016
+        },
+        "Size": {
+          "1": 164.24000549316406,
+          "2": 18.799999237060547,
+          "3": 152.1199951171875
+        }
+      },
+      "5": {
+        "SourceName": "BI_StudsCinza",
+        "Name": "BI_StudsCinza",
+        "MeshId": "rbxassetid://106638075133210",
+        "Center": {
+          "1": 0,
+          "2": 14.549999237060547,
+          "3": 0
+        },
+        "Size": {
+          "1": 165.66000366210938,
+          "2": 26.619998931884766,
+          "3": 165.66000366210938
+        }
+      },
+      "6": {
+        "SourceName": "BI_CercaMadeira",
+        "Name": "BI_CercaMadeira",
+        "MeshId": "rbxassetid://71675957381843",
+        "Center": {
+          "1": 0,
+          "2": 2.200000047683716,
+          "3": 0
+        },
+        "Size": {
+          "1": 165,
+          "2": 2.549999952316284,
+          "3": 128.02935791015625
+        }
+      },
+      "7": {
+        "SourceName": "BI_MolduraPlaca",
+        "Name": "BI_MolduraPlaca",
+        "MeshId": "rbxassetid://72933067539878",
+        "Center": {
+          "1": 0,
+          "2": 29,
+          "3": -83.61000061035156
+        },
+        "Size": {
+          "1": 61.5,
+          "2": 10.349998474121094,
+          "3": 1.720001220703125
+        }
+      }
+    }
+  }
+}

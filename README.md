@@ -22,7 +22,7 @@ StealAnEggTycoonV3/
   Server/                       # Fontes editáveis do servidor e ensaios
   Shared/                       # Configuração, construção, arte e guia da HUD
   Map/                          # Mapa editado: snapshot RBXM e dados scene.json
-  Blender/                      # .blend, .blend1, gerador, geometria e 19 FBX
+  Blender/                      # Criação de criaturas, decoração e bases; cenas, geradores e FBX
   Backups/                      # V2 e snapshots anteriores à continuação/HUD
   Resultados/                   # Entrega, cópias dos fontes, Blender e testes
   StealAnEggTycoonV3.rbxlx       # Projeto portátil do Roblox Studio
@@ -45,7 +45,7 @@ cd steal-an-egg-tycoon
 ```
 
 1. Clone este repositório e abra `StealAnEggTycoonV3/StealAnEggTycoonV3.rbxlx` no Roblox Studio.
-2. Pressione Play. A correção em implementação faz `WorldFactory` reutilizar o mapa já editado e renovar apenas as malhas de ovos e guardiões por sessão. O portátil usa o mapa capturado em `Map/scene.json`. Essa passagem ainda precisa de validação Edit → Play e do pacote atualizado. Para testar DataStore e permissões de malha, associe a cópia a uma experiência em que você tenha acesso. Consulte o LEIA-ME antes de habilitar ensaios.
+2. O portátil usa o mapa capturado em `Map/scene.json`. `WorldFactory` reutiliza o cenário e renova a arte de ovos e guardiões por sessão. A revisão atual das bases foi conferida em Editar; seu teste visual em Play fica com o usuário. Para testar DataStore e permissões de malha, associe a cópia a uma experiência em que você tenha acesso. Consulte o LEIA-ME antes de habilitar ensaios.
 3. No Blender, abra `StealAnEggTycoonV3/Blender/EggTycoonV3.blend`. O gerador `build_assets.py` e as exportações FBX estão na mesma pasta.
 4. Antes de trabalhar numa etapa, registre responsável, branch e arquivos pretendidos em um novo arquivo de `coordination/tasks/`, usando [o modelo](coordination/tasks/TEMPLATE.md).
 5. Entregue código e registro da tarefa no mesmo conjunto de commits. Ao terminar, atualize o changelog e informe testes realizados e pendências.
@@ -64,7 +64,7 @@ Na raiz do repositório, com Python 3 disponível:
 python StealAnEggTycoonV3/verify_package.py
 ```
 
-Esse verificador confere os hashes e as cópias dos 24 fontes Luau, os 19 FBX, o arquivo Blender, a leitura do portátil, o backup da V2 e os oito scripts de ensaio desativados. Execute-o antes de entregar alterações no pacote. Os testes de jogabilidade continuam sendo realizados no Studio.
+Esse verificador confere os hashes e as cópias dos 26 fontes Luau, os 19 FBX originais de criaturas, o arquivo Blender principal, a leitura do portátil, o backup da V2 e os oito scripts de ensaio desativados. A arte adicional possui seus próprios arquivos e relatórios em `Blender/Decoracao/` e `Blender/BaseIndustrial/`. Execute-o antes de entregar alterações no pacote. Os testes de jogabilidade continuam sendo realizados no Studio.
 
 O exemplo [verificar-pacote.workflow.yml](docs/verificar-pacote.workflow.yml) permite automatizar essa verificação no GitHub. Para ativá-lo, um desenvolvedor com permissão de publicação de workflows pode copiá-lo para `.github/workflows/verify.yml`. Ele é entregue como exemplo e não está ativo.
 
@@ -85,13 +85,15 @@ Os atributos do Git preservam os bytes dos arquivos para manter válidos os hash
 
 A importação de 20/10/2026 foi validada por um clone novo do GitHub: os 140 arquivos versionados chegaram idênticos à pasta original, e o verificador do pacote passou também no clone.
 
-## Bases atuais — 21/10/2026
+## Bases atuais — 22/10/2026
 
-As oito bases têm visual de pavilhão com cercas de madeira e portal laser, em `Shared/BaseShell.luau` revisão 2. A branch `codex/bases-laser` reúne a continuação moderna de codex-b, as melhorias de HUD já encontradas no Studio e o catálogo de decoração. Máquinas continuam livres e guardadas no kit inicial; a estrutura da base vem pronta. Veja `Resultados/BasesLaser/README.md` para prévias e validação. O portátil desta branch foi regenerado com os 25 fontes e o mapa capturado nesta etapa.
+As oito bases usam arte original do Blender em `Shared/BaseShell.luau` revisão 3: estrutura cinza com studs, janelas brancas, placa de madeira e 35 lasers vermelhos por fachada. As máquinas continuam livres para construir. Sete malhas permanentes por base; piso, pivô, bateria e conteúdos preservados, com cor do piso ajustada para cinza.
 
-## Estado da versão
+A branch `codex/bases-blender` continua a integração de codex-b e do catálogo decorativo. A entrega está em `Resultados/BaseIndustrial/`; criação e FBX em `Blender/BaseIndustrial/`. O portátil e as cópias dos 26 fontes foram regenerados e verificados, incluindo 153 malhas estáticas. Conferência em Editar; sem novo Play, dois clientes ou medição de desempenho. O pavilhão da revisão 2 permanece no histórico e nos backups.
 
-A continuação atual está em `codex-b/concluir-escolha-base-preview`, a partir da etapa iniciada em `codex-a/escolha-base-preview` e dos fontes parciais do RAR recebido em 21/10. O jogador nasce na praça, escolhe um terreno livre e monta seu kit manualmente. Paredes e cobertura são montadas por escolha explícita; a prévia de posicionamento mostra o objeto real semitransparente. Perfis antigos preservam o progresso. Consulte o [registro da continuação](coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md).
+## Funcionalidades preservadas
+
+A continuação integrada de codex-b foi entregue em `codex-b/concluir-escolha-base-preview`, a partir da etapa iniciada em `codex-a/escolha-base-preview` e dos fontes parciais do RAR recebido em 21/10. O jogador nasce na praça, escolhe um terreno livre e monta seu kit manualmente. A estrutura agora vem pronta conforme a etapa visual posterior; máquinas e esteiras são montadas pelo jogador. A prévia de posicionamento mostra o objeto real semitransparente. Perfis antigos preservam o progresso. Consulte o [registro da continuação](coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md).
 
 A HUD, o mapa editado e a posição do rebirth junto ao saldo foram preservados. Os relatórios anteriores incluem integração com dois clientes, regressões do servidor e ensaio móvel no simulador; não são certificação da nova etapa. O teste visual do fluxo novo fica com o usuário, conforme a passagem anterior. O teste em celular físico e a rodada geral final de bugs continuam pendentes. Monetização, trocas e produção offline ficam para outra etapa.
 

@@ -1,0 +1,22 @@
+{
+  "sources": 26,
+  "deliveredSourceCopies": 26,
+  "fbx": 19,
+  "disabledTestScripts": 8,
+  "portableParses": true,
+  "allSourceCopiesMatch": true,
+  "v2BackupIncluded": true,
+  "embeddedSourceInstancesVerified": 26,
+  "embeddedSourceHierarchyMatches": true,
+  "allEmbeddedSourcesMatch": true,
+  "v2BackupExecutablesDisabled": true,
+  "authoredMapIncluded": true,
+  "authoredSceneInstances": 2838,
+  "authoredPartsVerified": 1872,
+  "ringRoadSegmentsVerified": 32,
+  "plots": 8,
+  "nests": 14,
+  "guardians": 14,
+  "manualOuterWallsIncluded": true,
+  "renewableSessionArtPlaceholders": 460
+}

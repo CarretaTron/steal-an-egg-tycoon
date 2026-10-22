@@ -1,13 +1,14 @@
--- Run in Edit through the Studio MCP. Read Rows in bounded JSON batches and
--- Serialized in bounded hexadecimal batches; write Map/scene.json + AuthoredMap.rbxm.
--- Native RBXM preserves the complete authored scene; JSON uses transparent pivots
--- for session mesh parts, which WorldFactory renews from Blender geometry in Play.
+-- Run in Edit through the Studio MCP. Native RBXM remains the exact snapshot.
+-- JSON keeps session art as transparent pivots and permanent, nonphysical MeshParts
+-- as MeshParts. These visual meshes rely on separate authored Part colliders.
 assert(not game:GetService('RunService'):IsRunning(),'Exporte o mapa no modo Editar.')
 local roots={}
 for _,object in ipairs(workspace:GetChildren()) do
  if not object:IsA('Camera') and not object:IsA('Terrain') then table.insert(roots,object) end
 end
 local serialized=game:GetService('SerializationService'):SerializeInstancesAsync(roots)
+-- Preserve access to the exact snapshot even if the portable representation is refused.
+_G.EggTycoonMapExport={Serialized=serialized}
 local list={}
 for _,root in ipairs(roots) do
  table.insert(list,root)
@@ -27,21 +28,53 @@ local function pack(value)
  if kind=='EnumItem' then return {Type='token',Value=value.Value} end
  if kind=='string' or kind=='number' or kind=='boolean' then return {Type=kind,Value=value} end
 end
-local fields={'Name','Size','CFrame','Color','Material','MaterialVariant','Transparency','Reflectance','Anchored','CanCollide','CanTouch','CanQuery','CastShadow','Shape','TopSurface','BottomSurface','LeftSurface','RightSurface','FrontSurface','BackSurface','PrimaryPart','PivotOffset','StudsOffset','StudsOffsetWorldSpace','MaxDistance','AlwaysOnTop','Adornee','Text','TextColor3','TextSize','Font','TextStrokeTransparency','TextStrokeColor3','TextScaled','TextWrapped','TextXAlignment','TextYAlignment','BackgroundColor3','BackgroundTransparency','BorderSizePixel','AnchorPoint','Rotation','ZIndex','Visible','CornerRadius','Thickness','LightEmission','Brightness','Range','Value','ActionText','ObjectText','KeyboardKeyCode','GamepadKeyCode','MaxActivationDistance','HoldDuration','RequiresLineOfSight','ClickablePrompt','Style','Color3','ResetOnSpawn','PixelsPerStud','Face','Duration','Neutral','Enabled','Active','BaseMaterial','ColorMap','NormalMap','MetalnessMap','RoughnessMap','StudsPerTile','ModelStreamingMode'}
-local rows={}
-for i,object in ipairs(list) do
- local placeholder=object:IsA('MeshPart')
- if placeholder then
-  local world=workspace:FindFirstChild('EggTycoonV3')
-  local model=object:FindFirstAncestorOfClass('Model')
-  local sessionArt=world and (object:IsDescendantOf(world.Guardians) or (model and model.Name=='Egg' and model.Parent and model.Parent.Parent==world.Nests))
-  assert(sessionArt,'Mesh decorativo exige exportação própria; snapshot RBXM preservado: '..object:GetFullName())
+local function permanent(value)
+ return type(value)=='string' and value:match('^rbxassetid://[1-9]%d*$')~=nil
+end
+local function finitePositive(vector)
+ for _,v in ipairs({vector.X,vector.Y,vector.Z}) do
+  if v~=v or v<=0 or v==math.huge then return false end
  end
+ return true
+end
+local fields={'Name','Size','CFrame','Color','Material','MaterialVariant','Transparency','Reflectance','Anchored','CanCollide','CanTouch','CanQuery','CastShadow','Shape','TopSurface','BottomSurface','LeftSurface','RightSurface','FrontSurface','BackSurface','PrimaryPart','PivotOffset','StudsOffset','StudsOffsetWorldSpace','MaxDistance','AlwaysOnTop','Adornee','Text','TextColor3','TextSize','Font','TextStrokeTransparency','TextStrokeColor3','TextScaled','TextWrapped','TextXAlignment','TextYAlignment','BackgroundColor3','BackgroundTransparency','BorderSizePixel','AnchorPoint','Rotation','ZIndex','Visible','CornerRadius','Thickness','LightEmission','Brightness','Range','Value','ActionText','ObjectText','KeyboardKeyCode','GamepadKeyCode','MaxActivationDistance','HoldDuration','RequiresLineOfSight','ClickablePrompt','Style','Color3','ResetOnSpawn','PixelsPerStud','Face','Duration','Neutral','Enabled','Active','BaseMaterial','ColorMap','NormalMap','MetalnessMap','RoughnessMap','StudsPerTile','ModelStreamingMode'}
+table.insert(fields,'SizingMode');table.insert(fields,'CanvasSize')
+local meshFields={'MeshId','TextureID','DoubleSided','CollisionFidelity','RenderFidelity'}
+local rows={}
+local staticMeshes=0
+local world=workspace:FindFirstChild('EggTycoonV3')
+for i,object in ipairs(list) do
+ assert(not object:IsA('LuaSourceContainer'),'Scripts no Workspace exigem exportação própria: '..object:GetFullName())
  assert(not object:IsA('UnionOperation'),'Use o snapshot RBXM nativo para preservar operações sólidas.')
+ local mesh=object:IsA('MeshPart')
+ local placeholder=false
+ if mesh then
+  local model=object:FindFirstAncestorOfClass('Model')
+  placeholder=world and ((world:FindFirstChild('Guardians') and object:IsDescendantOf(world.Guardians))
+   or (model and model.Name=='Egg' and model.Parent and model.Parent.Parent==world:FindFirstChild('Nests'))) or false
+  if not placeholder then
+   assert(permanent(object.MeshId),'Malha estática sem ID permanente: '..object:GetFullName())
+   assert(object.TextureID=='' or permanent(object.TextureID),'Textura sem ID permanente: '..object:GetFullName())
+   assert(object.Anchored and not object.CanCollide and not object.CanTouch,
+    'A exportação JSON aceita apenas malhas visuais ancoradas, sem colisão/toque; mantenha colliders Part separados: '..object:GetFullName())
+   assert(not object:FindFirstChildWhichIsA('Bone',true),'Malha com rig exige snapshot nativo: '..object:GetFullName())
+   assert(not object:FindFirstChildWhichIsA('SurfaceAppearance',true),'SurfaceAppearance exige suporte próprio: '..object:GetFullName())
+   local ok,skinned=pcall(function() return object.HasSkinnedMesh end)
+   assert(not ok or not skinned,'Malha skinned exige snapshot nativo: '..object:GetFullName())
+   assert(finitePositive(object.MeshSize),'Dimensões originais inválidas ou degeneradas: '..object:GetFullName())
+   staticMeshes+=1
+  end
+ end
  local row={Id=ids[object],Class=placeholder and 'Part' or object.ClassName,Parent=ids[object.Parent],Properties={},Attributes={},Tags=object:GetTags()}
  for _,field in ipairs(fields) do
   local ok,value=pcall(function() return object[field] end)
   if ok then row.Properties[field]=pack(value) end
+ end
+ if mesh and not placeholder then
+  for _,field in ipairs(meshFields) do row.Properties[field]=pack(object[field]) end
+  -- MeshSize is the public read-only source extent. The native serializer stores
+  -- that extent under InitialSize; using Size here would erase imported scaling.
+  row.Properties.InitialSize=pack(object.MeshSize)
  end
  if object:IsA('GuiObject') then row.Properties.Position=pack(object.Position) end
  for name,value in pairs(object:GetAttributes()) do
@@ -57,5 +90,5 @@ for i,object in ipairs(list) do
  table.insert(rows,row)
  if i%100==0 then task.wait() end
 end
-_G.EggTycoonMapExport={Rows=rows,Serialized=serialized}
-return {Instances=#rows,NativeBytes=buffer.len(serialized),Roots=#roots}
+_G.EggTycoonMapExport={Rows=rows,Serialized=serialized,StaticMeshParts=staticMeshes}
+return {Instances=#rows,NativeBytes=buffer.len(serialized),Roots=#roots,StaticMeshParts=staticMeshes}

@@ -1,0 +1,62 @@
+[
+  {
+    "path": "Blender/BaseIndustrial/BaseIndustrial.blend",
+    "bytes": 534535,
+    "sha256": "8bd0cc110d2c22d99a52ad41aa54f7f6dcc226338e4e3fd7fd5afa68be5c9e19"
+  },
+  {
+    "path": "Blender/BaseIndustrial/Exportacoes/BaseIndustrial.fbx",
+    "bytes": 174764,
+    "sha256": "44010d9166284a948725320e3bba61b11e13a146b3b935f6262c9bd77456a0a8"
+  },
+  {
+    "path": "Blender/BaseIndustrial/build_base.py",
+    "bytes": 16594,
+    "sha256": "69d737bbb35f738335f25b25220db999380de17d059fa981a8e9d257a45a4073"
+  },
+  {
+    "path": "Blender/BaseIndustrial/geometry.json",
+    "bytes": 721746,
+    "sha256": "fdf5e3685184aae477a3e5667c266a5157366102acb8da75be3a2c581e604c6c"
+  },
+  {
+    "path": "Shared/BaseShell.luau",
+    "bytes": 8548,
+    "sha256": "2d50379e192ab5da5f83213e7b876dbacaef196606fcb3a612ba15074d6b76a3"
+  },
+  {
+    "path": "Shared/BaseIndustrialData.luau",
+    "bytes": 1624,
+    "sha256": "80e9a484e2af39b97f32a021f048307fd6e2b07f2d8c45ce4c4aaa058e84efd9"
+  },
+  {
+    "path": "Client/Client.client.luau",
+    "bytes": 68877,
+    "sha256": "39a82a83acb16daabcbd3f3078a153d5912544205ed1d8c772a7440c1112e9b0"
+  },
+  {
+    "path": "Map/AuthoredMap.rbxm",
+    "bytes": 417160,
+    "sha256": "37bedcab689153070068d669c75f41d5853d1ae9ae97b64ea7ede0fabf999fbb"
+  },
+  {
+    "path": "Map/scene.json",
+    "bytes": 3186539,
+    "sha256": "629871933ad176b09cb3a6df65377a66de5218615a0668db3007845306ce4689"
+  },
+  {
+    "path": "StealAnEggTycoonV3.rbxlx",
+    "bytes": 3958291,
+    "sha256": "2d06b877e3e3a540b0106fe45bf26630b4841e9d364edb542293f767361cc60f"
+  },
+  {
+    "path": "Resultados/BaseIndustrial/BasesIndustriais.rbxm",
+    "bytes": 41564,
+    "sha256": "c3ce64930b2778c8b02eee93f96133779e96ebc1ad253eeada69b3354b728fd3"
+  },
+  {
+    "path": "Resultados/BaseIndustrial/PreviaBaseIndustrial.rbxm",
+    "bytes": 35144,
+    "sha256": "e0632cfc382f538483d53a3a94f61f07a5041577291dc2de9c29b0d97e2b2b83"
+  }
+]

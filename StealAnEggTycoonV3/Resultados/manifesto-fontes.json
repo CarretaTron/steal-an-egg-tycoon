@@ -4,8 +4,12 @@
     "sha256": "226f43229d6f5f4ff19c63a48a720dd9ede80fd942d7670eeebaf7b1caa167de"
   },
   {
+    "path": "Shared/BaseIndustrialData.luau",
+    "sha256": "80e9a484e2af39b97f32a021f048307fd6e2b07f2d8c45ce4c4aaa058e84efd9"
+  },
+  {
     "path": "Shared/BaseShell.luau",
-    "sha256": "117add3ce903a40c1fd5dadd224a65eed7515e50ca0d8b2a4e510d75c8b36b80"
+    "sha256": "2d50379e192ab5da5f83213e7b876dbacaef196606fcb3a612ba15074d6b76a3"
   },
   {
     "path": "Shared/BuildRules.luau",
@@ -85,7 +89,7 @@
   },
   {
     "path": "Client/Client.client.luau",
-    "sha256": "6a1cfe5d98e55cebc4091f1243f07ad2064828ae28d2256f9820a39732018c09"
+    "sha256": "39a82a83acb16daabcbd3f3078a153d5912544205ed1d8c772a7440c1112e9b0"
   },
   {
     "path": "Client/StudioMobile.client.luau",

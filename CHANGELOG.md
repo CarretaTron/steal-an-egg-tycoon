@@ -2,6 +2,17 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-22 — Bases industriais modeladas no Blender
+
+- Pavilhão anterior substituído nas oito bases por um modelo original próximo das prints: estrutura cinza com studs reais, grandes janelas brancas, teto sólido, placa de madeira, degraus vermelhos e detalhes baixos de cerca cruzada.
+- Sete malhas Blender por base, com 13.440 vértices e 20.688 triângulos no conjunto; transferência real por FBX/Importer, com IDs permanentes registrados em Shared/BaseIndustrialData.luau. Cena, gerador, geometria e FBX preservados.
+- Shared/BaseShell.luau revisão 3 mantém 68 peças por base e usa colisores Part separados. Fachada com 35 feixes e campo laser 140 × 25; terrenos livres ficam desligados. Pisos mantêm identidade, tamanho e posição, com cor cinza intencional. Bateria, placa funcional, conteúdos e pivôs preservados.
+- Filtro de seleção do Client passa a ignorar RoofCollision ao selecionar máquinas, mantendo o teto consultável pelos raios de combate. Somente BaseShell e essa condição do Client mudaram entre os 25 fontes anteriores; novo módulo de dados adiciona o 26º fonte.
+- Conferência em Edit: 1.846 verificações estruturais e 1.688 de apresentação/preservação, mais três verificações do filtro de seleção. 26 fontes compilados; 23 anteriores inalterados. 1.321 peças externas aos pisos preservadas. Sete malhas recarregadas pelo módulo sem usar o modelo de importação.
+- Exportador passou a preservar malhas estáticas permanentes, incluindo tamanho original InitialSize, sem convertê-las em blocos. Mapa atualizado: oito raízes, 2.838 instâncias e 153 MeshParts (56 bases + 97 catálogo). Snapshot anterior em Backups/AntesBaseBlender/MapRev2/.
+- Portátil regenerado e verificado: 26 fontes/cópias, oito ensaios desativados e V2 preservada. As 153 malhas foram comparadas com o XML final; ensaio sintético recusou sete adulterações. Não houve Play, dois clientes, perfis ou teste de FPS; não foi publicada a experiência.
+- Entrega, prévia e relatórios em StealAnEggTycoonV3/Resultados/BaseIndustrial/. Registro: coordination/tasks/2026-10-21-codex-a-base-blender.md. Branch codex/bases-blender.
+
 ## 2026-10-21 — Bases de jardim com portal laser
 
 - Oito estruturas substituídas por pavilhões originais: cercas cruzadas de madeira, pilares creme, arenito, borda turquesa, cobertura transparente sólida, placa dourada e emblema de ovo. Sete feixes vermelhos na entrada; terrenos livres mantêm o laser desligado.

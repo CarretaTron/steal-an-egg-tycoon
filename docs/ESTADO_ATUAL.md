@@ -1,14 +1,16 @@
-# Estado atual — 21/10/2026
+# Estado atual — 22/10/2026
 
-## Etapa atual: bases de jardim com portal laser
+## Etapa atual: bases industriais criadas no Blender
 
-As oito bases conectadas agora usam `Shared/BaseShell.luau` revisão 2: pavilhão aberto com cercas de madeira, pilares claros, borda turquesa, teto transparente sólido e portal com sete feixes vermelhos. Estrutura pronta, máquinas livres, escolha do terreno e spawn na praça continuam como na versão mais recente de codex-b. Lasers desligados em terrenos livres; a propriedade e a bateria continuam controladas pelo servidor.
+As oito bases conectadas usam `Shared/BaseShell.luau` revisão 3 e `Shared/BaseIndustrialData.luau`: sete malhas originais do Blender por base, estrutura cinza com studs reais, janelas brancas, placa madeira, teto sólido, degraus e fachada com 35 lasers vermelhos. Há detalhes discretos da cerca cruzada abaixo das janelas. Cada base tem 68 peças. A estrutura vem pronta; máquinas, esteiras e kit manual continuam no fluxo de codex-b. Terrenos livres mantêm os lasers desligados.
 
-A branch `codex/bases-laser` integra a continuação `07112df` e o catálogo `204e284`, preservando também as melhorias de Client/HudGuide encontradas no Studio. O checkout principal antigo continua com seu WIP intacto. A versão atual e o portátil estão no checkout gerenciado `C:/Users/alexp/.codex/worktrees/bases-laser/Roblox aura`; a entrega de bases fica em `Resultados/BasesLaser/`.
+A fonte atual está na branch `codex/bases-blender`, no checkout `C:/Users/alexp/.codex/worktrees/bases-laser/Roblox aura`. A pasta original `D:/Roblox aura` conserva WIP antigo, sem substituição dos seus fontes. Entrega em `Resultados/BaseIndustrial/`, criação em `Blender/BaseIndustrial/`, registro em `coordination/tasks/2026-10-21-codex-a-base-blender.md`. O pavilhão da revisão 2 foi rejeitado pelo usuário e permanece preservado no histórico e no backup `Backups/AntesBaseBlender/`.
 
-Validação em Edit aprovada: 2.651 verificações estruturais, 118 de apresentação e raios até a bateria, oito pivôs/identidades e idempotência, 1.329 peças externas preservadas e 25 fontes compilados. Apenas BaseShell foi alterado no aplicativo. Mapa capturado com 3.098 instâncias; portátil e 25 fontes/cópias verificados. Não houve Play, reinício, acesso a perfis nem dois clientes nesta etapa.
+Pisos, pivôs, bateria, placa funcional e conteúdos preservados. A cor dos oito pisos mudou intencionalmente para cinza; 1.321 peças externas aos pisos ficaram iguais. Colisão e bloqueio de tiros usam Parts separados das malhas visuais. Client recebeu somente a inclusão de RoofCollision no filtro de seleção, permitindo alcançar máquinas com a câmera acima do teto; a consulta de combate permanece ativa.
 
-O catálogo em X=1600 foi retirado temporariamente do Workspace apenas durante a captura do mapa principal e restaurado em seguida. Seus RBXM e fontes continuam na entrega própria. `Map/scene.json` captura o cenário jogável com as bases novas; `Resultados/BasesLaser/PlotsLaser.rbxm` preserva as oito estruturas e `Backups/AntesBaseLaser/` conserva o estado anterior. Consulte o registro `coordination/tasks/2026-10-21-codex-a-bases-laser.md`.
+Validação em Edit aprovada: 1.846 verificações estruturais em clones e 1.688 de apresentação/preservação, mais três verificações do raycast de seleção. Os 26 fontes compilaram e 23 dos 25 anteriores ficaram inalterados. Sete malhas foram carregadas por uma instância nova do módulo, sem usar o modelo importado como cache. Sem Play, reinício, dois clientes, perfis, caminhada ou medição de FPS nesta etapa.
+
+Mapa capturado em Edit: oito raízes, 2.838 instâncias e 153 MeshParts estáticas (56 bases + 97 catálogo). O catálogo em X=1600 está incluído no mapa portátil; não precisa mais ser removido durante a exportação. O exportador preserva IDs permanentes, propriedades e InitialSize; recusa tipos e malhas fora do suporte. O portátil, seus 26 fontes/cópias, os oito ensaios desativados e o backup V2 passaram no verificador. As 153 malhas foram conferidas contra o XML final; sete adulterações sintéticas foram recusadas. Esse XML não foi aberto numa nova sessão do Studio.
 
 ## Histórico: catálogo de decoração
 
@@ -19,22 +21,22 @@ Há vinte modelos originais do Blender prontos em `Workspace/CatalogoDecoracao/M
 
 Conferência aprovada: vinte modelos, 97 malhas permanentes, 10.716 triângulos; tamanhos, cores, materiais, pivôs e ancoragem; 1.656 peças e 25 scripts anteriores preservados. Recarga por ID de três malhas e serialização nativa de ida e volta verificadas. Sem Play, reinício ou dois clientes nesta etapa. O catálogo não exige execução de scripts para copiar seus modelos.
 
-A branch `codex-a/catalogo-decoracao-blender` entrega a arte separadamente. O portátil principal não foi remontado com os fontes locais antigos da etapa interrompida. Antes de integrar ao trabalho mais recente de codex-b, preserve essa base e incorpore os novos arquivos de arte. O exportador de `Map/scene.json` atualmente recusa malhas decorativas; mova a vitrine para ServerStorage antes de capturar só o cenário principal. Cópias colocadas no cenário exigem ampliar o exportador ou preservar a entrega nativa, sem substituir geometria por blocos. Consulte `coordination/tasks/2026-10-21-codex-a-catalogo-decoracao.md`.
+A branch `codex-a/catalogo-decoracao-blender` entregou inicialmente a arte separadamente, preservando o checkout antigo. Essa arte já foi integrada à continuação de codex-b e ao mapa atual. A limitação inicial do exportador foi resolvida nesta etapa para MeshParts visuais permanentes; mantenha os colisores Part separados. Consulte o histórico em `coordination/tasks/2026-10-21-codex-a-catalogo-decoracao.md`.
 
 ## Histórico anterior deste checkout
 
 A V3 jogável e a etapa de HUD estão nos arquivos existentes. O projeto completo foi publicado no repositório público https://github.com/CarretaTron/steal-an-egg-tycoon, com documentação para dois desenvolvedores usando Codex. A importação `2963104` contém 140 arquivos; um clone novo confirmou que todos chegaram idênticos e passou na verificação do pacote. Consulte também `coordination/tasks/2026-10-20-codex-a-repositorio.md`.
 
-A tarefa atual, na branch `codex-b/concluir-escolha-base-preview`, continua a etapa iniciada em `codex-a/escolha-base-preview`. O usuário transferiu a continuação e forneceu um RAR com nove fontes mais recentes ainda não integrados ao pacote. Essa versão passa a nascer na praça, escolher terreno e montar o kit manualmente, com prévia do objeto real semitransparente. O mapa editado e a HUD anterior são preservados. Consulte `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md` para validações e passagem.
+A tarefa anterior, na branch `codex-b/concluir-escolha-base-preview`, continuou a etapa iniciada em `codex-a/escolha-base-preview`. O usuário transferiu a continuação e forneceu um RAR com nove fontes mais recentes ainda não integrados ao pacote. Essa versão passa a nascer na praça, escolher terreno e montar o kit manualmente, com prévia do objeto real semitransparente. O mapa editado e a HUD anterior são preservados. Consulte `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md` para validações e passagem.
 
 ## Projeto preservado
 
-O inventário anterior à criação dos documentos de colaboração contém 127 arquivos, totalizando 10.567.710 bytes, incluindo o RAR original na raiz. Há 24 fontes Luau na árvore principal e 19 exportações FBX. Documentação e registros criados depois aumentam esse total.
+O inventário anterior à criação dos documentos de colaboração contém 127 arquivos, totalizando 10.567.710 bytes, incluindo o RAR original na raiz. Naquele inventário havia 24 fontes Luau e 19 FBX de criaturas. A árvore atual possui 26 fontes, além dos vinte FBX de decoração e um FBX de base. Documentação, arte e registros posteriores aumentam o total.
 
 | Local | Conteúdo e autoridade |
 |---|---|
 | `StealAnEggTycoonV3/Client/`, `Server/`, `Shared/` | Fontes editáveis da versão atual |
-| `StealAnEggTycoonV3/Blender/` | Cena Blender, cena original, backup `.blend1`, gerador Python, geometria e 19 FBX |
+| `StealAnEggTycoonV3/Blender/` | Cenas e geradores de criaturas, decoração e bases; geometria, backups e FBX |
 | `StealAnEggTycoonV3/Map/` | Captura do mapa editado: `AuthoredMap.rbxm` nativo e `scene.json` para empacotamento |
 | `StealAnEggTycoonV3/export_authored_map.luau` | Exportação da captura após alterações manuais no mapa |
 | `StealAnEggTycoonV3/StealAnEggTycoonV3.rbxlx` | Lugar portátil; a correção passa a embutir o mapa de `Map/scene.json` e renovar a arte por sessão |
@@ -48,7 +50,7 @@ O lugar conectado documentado é `119288590672557`. A V2 permanece desativada em
 
 O ciclo é roubar ovo, fugir do guardião, levar à base, incubar, produzir, processar, vender e melhorar a base. São sete biomas e espécies, oito terrenos, construção livre em grade, habitats, incubadoras, processadores, esteiras, vendedor, bateria externa e porta a laser. A praça e o corredor são zonas sem PvP; guardiões continuam perigosos no corredor.
 
-O kit inicial fica no inventário, sem posicionamento automático. Uma base nova começa aberta; o dono monta paredes, cobertura e entrada protegida gratuitamente no cartão de defesas dentro de Construir. Construções, criaturas e defesas de perfis antigos são preservadas e restauradas somente após a escolha do terreno. Rebirth volta ao kit manual. As criaturas produzem a cada quatro segundos; a primeira venda natural de um pintinho básico é $32. Cada habitat desconectado armazena até 20 recursos. O servidor controla o percurso e o pagamento dos recursos; os objetos visuais não decidem o dinheiro.
+O kit inicial fica no inventário, sem posicionamento automático. A estrutura atual vem pronta, com a proteção da entrada dependente da propriedade e da bateria. A antiga etapa de escolha manual das defesas foi substituída pelo pedido posterior de redesenhar as bases. Construções, criaturas e defesas de perfis antigos são preservadas e restauradas somente após a escolha do terreno. Rebirth volta ao kit manual. As criaturas produzem a cada quatro segundos; a primeira venda natural de um pintinho básico é $32. Cada habitat desconectado armazena até 20 recursos. O servidor controla o percurso e o pagamento dos recursos; os objetos visuais não decidem o dinheiro.
 
 Há combate, invasão por bateria, transporte de criatura e devolução/transferência conforme o desfecho, além de melhorias e rebirth. Habitats têm três melhorias individuais de $1.500, $7.500 e $30.000, com bônus de produção de +25%, +50% e +75%. Guardar e recolocar mantém identidade e nível.
 
@@ -81,7 +83,7 @@ A comparação Edit/Play do mapa e a verificação do pacote anterior estão reg
 
 ## Arte e persistência
 
-Os dados do Blender são reconstruídos com EditableMesh e convertidos em conteúdo estático pelo AssetService por sessão. A geometria dos ovos e guardiões foi vista em dois clientes. As 19 exportações FBX acompanham o projeto como alternativa manual; a rota FBX não foi necessária no lugar testado. O gerador Blender grava ao lado do script ou no caminho definido por `ET_OUT`.
+A arte de ovos e guardiões usa dados Blender reconstruídos com EditableMesh e convertidos pelo AssetService por sessão; essa geometria foi vista em dois clientes numa etapa anterior. Seus 19 FBX originais acompanham o projeto como alternativa. A decoração e as bases atuais foram transferidas por FBX/Importer, com IDs de malhas permanentes. O gerador de criaturas grava ao lado do script ou no caminho definido por `ET_OUT`.
 
 Os testes do Studio usam `EggTycoonV3_DEV_v1`, separado do armazenamento LIVE. O acesso às APIs respondeu no lugar vinculado. Falhas de carregamento impedem substituir o progresso; com APIs explicitamente desativadas, há modo de sessão informado ao jogador. Incubações guardam tempo conectado restante; recursos em trânsito possuem identificação e registro de pagamento pendente; falhas de salvamento final mantêm um retrato para nova tentativa.
 
@@ -102,10 +104,10 @@ A primeira tentativa de percurso, que encontrou uma placa bloqueando o caminho, 
 
 Scripts `StudioQA`, `StudioRegression`, `StudioTraversal`, `StudioMobile` e `StudioStress` estão desativados na entrega; módulos QA não devem iniciar ensaios ao serem incluídos. Consulte os scripts e os relatórios antes de ativar um ensaio específico.
 
-## Próxima continuidade
+## Validações anteriores e próxima continuidade
 
 A continuação de escolha de base e prévia está aplicada no Studio em Edit e no portátil da branch `codex-b/concluir-escolha-base-preview`. Foram aprovados os três ensaios offline do jogo (42 casos de ciclo de vida, 359 verificações de combate, 13 casos do guia), 28 contratos estáticos do preview, a compilação dos 24 fontes e a verificação do pacote. O verificador compara também o Source e a hierarquia dos 24 fontes embutidos; nove adulterações em cópias temporárias foram recusadas. Evidências em `Resultados/Testes/escolha-base-preview.json`, `validacao-pacote.json` e `Tests/`.
 
-O próximo passo é o teste visual assumido pelo usuário: escolha de terreno, kit manual, prévia e rotação, dois jogadores, saída/reentrada e preservação do perfil antigo. Nenhum Play nem simulador foi iniciado nesta continuação. Os ensaios históricos precisam ser adaptados ao novo fluxo de escolha antes de executá-los novamente. Studio está liberado em Edit, com os oito ensaios desativados; Blender não foi utilizado.
+O próximo passo é o teste visual assumido pelo usuário, agora com o modelo industrial: escolha de terreno, kit manual, seleção de máquinas com teto oculto, prévia e rotação, dois jogadores, saída/reentrada e preservação do perfil antigo. Nenhum Play nem simulador foi iniciado nesta continuação. Os ensaios históricos precisam ser adaptados ao novo fluxo de escolha antes de executá-los novamente. Studio está liberado em Edit, com os oito ensaios desativados; Blender não foi utilizado naquela continuação de codex-b; foi utilizado nas etapas posteriores de decoração e bases.
 
 Busque o remoto e leia a branch e a tarefa atual antes de trabalhar; `main` pode continuar na importação anterior até integração. O workflow de verificação ainda é exemplo opcional. A revisão geral de bugs e testes em celular físico continuam pendentes. Monetização, trocas e renda offline são etapas futuras.

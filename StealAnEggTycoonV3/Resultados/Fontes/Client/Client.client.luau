@@ -861,7 +861,7 @@ local function selectAt(screen)
  local own=plot()
  if own then
   for _,part in ipairs(own:GetChildren()) do
-   if part.Name=="Roof" or part.Name=="RoofFrame" or part.Name=="Perimeter" then table.insert(excluded,part) end
+   if part.Name=="Roof" or part.Name=="RoofFrame" or part.Name=="RoofCollision" or part.Name=="Perimeter" then table.insert(excluded,part) end
   end
  end
  params.FilterDescendantsInstances=excluded
