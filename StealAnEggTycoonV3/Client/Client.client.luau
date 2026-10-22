@@ -296,7 +296,6 @@ cancelBuild=function()
 end
 gui.Destroying:Connect(function()
  cancelBuild()
- if hud.RestoreRoofCutaway then hud:RestoreRoofCutaway() end
 end)
 function hud:CreateBuildPreview(kind,existing)
  local root=Instance.new('Folder');root.Name='LocalBuildPreview';self.PreviewRoot=root
@@ -642,23 +641,6 @@ local function plot()
 end
 local function plotFrame()
  return state.PlotCFrame or (state.PlotId and C.PlotCFrame(state.PlotId))
-end
-function hud:RestoreRoofCutaway()
- if self.CutawayRoof and self.CutawayRoof.Parent then self.CutawayRoof.LocalTransparencyModifier=0 end
- self.CutawayRoof=nil;self.CutawayPlot=nil
-end
-function hud:UpdateRoofCutaway(targetPlot,enabled)
- if not enabled or not targetPlot or targetPlot:GetAttribute('OwnerUserId')~=player.UserId then
-  self:RestoreRoofCutaway();return
- end
- local roof=targetPlot:FindFirstChild('Roof')
- if not roof or not roof:IsA('BasePart') then self:RestoreRoofCutaway();return end
- if self.CutawayPlot~=targetPlot or self.CutawayRoof~=roof then
-  self:RestoreRoofCutaway()
-  self.CutawayPlot=targetPlot;self.CutawayRoof=roof
- end
- -- Rendering only: the roof remains solid, queryable and opaque for everyone else.
- if roof.LocalTransparencyModifier~=1 then roof.LocalTransparencyModifier=1 end
 end
 local function refreshSelection()
  if not hud:InsidePlot() then selection.Visible=false;highlight.Adornee=nil;return end
@@ -1046,7 +1028,6 @@ function hud:Update(dt)
    selectedId=nil;selection.Visible=false;highlight.Adornee=nil
   end
  end
- self:UpdateRoofCutaway(plot(),inside or build~=nil)
 end
 
 stateRemote.OnClientEvent:Connect(function(snapshot)
@@ -1058,7 +1039,6 @@ stateRemote.OnClientEvent:Connect(function(snapshot)
   selectedId=nil;selection.Visible=false;highlight.Adornee=nil
  end
  if state.Carrying and build then cancelBuild() end
- hud:UpdateRoofCutaway(plot(),hud:InsidePlot() or build~=nil)
  lastCandidateKey=nil
  refreshHUD()
  -- Avoid destroying shop buttons on every energy tick.

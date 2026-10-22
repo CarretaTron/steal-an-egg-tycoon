@@ -2,6 +2,15 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-22 — Bases sem cercas e teto sempre visível
+
+- Removida a malha baixa BI_CercaMadeira das oito bases, dos dados de montagem e da nova criação Blender. BaseShell revisão 4 impede seu retorno na reconstrução; seis malhas e 67 peças por base.
+- Retirado do Client o código de recorte do teto e suas três chamadas. Entrar na base ou construir não altera mais a transparência local do teto; colisão e seleção das máquinas foram preservadas.
+- Nova cena, gerador, geometria e FBX de seis malhas em Blender/BaseIndustrialSemCercas/. Seis IDs já importados foram reaproveitados; modelos anteriores preservados.
+- Snapshot renovado: 2.830 instâncias, oito raízes e 145 MeshParts. Portátil/cópias dos 26 fontes regenerados e conferidos; todas as 145 malhas comparadas ao XML final.
+- Conferência em Edit: 45 verificações de ausência das cercas, opacidade/colisão do teto, idempotência e reconstrução, com 26 fontes compilados. Sem Play ou perfis.
+- Entrega e evidências em Resultados/SemCercasTeto/; backup em Backups/AntesRemoverCercasTeto/. Registro: coordination/tasks/2026-10-22-codex-a-sem-cercas-teto.md. Integração no PR #3 das bases.
+
 ## 2026-10-22 — Bases industriais modeladas no Blender
 
 - Pavilhão anterior substituído nas oito bases por um modelo original próximo das prints: estrutura cinza com studs reais, grandes janelas brancas, teto sólido, placa de madeira, degraus vermelhos e detalhes baixos de cerca cruzada.

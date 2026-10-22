@@ -1,7 +1,7 @@
 -- Blender-authored industrial shell. Gameplay contents and plot identities stay authored.
 local Data=require(script.Parent.BaseIndustrialData)
 local AssetService=game:GetService('AssetService')
-local Shell={Revision=3}
+local Shell={Revision=4}
 local cache={}
 local legacy={Perimeter=true,Frame=true,Roof=true,RoofFrame=true,DoorHeader=true,Laser=true,LaserBeam=true}
 

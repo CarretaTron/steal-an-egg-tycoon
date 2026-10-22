@@ -1,0 +1,11 @@
+{
+  "staticMeshPartsVerified": 145,
+  "initialMeshExtentsVerified": 145,
+  "Passed": true,
+  "SceneInstances": 2830,
+  "FencesInMap": 0,
+  "CutawayCodeRemoved": true,
+  "Limitations": [
+    "XML and Edit checks only; no Play or client input."
+  ]
+}

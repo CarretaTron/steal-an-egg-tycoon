@@ -2,8 +2,8 @@
 
 Esta pasta preserva a praça circular ajustada manualmente, os caminhos, as oito bases, os sete biomas e as paredes externas do lugar `119288590672557`.
 
-- `AuthoredMap.rbxm`: snapshot nativo completo dos oito objetos de raiz exportáveis do Workspace, com 2.838 instâncias. Preserva as malhas e propriedades originais para edição no Studio.
-- `scene.json`: hierarquia tipada utilizada por `package_project.py` para incluir o mapa atual no portátil. 153 malhas estáticas permanentes mantêm geometria, IDs e InitialSize. Peças de malha dos ovos/guardiões viram pivôs transparentes no portátil; `WorldFactory` renova essas malhas a partir dos dados Blender ao iniciar a sessão.
+- `AuthoredMap.rbxm`: snapshot nativo completo dos oito objetos de raiz exportáveis do Workspace, com 2.830 instâncias. Preserva as malhas e propriedades originais para edição no Studio.
+- `scene.json`: hierarquia tipada utilizada por `package_project.py` para incluir o mapa atual no portátil. 145 malhas estáticas permanentes mantêm geometria, IDs e InitialSize. Peças de malha dos ovos/guardiões viram pivôs transparentes no portátil; `WorldFactory` renova essas malhas a partir dos dados Blender ao iniciar a sessão.
 
 ## Depois de editar o mapa
 
@@ -29,3 +29,9 @@ Snapshot atual renovado em Edit depois de aplicar BaseShell revisão 3 às oito 
 O exportador aceita malhas visuais ancoradas, sem colisão/toque e com IDs permanentes; preserva InitialSize, tamanho, transformação, materiais e opções de renderização. Colisões continuam em Parts separados. Malhas com rig, SurfaceAppearance, IDs temporários, colisão própria ou operações sólidas interrompem a exportação. A prévia isolada não está no mapa.
 
 Portátil regenerado e verificado com 26 fontes; todas as 153 malhas e suas dimensões originais foram comparadas com o XML final. Sem abrir o XML em outra sessão do Studio e sem novo Play nesta etapa.
+
+## Captura sem cercas — 22/10/2026
+
+Captura atual da revisão 4: oito raízes, 2.830 instâncias, 1.864 peças estáticas e 145 MeshParts (48 das bases e 97 do catálogo). Removidas somente as oito BI_CercaMadeira. Roof e RoofCollision preservados; o Client não esconde mais o teto.
+
+Backup da captura anterior em Backups/AntesRemoverCercasTeto/MapRev3/. Portátil regenerado com 26 fontes; pacote e 145 malhas conferidos. Sem novo Play nesta revisão.

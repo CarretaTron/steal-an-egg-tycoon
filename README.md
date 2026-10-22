@@ -87,9 +87,9 @@ A importação de 20/10/2026 foi validada por um clone novo do GitHub: os 140 ar
 
 ## Bases atuais — 22/10/2026
 
-As oito bases usam arte original do Blender em `Shared/BaseShell.luau` revisão 3: estrutura cinza com studs, janelas brancas, placa de madeira e 35 lasers vermelhos por fachada. As máquinas continuam livres para construir. Sete malhas permanentes por base; piso, pivô, bateria e conteúdos preservados, com cor do piso ajustada para cinza.
+As oito bases usam arte original do Blender em `Shared/BaseShell.luau` revisão 4: estrutura cinza com studs, janelas brancas, placa de madeira e 35 lasers vermelhos por fachada. As cercas baixas de madeira foram removidas; o teto permanece visível ao entrar e construir. As máquinas continuam livres. São seis malhas e 67 peças por base, mantendo piso, pivô, bateria e conteúdos.
 
-A branch `codex/bases-blender` continua a integração de codex-b e do catálogo decorativo. A entrega está em `Resultados/BaseIndustrial/`; criação e FBX em `Blender/BaseIndustrial/`. O portátil e as cópias dos 26 fontes foram regenerados e verificados, incluindo 153 malhas estáticas. Conferência em Editar; sem novo Play, dois clientes ou medição de desempenho. O pavilhão da revisão 2 permanece no histórico e nos backups.
+A branch `codex/bases-blender` continua a integração de codex-b e do catálogo decorativo. A entrega atual está em `Resultados/SemCercasTeto/`; criação e FBX em `Blender/BaseIndustrialSemCercas/`. O portátil e as cópias dos 26 fontes foram regenerados e verificados, incluindo 145 malhas estáticas. Conferência em Editar; sem novo Play, dois clientes ou medição de desempenho. O pavilhão da revisão 2 permanece no histórico e nos backups.
 
 ## Funcionalidades preservadas
 
