@@ -1,6 +1,30 @@
 # Estado atual — 22/10/2026
 
-## Etapa atual: geradores apoiados no chão
+## Etapa atual: avenida compacta com bases de 144 studs
+
+Oito tycoons em quatro pares e portas voltadas para a rua central. O padrão foi reduzido 10%, de 160 para 144 × 144 studs. Centros X±190, Y1, Z440/684/928/1172; entrada dos biomas 340 studs mais próxima que na primeira avenida. Praça circular e spawn preservados; as cem decorações existentes foram reposicionadas. Rua de 32 studs e ramais de 20; corredor seguro X±90, Z1260..2610. Rua entre bases segue com PvP.
+
+Config.PlotHalf=72/LegacyPlotHalf=80 e BaseShell revisão 5. Máquinas, criaturas, gerador e grade de quatro studs mantêm escala. Regras/HUD/laser/roubo/claim/entrega respeitam o tamanho real. Um layout salvo válido no espaço anterior que não caiba no novo mantém 160 durante a ocupação; nenhuma conversão de IDs, posições, inventário ou circuito. Ao vagar, a base retorna a 144. Terrenos padrão deixam 100 studs entre si; uma base legada maior pode reduzir essa margem, sem sobreposição de pisos.
+
+Pacote vigente: Resultados/MapaCompacto/, com 28 fontes e mapa de 3.952 instâncias/seis raízes/675 malhas. Resultados/MapaFileiras/ é histórico da avenida maior. Backups da etapa compacta em Backups/AntesMapaCompacto/; captura anterior do Studio e mapa circular versionado permanecem separados em Backups/AntesMapaFileiras/.
+
+Validação em Edit: 3.563 verificações, 56 rotas de roubo simuladas, 200 amostras de chão, 28 fontes compilados. Dois exemplos de layouts antigos preservados; Combat real exercitado com personagens e visuais de máquinas simulados. Zero interseções com paredões. Harness de Combat com mocks lexicais passou 365 verificações. Não houve Play, DataStore, perfis reais, dois clientes, toque físico ou medição de FPS. Tempos de 13,1/13,6 s entre portas são estimativas a 18 studs/s. Ensaios antigos de navegação circular continuam históricos e desativados.
+
+Branch codex/mapa-fileiras-decorado integrada em codex/bases-blender/PR #3. Registro: coordination/tasks/2026-10-22-codex-a-mapa-fileiras.md. Fonte atual no worktree bases-laser; WIP antigo de D:/Roblox aura preservado, com entrega nova em Resultados/MapaCompacto/.
+
+## Revisão anterior: avenida de tycoons
+
+Oito bases em quatro pares, centros X±230, Y1 e Z500/780/1060/1340, com portas direcionadas para a rua X0. A praça circular e o spawn central continuam na frente. Rua de 32 studs e ramais de 20 studs, chão contínuo Z-700..1700 em duas peças. Os 160 × 160 studs e identidades dos terrenos foram preservados, incluindo conteúdo local, teto sempre visível, lasers e geradores apoiados no chão.
+
+O corredor dos sete biomas,14 ninhos e14 guardiões foi movido1.000 studs para o fundo. Zona segura de expedição em X±90,Z1600..2950; a rua entre bases segue com PvP. Config/PivotCFrame, HudGuide e WorldFactory correspondem ao cenário. Rotas de roubo usam a rua central. Perfis e valores econômicos não foram alterados.
+
+Cem modelos da BibliotecaDecoracao existente:32 árvores campestres,40 arbustos,16 flores e12 pedras. Vinte cópias do paredão manual alongam as laterais. Modelos Blender e catálogo preservados. Mapa final com3.952 instâncias,6 raízes e675 malhas permanentes; pacote em Resultados/MapaFileiras/. Backup do Studio efetivamente encontrado antes da tarefa e backup do mapa versionado anterior em Backups/AntesMapaFileiras/; estes mapas não eram idênticos e ambos foram preservados.
+
+Conferência em Edit:6.095 verificações,56 rotas de roubo simuladas,95 amostras de chão e28 fontes compilados. Portas opostas distam300 studs e da mesma fileira280 studs:16,7 s/15,6 s estimados a 18 studs/s carregando. Não houve cronometragem de jogador, Play, perfil, celular físico ou medição de FPS. Ensaios antigos com rotas circulares permanecem históricos e desativados; não certificam este layout.
+
+Checkout bases-laser, branch codex/mapa-fileiras-decorado integrada à codex/bases-blender/PR #3. Registro: coordination/tasks/2026-10-22-codex-a-mapa-fileiras.md. WIP original de D:/Roblox aura preservado; entrega nova disponível em sua pasta Resultados/MapaFileiras/.
+
+## Revisão anterior: geradores apoiados no chão
 
 Generator revisão 3 corrige o vão de 1 stud do mapa autoral. A origem é medida no piso externo, ignorando plots e personagens; Battery e as sete malhas mais painel se deslocam juntos. Os oito conjuntos têm pés em Y0 e Battery centro Y3,5, mantendo identidade, X/Z, orientação e HP. Sem chão válido a pose anterior é preservada. Blender/FBX e IDs de malha permanecem os mesmos.
 

@@ -2,6 +2,22 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-22 — Bases menores e mais perto da expedição
+
+- Continuação solicitada durante a montagem: padrão 144 × 144 studs, 10% menor, oito bases em quatro pares, portas para a rua. Centros X±190 e Z440/684/928/1172; entrada dos biomas 340 studs mais próxima que na avenida maior. Mesmas cem decorações e sete biomas.
+- BaseShell revisão 5 escala somente a casca; piso, gerador externo e acessos acompanham a mudança. Máquinas e esteiras mantêm dimensões e grade de quatro studs. Construção, HUD, roubo, laser e entrega usam a dimensão efetiva.
+- Layouts antigos que precisem da borda/reserva/acessibilidade de 160 studs preservam esse espaço durante a ocupação. IDs, posições, criaturas, inventário e circuitos não são convertidos; ao vagar, terreno volta a 144. Proteções de proprietário/geração após carregamento de malhas evitam aplicar uma montagem a outro dono.
+- Edit: 3.563 verificações, 56 rotas simuladas, 200 amostras de chão, 28 fontes compilados, dois layouts legados sintéticos preservados e Combat real com jogadores/visuais simulados. Acesso externo ao gerador, bloqueio de entrada, saída e brecha aprovados. Sem interseção com paredões. Harness existente passou 365 verificações com mocks lexicais, sem CLI standalone.
+- Snapshot atual: 3.952 instâncias, seis raízes e 675 malhas. Entrega em Resultados/MapaCompacto/; etapa maior preservada em Resultados/MapaFileiras/ e backup imediato em Backups/AntesMapaCompacto/. Sem Play, DataStore, clientes reais ou FPS. Registro compartilhado: coordination/tasks/2026-10-22-codex-a-mapa-fileiras.md.
+
+## 2026-10-22 — Avenida com oito tycoons e decoração
+
+- Oito bases em duas fileiras de quatro, conforme a referência e confirmação do usuário. Portas voltadas para a rua central, com oito acessos perpendiculares. Praça circular e spawn preservados. IDs, pisos de 160 × 160 studs, geradores e coordenadas locais dos conteúdos mantidos.
+- Terreno alongado em duas peças adjacentes; biomas/ninhos/guardiões avançados1.000 studs e paredões estendidos com20 cópias dos módulos existentes. Config, geração básica e rotas do HudGuide atualizados. A rua permite PvP; corredor seguro acompanha a entrada dos biomas.
+- Cem modelos prontos do Blender distribuídos no cenário:32 árvores campestres,40 arbustos,16 flores e12 pedras, com468 MeshParts. Criação, catálogo e IDs existentes preservados.
+- Studio Edit:6.095 verificações de preservação/posição/orientação,56 rotas de roubo simuladas até a base sem cruzar zona segura,95 amostras de continuidade do piso;28 fontes compilados. Helper não duplica modelos ao reaplicar. Sem Play, perfis, clientes reais ou medição de FPS nesta etapa.
+- Snapshot final:3.952 instâncias,6 raízes,675 malhas. Portátil e fontes regenerados; entrega em Resultados/MapaFileiras/, backups do Studio e mapa versionado em Backups/AntesMapaFileiras/. Registro: coordination/tasks/2026-10-22-codex-a-mapa-fileiras.md.
+
 ## 2026-10-22 — Geradores apoiados na grama
 
 - Corrigido vão de 1 stud: a montagem herdava Y1 do piso interno, enquanto o chão externo está em Y0. A geometria Blender não precisava de alteração.

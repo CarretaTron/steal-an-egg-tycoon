@@ -1,70 +1,64 @@
-# Tarefa: mapa em duas fileiras com decoração existente
+# Tarefa: avenida de oito tycoons, decoração e versão compacta
 
 | Campo | Valor |
 |---|---|
-| Status | in_progress |
+| Status | done |
 | Responsável | codex-a / chat de arte e mapa |
 | Atualizado em | 2026-10-22, America/Sao_Paulo |
 | Branch | codex/mapa-fileiras-decorado |
 | Commit de partida | 757ec10 |
 | Issue/PR | https://github.com/CarretaTron/steal-an-egg-tycoon/pull/3 |
-| Pedido autorizado | Reorganizar bases como referência e usar decoração pronta; usuário confirmou oito bases em quatro pares e portas voltadas à rua central |
+| Pedido autorizado | Organizar como referência, reutilizar decoração e manter oito bases em quatro pares; portas para a rua central. Durante a entrega, reduzir um pouco e aproximar da entrada para ver os bichos |
 
-## Objetivo e limites
+## Objetivo e resultado
 
-Praça circular na frente, rua central até os biomas, duas fileiras de quatro bases voltadas uma à outra, árvores/arbustos/plantas do catálogo existente. Preservar 160 × 160 studs, IDs de terrenos e layouts relativos; adaptar geometria/configuração/rota da seta ao novo mapa. Não criar sistemas do roadmap nem alterar economia/perfis.
+Oito bases padrão de 144 × 144 studs, redução de 10%, centros X±190, Y1, Z440/684/928/1172. Portas direcionadas para a rua central, praça/spawn na frente e expedição no fundo. Entrada dos biomas 340 studs mais próxima que na primeira avenida maior. Interpretação comunicada da palavra entrada: entrada dos biomas.
 
-## Ajuste solicitado durante a entrega
-
-O usuário pediu bases um pouco menores e mais próximas da entrada para ver os bichos. A interpretação comunicada é a entrada dos biomas. Novo padrão 144 × 144 (10% menor), centros X±190, Z440/684/928/1172; corredor deslocado +660 Z em vez de +1000. Rua de 32 studs e quatro pares permanecem. Half72 para novos layouts; bases de saves antigos que ocupam a borda conservam half80, sem alterar IDs, grade, circuitos, criaturas ou inventário.
-
-Esta continuação também adapta BaseShell, Combat, Building, BuildRules, Bootstrap e Client aos limites reais. Backups imediatos em Backups/AntesMapaCompacto/. A versão de avenida maior já exportada permanece histórica em Resultados/MapaFileiras/.
+Cem modelos do catálogo existente: 32 árvores campestres, 40 arbustos, 16 flores e 12 pedras. Sete biomas, 14 ninhos e 14 guardiões movidos inteiros, offset final +660 em relação ao mapa circular. Chão em dois tiles, rua com PvP, corredor seguro X±90/Z1260..2610. Paredão manual estendido com vinte cópias e afastado 40 studs extras ao fundo; zero interseções com as bases.
 
 ## Arquivos sob responsabilidade
 
-- Shared/Config.luau, HudGuide.luau, BaseShell.luau, BuildRules.luau; Server/WorldFactory.luau, Combat.luau, Building.luau, Bootstrap.server.luau; Client/Client.client.luau conforme dependências espaciais e compatibilidade de layouts antigos.
-- Map/, helper reproduzível de montagem, pacote pelo empacotador e verify_package.py se necessário.
-- Resultados/MapaFileiras/, Backups/AntesMapaFileiras/, registros e documentação.
-- Blender/FBX não serão alterados: reutilizar BibliotecaDecoracao existente.
+- Shared/Config, HudGuide, BaseShell e BuildRules.
+- Server/WorldFactory, Combat, Building e Bootstrap; Client/Client.client.luau.
+- Tests/combat_offline.py: somente dependências de mocks de BaseShell e PlotHalfFor.
+- Map/arrange_avenue.luau, compact_avenue.luau, AuthoredMap.rbxm, scene.json e README.
+- Pacote/Fontes/Map derivados pelo empacotador; Resultados/MapaCompacto/ é a entrega vigente.
+- Resultados/MapaFileiras/ preserva a avenida maior; Backups/AntesMapaFileiras/ e AntesMapaCompacto/ preservam fontes/mapas.
+- CHANGELOG e docs/ESTADO_ATUAL atualizados. Blender/FBX/catálogo originais preservados.
 
-## Sessões e artefatos compartilhados
+## Compatibilidade
 
-| Recurso | Sessão/cena/lugar | Responsável e período de uso | Estado |
+Máquinas, criaturas, gerador e grade de quatro studs não foram escalados. BaseShell revisão 5 usa Half72 padrão e Half80 para um layout antigo que precise da borda, reserva de entrada ou acessibilidade anterior. Nenhuma conversão de ID, posição, criatura, inventário ou circuito. Base expandida fica assim até vagar; então retorna a 144. Todos os limites de construção/HUD/roubo/laser/claim/entrega respeitam a dimensão efetiva. Há guardas de dono/geração após carregamento de malhas e cancelamento de render se o responsável mudou.
+
+## Sessões e preservação
+
+| Recurso | Sessão/cena/lugar | Responsável e uso | Estado |
 |---|---|---|---|
-| Studio | bf607684-6849-4833-8719-47dd6d748e8e / ROUBE UM TYCOON DE OVOS /119288590672557 | codex-a nesta tarefa em Edit | em uso |
-| Blender | Não utilizado; criação existente preservada | nenhum | livre |
+| Studio | bf607684-6849-4833-8719-47dd6d748e8e / ROUBE UM TYCOON DE OVOS /119288590672557 | root aplica e confere em Edit | livre |
+| Blender | Biblioteca pronta; nenhuma cena editada | não utilizado | livre |
 
-Sessão anterior foi fechada; nova sessão corresponde ao mesmo lugar pelo nome/ID. Fontes Config/HudGuide/BaseShell/Generator/WorldFactory lidos antes de edição. Sem iniciar/parar Play do usuário. Root controla mutações; subagentes apenas analisam arquivos locais.
+Fontes lidos antes de trocar. Nove fontes da redução comparados com os backups por assinatura e patches exatos; candidatos compilados antes da escrita. Antes da tarefa, o Studio tinha 2.980 instâncias/207 malhas e o mapa versionado, 2.974/201: ambos preservados separadamente. A árvore manual adicional acompanhou seu bioma. Não iniciar/interromper Play do usuário. Subagentes editaram somente os fontes combinados; apenas root alterou Studio. Checkout antigo de D:/Roblox aura preservado, com uma pasta nova de entrega compacta.
 
-## Mudanças realizadas
+## Validação realmente executada
 
-- Config.MapLayout centraliza oito centros X±230, Y1, Z500/780/1060/1340. Portas para X0, rua de 32 studs e oito ramais de 20. Identidades, pisos e todos os conteúdos locais preservados.
-- Cem cópias da biblioteca: 32 árvores, 40 arbustos, 16 flores e 12 pedras. Criação Blender e catálogo originais preservados; sem novas malhas/publicações.
-- Corredor, sete biomas, 14 ninhos e 14 guardiões deslocados +1.000 Z. Guardian.HomeZ atualizado. Config.IsSafe e HudGuide atualizados; rua entre bases permite PvP.
-- Chão ampliado em dois tiles adjacentes (1400 e 1000 studs), após identificar o clamp do engine em 2048. WorldFactory e helper reproduzem os dois tiles e os mesmos ramais.
-- Vinte cópias dos módulos do paredão alongam laterais; parede ao fundo deslocada. Árvores primitivas preservadas no backup e histórico do Studio.
-- Fontes ao vivo dos cinco módulos relevantes correspondiam aos locais antes da edição. Backup fresco do Studio (2.980 instâncias/207 malhas) e mapa versionado anterior (2.974/201) preservados separadamente. A diferença manual de uma árvore não foi descartada: moveu junto do primeiro bioma.
-- Snapshot final com 3.952 instâncias, seis raízes e 675 malhas. Pacote e cópias dos 28 fontes regenerados. Resultados/MapaFileiras/ tem projeto completo, fontes, imagens, referência, snapshots e relatórios.
-
-## Validação e evidências
-
-| Verificação realmente executada | Resultado | Relatório/artefato e ambiente |
+| Verificação | Resultado | Evidência/ambiente |
 |---|---|---|
-| Inventário de terrenos e catálogo | Oito bases de 160 × 160 studs e 20 modelos existentes | Studio Edit, somente leitura |
+| Primeira avenida maior | 6.095 verificações e 56 rotas simuladas | Histórico Resultados/MapaFileiras/, Edit |
+| Versão compacta final | 3.563 verificações, 56 rotas e 200 amostras do chão | Resultados/MapaCompacto/validacao-studio.json, Edit |
+| Layouts legados | Borda e reserva antigas preservadas, sem alterar IDs/posições/inventário | Dois perfis sintéticos; módulos reais de estado e visuais de máquina simulados |
+| Laser compacto | Gerador alcançável por fora; entrada bloqueada, saída permitida e brecha libera passagem | Combat real, personagens sintéticos com Humanoid; sem jogadores reais |
+| Compilação | 28 fontes aprovados | Studio Edit |
+| Harness existente de combate | 365 verificações aprovadas | validacao-combate-mocks.json, mocks lexicais hospedados no Studio; CLI indisponível |
+| Preservação do mapa ao preparar mundo | Mesmo mundo e contagem de objetos | WorldFactory real em Edit |
+| Parede e idempotência | Zero interseções; SetHalf não duplica/refaz uma base já correta | Edit |
+| Pacote/XML | 675 malhas, oito bases, cem decorações, 28 fontes iguais, V2 preservada e oito ensaios desativados | validacao-portatil.json e validacao-pacote.json |
+| Revisões independentes | Sem falha de gameplay relevante | layout_contract e compact_shell; guard do helper de migração incorporado |
 
-| Preservação/posição/acessos/rotas | 6.095 verificações aprovadas | validacao-studio.json, Studio Edit |
-| Guia de roubo | 56 rotas chegam à própria base em até cinco etapas sem cruzar zona segura | Simulação geométrica, sem jogadores |
-| Chão e compilação | 95 amostras contínuas e 28 fontes compilados | Studio Edit |
-| Reaplicar helper | Retorna AlreadyApplied, sem duplicação | Studio Edit |
-| Pacote e XML | 675 malhas preservadas, 28 fontes iguais, V2 e oito ensaios desativados | validacao-portatil.json e validacao-pacote.json |
-| Geometria do portátil | Oito bases, 100 decorações, distância mínima de 120 studs e eixos de peças até 2048 | XML e scene.json |
-| Revisão independente | Sem problemas relevantes | layout_contract, somente leitura |
+## Passagem
 
-## Estado para passagem
-
-- Branch da tarefa publicada e integrada por avanço simples em codex/bases-blender/PR #3.
-- Próximo passo: avaliação visual do usuário e continuação do pedido escolhido por ele.
-- Sem Play, perfis, dois clientes ou medição móvel de FPS nesta etapa. Tempos entre portas são estimativas geométricas, não medição com jogadores.
-- Ensaios históricos com rotas circulares continuam desativados e precisam ser adaptados antes de certificar o novo layout. Revisão geral de bugs não foi retomada.
-- Studio liberado pelo agente, sem iniciar/parar Play; Blender não utilizado.
-- WIP antigo de D:/Roblox aura preservado. Entrega nova copiada em Resultados/MapaFileiras/. CHANGELOG e estado atual atualizados.
+- Branch enviada e integrada por avanço simples à codex/bases-blender/PR #3.
+- Entrega atual Resultados/MapaCompacto/ contém portátil completo, cópias dos 28 fontes, snapshots, imagens, helpers e relatórios. Etapas e tentativas anteriores preservadas.
+- Limitações: sem Play, DataStore, perfis reais, dois clientes, celular físico ou FPS. 13,1/13,6 s entre portas são estimativas geométricas. Base legada maior pode diminuir a distância de 100 studs dos padrões; pisos não se sobrepõem.
+- Ensaios históricos de navegação circular permanecem desativados e exigem adaptação para certificar este mapa. A revisão geral de bugs não foi retomada.
+- Helpers são operações explícitas de Edit: arrange aceita só o backup circular ou no-op na revisão final; compact migra a revisão 1 para a 2. Não executar na inicialização.
+- Studio liberado; nenhum Play foi iniciado/parado pelo agente. Próximo passo é a avaliação visual do usuário e o pedido seguinte escolhido por ele.

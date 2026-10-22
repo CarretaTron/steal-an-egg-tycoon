@@ -1,6 +1,7 @@
 local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Rules = require(ReplicatedStorage:WaitForChild("EggTycoonV3").Shared.BuildRules)
+local Shell = require(ReplicatedStorage:WaitForChild("EggTycoonV3").Shared.BaseShell)
 local Building = {}
 Building.__index = Building
 
@@ -55,7 +56,35 @@ function Building:Starter(state)
 end
 
 function Building:Render(state)
-	if not state.Plot or not state.PlotId then return false end
+	local plot=state.Plot
+	if not plot or not state.PlotId or not state.Ready or state.Leaving or not state.Player then return false end
+	local owner=state.Player.UserId
+	if plot:GetAttribute("OwnerUserId")~=owner then return false end
+	local C=self.ctx.Config
+	local half=C.PlotHalfFor(plot)
+	local compactLimit=C.PlotHalf-8
+	-- Old edge layouts keep their original 160-stud envelope. Do not rescale,
+	-- relocate, replace or consume saved machines, creatures or conveyor IDs.
+	for _,build in ipairs(state.Profile.Builds) do
+		local bounds=Rules.Bounds(build)
+		if bounds.MinX < -compactLimit or bounds.MaxX > compactLimit
+			or bounds.MinZ < -compactLimit or bounds.MaxZ > compactLimit then
+			half=math.max(half,C.LegacyPlotHalf)
+			break
+		end
+	end
+	if half<C.LegacyPlotHalf and #state.Profile.Builds>0 then
+		-- A previously valid layout can also need the old arrival reserve or
+		-- outer walking cells even when all machine bounds fit the compact box.
+		local compactValid=Rules.Validate(state.Profile.Builds,nil,nil,C.PlotHalf)
+		if not compactValid then
+			local legacyValid=Rules.Validate(state.Profile.Builds,nil,nil,C.LegacyPlotHalf)
+			if legacyValid then half=C.LegacyPlotHalf end
+		end
+	end
+	-- An expanded base stays expanded until it is vacated, including after edits.
+	if Shell.SetHalf(plot,half)==false then return false end
+	if state.Plot~=plot or not state.Ready or state.Leaving or plot:GetAttribute("OwnerUserId")~=owner then return false end
 	self:Starter(state)
 	local folder = state.Plot:FindFirstChild("Structures")
 	if not folder then folder=Instance.new("Folder") folder.Name="Structures" folder.Parent=state.Plot end
@@ -148,7 +177,7 @@ function Building:Command(state,action,payload)
 			end
 		end
 		local candidate={Id=previous and previous.Id or (storedHabitat and storedHabitat.Id or HttpService:GenerateGUID(false)),Kind=kind,X=payload.X,Z=payload.Z,R=payload.R or 0,Level=kind=="Habitat" and (previous and previous.Level or storedHabitat and storedHabitat.Level or 0) or nil}
-		local ok,reason=Rules.Validate(profile.Builds,candidate,previous and previous.Id)
+		local ok,reason=Rules.Validate(profile.Builds,candidate,previous and previous.Id,C.PlotHalfFor(state.Plot))
 		if not ok then return reject(reason) end
 		if previous then
 			previous.X,previous.Z,previous.R=candidate.X,candidate.Z,candidate.R
@@ -162,7 +191,7 @@ function Building:Command(state,action,payload)
 		local build=self:GetBuild(state,payload.BuildId)
 		if not build then return reject("Construção não encontrada.") end
 		if self:Reserved(state,build.Id) or occupied(state,build.Id) then return reject("Libere o habitat e aguarde a incubação ou roubo terminar.") end
-		local ok,reason=Rules.Validate(profile.Builds,nil,build.Id)
+		local ok,reason=Rules.Validate(profile.Builds,nil,build.Id,C.PlotHalfFor(state.Plot))
 		if not ok then return reject(reason) end
 		for i,item in ipairs(profile.Builds) do if item==build then table.remove(profile.Builds,i) break end end
 		profile.Inventory[build.Kind]=(profile.Inventory[build.Kind] or 0)+1

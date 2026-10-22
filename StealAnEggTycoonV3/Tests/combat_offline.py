@@ -2,9 +2,10 @@
 
 Usage: python Tests/combat_offline.py --luau /path/to/luau
 The temporary harness embeds Server/Combat.luau unchanged inside a lexical mock
-environment. Generator is an explicit recording stub: this checks only that Combat
-passes visibility and authoritative HP/state to its presentation dependency.
-It does not execute Generator, render meshes/SurfaceGui, or test Roblox physics
+environment. Generator and BaseShell are explicit recording stubs: this checks
+only that Combat passes visibility, authoritative HP/state and the configured
+plot extent to its dependencies. Fixtures keep the original 80-stud half extent.
+It does not execute Generator/BaseShell, render meshes/SurfaceGui, or test Roblox physics
 or replication. The historical pre-Blender shell harness was retired; actual
 map rows check the current static shell contract independently.
 """
@@ -106,16 +107,24 @@ end
 function Generator.Update(plot,hp,maximum,open,remaining,level)
     generatorUpdates[plot]={HP=hp,Maximum=maximum,Open=open,Remaining=remaining,Level=level}
 end
+local BaseShell={}
+function BaseShell.SetHalf(plot,half)
+    -- Record the requested extent without rendering or resizing mock geometry.
+    plot:SetAttribute("PlotHalf",half)
+    return plot
+end
 local generatorModule={}
-local replicatedStorage={EggTycoonV3={Shared={Generator=generatorModule}}}
+local baseShellModule={}
+local replicatedStorage={EggTycoonV3={Shared={Generator=generatorModule,BaseShell=baseShellModule}}}
 local game={GetService=function(_self,name)
     if name=="Players" then return Players end
     assert(name=="ReplicatedStorage","Unexpected service: "..tostring(name))
     return replicatedStorage
 end}
 local function require(module)
-    assert(module==generatorModule,"Unexpected module dependency")
-    return Generator
+    if module==generatorModule then return Generator end
+    if module==baseShellModule then return BaseShell end
+    error("Unexpected module dependency")
 end
 local workspace={}
 function workspace:Raycast(_from,_direction,_params) return self.Hit end
@@ -133,6 +142,7 @@ local defenses={Perimeter=true,Frame=true,Roof=true,RoofFrame=true,DoorHeader=tr
 local function makePlot(id)
     local plot=node("Model","Plot_"..id,{Parent=true,Pivot=CFrame.new()})
     plot:SetAttribute("OwnerUserId",0)
+    plot:SetAttribute("PlotHalf",80)
     local function part(name,transparency,collide)
         return append(plot,node("Part",name,{Transparency=transparency,CanCollide=collide,
             CanTouch=collide,CanQuery=true,Position=Vector3.zero}))
@@ -152,7 +162,9 @@ local function makeState(id,plot,built)
     if plot then plot:SetAttribute("OwnerUserId",id) end
     return state,root,humanoid
 end
-local config={DefensesPrice=25,BatteryHP={200,450,900,1800},BatteryPrices={10,20,30},
+local config={PlotHalf=80,LegacyPlotHalf=80,
+    PlotHalfFor=function(plot) return plot and plot:GetAttribute("PlotHalf") or 80 end,
+    DefensesPrice=25,BatteryHP={200,450,900,1800},BatteryPrices={10,20,30},
     BreachTime=30,CombatLock=10,IsSafe=function(_p) return false end,
     Weapons={Baton={Damage=20,Range=8,Cooldown=.7,Energy=0}}}
 local ctx={Config=config,States={},Services={},Remotes={FX={FireAllClients=function() end}},Syncs=0}

@@ -61,7 +61,7 @@ function ctx:Sync(state)
  self.Remotes.State:FireClient(state.Player,{
   Cash=p.Cash,Rebirths=p.Rebirths,Income=state.Plot and self.Services.Production:Income(state) or 0,Carry=carryName,Carrying=carry~=nil,
   NeedsClaim=state.Plot==nil,DefensesBuilt=p.DefensesBuilt==true,
-  PlotId=state.PlotId,PlotCFrame=state.Plot and state.Plot:GetPivot() or nil,Energy=math.floor(state.Energy),BatteryHP=state.Runtime.BatteryHP,
+  PlotId=state.PlotId,PlotCFrame=state.Plot and state.Plot:GetPivot() or nil,PlotHalf=Config.PlotHalfFor(state.Plot),Energy=math.floor(state.Energy),BatteryHP=state.Runtime.BatteryHP,
   BatteryMax=state.Runtime.BatteryMax,BreachRemaining=math.max(0,(state.Runtime.BreachUntil or 0)-now),
   LastCombatRemaining=state.LastCombat>0 and math.max(0,Config.CombatLock-(now-state.LastCombat)) or 0,Inventory=copy(p.Inventory),Builds=copy(p.Builds),
   Creatures=copy(p.Creatures),Pending=pending,SpeedLevel=p.SpeedLevel,WeaponLevel=p.WeaponLevel,BatteryLevel=p.BatteryLevel,
@@ -226,7 +226,7 @@ local function deliveryPosition(state,buildId,egg)
    local position=Config.ItemCFrame(state.Plot:GetPivot(),candidate).Position
    if candidate.Kind=="Incubator" and ctx:Near(state.Player,position,14) then return position,candidate.Id end
   end
- else return (state.Plot:GetPivot()*CFrame.new(0,0,-65)).Position end
+ else return (state.Plot:GetPivot()*CFrame.new(0,0,-65*Config.PlotHalfFor(state.Plot)/Config.LegacyPlotHalf)).Position end
  return nil
 end
 local function deliver(state,buildId)
@@ -278,8 +278,10 @@ local function theftContext(state,victimId,creatureId)
  local root=characterRoot(state.Player)
  local lp=root and victim.Plot:GetPivot():PointToObjectSpace(root.Position)
  local previous=victim.Runtime.Positions and victim.Runtime.Positions[state.Player.UserId]
- local alreadyInside=previous and math.abs(previous.X)<79 and previous.Z>-79.5 and previous.Z<79 and previous.Y<30
- if not lp or math.abs(lp.X)>=79 or lp.Z<=-79.5 or lp.Z>=79 or lp.Y>=30 or (victim.Profile.DefensesBuilt~=false and (victim.Runtime.BreachUntil or 0)<=os.clock() and not alreadyInside) then return end
+ local half=Config.PlotHalfFor(victim.Plot)
+ local insideHalf,front,roof=half-1,-half+.5,30*half/Config.LegacyPlotHalf
+ local alreadyInside=previous and math.abs(previous.X)<insideHalf and previous.Z>front and previous.Z<insideHalf and previous.Y<roof
+ if not lp or math.abs(lp.X)>=insideHalf or lp.Z<=front or lp.Z>=insideHalf or lp.Y>=roof or (victim.Profile.DefensesBuilt~=false and (victim.Runtime.BreachUntil or 0)<=os.clock() and not alreadyInside) then return end
  local habitat=ctx.Services.Building:FreeHabitat(state)
   if not habitat then return nil,nil,nil,"Você precisa de um habitat livre na sua base." end
   return victim,creature,habitat
@@ -390,7 +392,8 @@ addConnection(ctx.Remotes.Command.OnServerEvent:Connect(function(player,action,p
  if not state.Plot then ctx:Toast(player,"Escolha uma tycoon livre primeiro.");return end
  if buildActions[action] then
   local root=characterRoot(player);local localPosition=root and state.Plot:GetPivot():PointToObjectSpace(root.Position)
-  if not localPosition or math.abs(localPosition.X)>90 or math.abs(localPosition.Z)>95 then ctx:Toast(player,"Volte à sua base para construir.");return end
+  local half=Config.PlotHalfFor(state.Plot)
+  if not localPosition or math.abs(localPosition.X)>half+10 or math.abs(localPosition.Z)>half+15 then ctx:Toast(player,"Volte à sua base para construir.");return end
   ctx.Services.Building:Command(state,action,type(payload)=="table" and payload or {})
  elseif action=="BuildDefenses" then
   ctx.Services.Combat:BuildDefenses(state)
@@ -410,7 +413,7 @@ end))
 local function makeDeliveryPad(state)
  local old=state.Plot:FindFirstChild("DeliveryPad");if old then old:Destroy() end
  local part=Instance.new("Part");part.Name="DeliveryPad";part.Size=Vector3.new(12,.2,8);part.Anchored=true;part.CanCollide=false
- part.Material=Enum.Material.Neon;part.Color=Color3.fromRGB(102,234,164);part.Transparency=.5;part.CFrame=state.Plot:GetPivot()*CFrame.new(0,.15,-65);part.Parent=state.Plot
+ part.Material=Enum.Material.Neon;part.Color=Color3.fromRGB(102,234,164);part.Transparency=.5;part.CFrame=state.Plot:GetPivot()*CFrame.new(0,.15,-65*Config.PlotHalfFor(state.Plot)/Config.LegacyPlotHalf);part.Parent=state.Plot
  local p=Instance.new("ProximityPrompt");p.ActionText="Entregar criatura";p.ObjectText="Sua base";p.RequiresLineOfSight=false;p.MaxActivationDistance=12;p.HoldDuration=.35
  p:SetAttribute("Action","Deliver");p:SetAttribute("OwnerUserId",state.Player.UserId);p.Parent=part
 end
@@ -448,7 +451,7 @@ for id=1,8 do
   local pad=plot:FindFirstChild("ClaimPad")
   if not pad then
    pad=Instance.new("Part");pad.Name="ClaimPad";pad.Size=Vector3.new(16,.4,10);pad.Anchored=true;pad.CanCollide=false;pad.CanTouch=false
-   pad.CFrame=plot:GetPivot()*CFrame.new(0,.25,-96);pad.Material=Enum.Material.Neon;pad.Color=Color3.fromRGB(112,255,66)
+   pad.CFrame=plot:GetPivot()*CFrame.new(0,.25,-96*Config.PlotHalfFor(plot)/Config.LegacyPlotHalf);pad.Material=Enum.Material.Neon;pad.Color=Color3.fromRGB(112,255,66)
    pad:SetAttribute("PlotId",id);pad.Parent=plot
   end
   local prompt=pad:FindFirstChild("ClaimPlot") or Instance.new("ProximityPrompt")

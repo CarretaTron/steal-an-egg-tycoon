@@ -2,8 +2,8 @@
 
 Esta pasta preserva a praça circular ajustada manualmente, os caminhos, as oito bases, os sete biomas e as paredes externas do lugar `119288590672557`.
 
-- `AuthoredMap.rbxm`: snapshot nativo completo dos oito objetos de raiz exportáveis do Workspace, com 2.974 instâncias. Preserva as malhas e propriedades originais para edição no Studio.
-- `scene.json`: hierarquia tipada utilizada por `package_project.py` para incluir o mapa atual no portátil. 201 malhas estáticas permanentes mantêm geometria, IDs e InitialSize. Peças de malha dos ovos/guardiões viram pivôs transparentes no portátil; `WorldFactory` renova essas malhas a partir dos dados Blender ao iniciar a sessão.
+- `AuthoredMap.rbxm`: snapshot nativo completo dos seis objetos de raiz exportáveis do Workspace, com 3.952 instâncias. Preserva as malhas e propriedades originais para edição no Studio.
+- `scene.json`: hierarquia tipada utilizada por `package_project.py` para incluir o mapa atual no portátil. 675 malhas estáticas permanentes mantêm geometria, IDs e InitialSize. Peças de malha dos ovos/guardiões viram pivôs transparentes no portátil; `WorldFactory` renova essas malhas a partir dos dados Blender ao iniciar a sessão.
 
 ## Depois de editar o mapa
 
@@ -45,3 +45,23 @@ CanvasSize1024 × 320, SizingModeFixedSize e LightInfluence0 preservados para os
 ## Apoio dos geradores — 22/10/2026
 
 Generator revisão 3 posiciona os oito conjuntos no chão externo: Battery centro Y3,5, pés em Y0; antes estavam 1 stud acima da grama. Identidade, X/Z e orientação das baterias, pisos e restante do cenário preservados. Snapshot nativo e JSON renovados em Edit, com as mesmas 2.974 instâncias e 201 malhas. Evidências da revisão em Resultados/GeradorNoChao/.
+
+## Avenida com quatro pares de bases — 22/10/2026
+
+Oito terrenos de 160 × 160 studs preservados, centros X-230/+230, Y1 e Z500/780/1060/1340. Portas voltadas para X0, rua central de32studs, oito ramais de 20 studs. Pisos vizinhos deixam120 studs entre fileiras; portas opostas distam300 studs e portas da mesma fileira280 studs. Estimativa em velocidade de transporte inicial18studs/s:16,7 s e15,6 s, sem cronometragem de jogador.
+
+Biomas, ninhos e guardiões movidos inteiros em+1.000 Z; passagem segura agora Z1600..2950. Rua entre as bases continua permitindo PvP. Config e HudGuide acompanham o cenário; WorldFactory preserva o mapa existente e usa as novas coordenadas em sua geração básica. O chão usa duas peças adjacentes, Z-700..700 e700..1700, respeitando o máximo2.048 studs por eixo de Part.
+
+Cem modelos decorativos copiados do catálogo original:32 árvores,40 arbustos,16 flores e12 pedras;468 malhas adicionais. Vinte módulos de paredão existentes duplicados para alongar as laterais. Árvores primitivas ficam preservadas no snapshot anterior e no histórico do Studio. Catálogo original e criação Blender não foram alterados.
+
+Snapshot final em Edit:3.952 instâncias,6 raízes e675 MeshParts permanentes. Backups do mapa efetivamente encontrado no Studio e da versão anterior do Git são distintos em Backups/AntesMapaFileiras/. Helper explícito arrange_avenue.luau não roda no jogo e retorna sem duplicar se a revisão já foi instalada. Resultados/MapaFileiras/ contém referências, imagens, fontes, portátil e relatórios. Sem Play nesta revisão.
+
+## Revisão atual: avenida compacta — 22/10/2026
+
+Substitui as medidas da avenida anterior: oito bases de 144 × 144 studs (10% menores), centros X±190, Y1 e Z440/684/928/1172. Todas as portas continuam para a rua central. Distância mínima entre terrenos padrão: 100 studs. Portas opostas distam 236 studs; portas da mesma fileira, 244. Estimativa de transporte inicial: 13,1 s e 13,6 s, sem cronometragem de jogadores.
+
+A expedição fica 340 studs mais próxima que na revisão maior: offset total +660 em relação ao mapa circular; corredor seguro em X±90, Z1260..2610. Rua central termina em Z1310. Chão em dois tiles até Z1340. O paredão ao fundo recebe 40 studs extras de afastamento, com sobreposição entre parede e bases igual a zero no teste. As mesmas cem decorações foram reposicionadas.
+
+BaseShell revisão 5 e Config.PlotHalf=72 acompanham a redução. Máquinas, criaturas, gerador e grade de quatro studs não foram escalados. Perfil antigo que precise do limite/reserva/acessibilidade anterior conserva uma base de 160 studs até sair, sem mover ou apagar máquinas, IDs ou conexões. Render, regras, HUD, roubo, laser, claim e entrega usam a dimensão efetiva do terreno.
+
+Snapshot atual: 3.952 instâncias, seis raízes e 675 malhas. Resultados/MapaCompacto/ é a entrega vigente; Resultados/MapaFileiras/ preserva a etapa maior. Backups imediatos em Backups/AntesMapaCompacto/. arrange_avenue só aceita o mapa circular original ou a revisão já instalada; compact_avenue migra a revisão 1 para a 2. Ambos são operações explícitas de Edit, nunca executadas pelo jogo.

@@ -5,6 +5,22 @@ local Rules=require(script.Parent.BuildRules)
 local Guide={}
 Guide.__index=Guide
 
+local function plotFrame(config,id)
+ local world=workspace:FindFirstChild('EggTycoonV3')
+ local plots=world and world:FindFirstChild('Plots')
+ local plot=plots and plots:FindFirstChild(string.format('Plot_%02d',id))
+ if plot and plot:IsA('Model') then return plot:GetPivot() end
+ return config.PlotCFrame(id)
+end
+
+local function plotHalf(config,id,state)
+ if state and type(state.PlotHalf)=='number' then return state.PlotHalf end
+ local world=workspace:FindFirstChild('EggTycoonV3')
+ local plots=world and world:FindFirstChild('Plots')
+ local plot=plots and plots:FindFirstChild(string.format('Plot_%02d',id))
+ return config.PlotHalfFor(plot)
+end
+
 local function make(class,properties,parent)
  local object=Instance.new(class)
  for key,value in pairs(properties) do object[key]=value end
@@ -68,7 +84,7 @@ function Guide:BuildGoal(state,kind,name)
  for _,build in ipairs(state.Builds or {}) do
   if build.Kind==kind then return self.Config.ItemCFrame(cf,build).Position+Vector3.new(0,2,0),name end
  end
- return (cf*CFrame.new(0,2,-65)).Position,'Sua tycoon'
+ return (cf*CFrame.new(0,2,-65*plotHalf(self.Config,state.PlotId,state)/80)).Position,'Sua tycoon'
 end
 function Guide:ClaimGoal(position)
  local world=workspace:FindFirstChild('EggTycoonV3')
@@ -140,31 +156,44 @@ function Guide:EggGoal(state,position)
    end
   end
  end
- return target or Vector3.new(-42,2,738+(species-1)*180),'Ovo • '..self.Config.Species[species].Biome
+ local layout=self.Config.MapLayout
+ return target or Vector3.new(-42,2,738+(species-1)*180+(layout and layout.CorridorOffset or 0)),'Ovo • '..self.Config.Species[species].Biome
 end
 function Guide:StolenRoute(state,position)
  local own=state.PlotId
  if not own then return end
- local destination=self.Config.PlotCFrame(own)
- -- Leave the victim's door before following the ring outside the protected plaza.
+ local destination=state.PlotCFrame or plotFrame(self.Config,own)
+ local half=plotHalf(self.Config,own,state);local scale=half/80
+ -- Leave the victim's door before joining the central PvP street.
  for id=1,8 do
   if id~=own then
-   local cf=self.Config.PlotCFrame(id)
+   local cf=plotFrame(self.Config,id)
    local p=cf:PointToObjectSpace(position)
-   if math.abs(p.X)<80 and math.abs(p.Z)<80 then return (cf*CFrame.new(0,2,-90)).Position,'Saída da tycoon' end
+   local victimHalf=plotHalf(self.Config,id)
+   if math.abs(p.X)<victimHalf and math.abs(p.Z)<victimHalf then return (cf*CFrame.new(0,2,-100*victimHalf/80)).Position,'Saída da tycoon' end
   end
  end
  local localOwn=destination:PointToObjectSpace(position)
- if math.abs(localOwn.X)<40 and localOwn.Z>-110 and localOwn.Z<80 then
-  return (destination*CFrame.new(0,2,-65)).Position,'Entregue a criatura'
+ if math.abs(localOwn.X)<40 and localOwn.Z>-110*scale and localOwn.Z<half then
+  return (destination*CFrame.new(0,2,-65*scale)).Position,'Entregue a criatura'
  end
- local a=math.atan2(position.X,position.Z)
- local d=destination.Position
- local b=math.atan2(d.X,d.Z)
- local delta=(b-a+math.pi)%(2*math.pi)-math.pi
- if math.abs(delta)<math.rad(10) then return (destination*CFrame.new(0,2,-90)).Position,'Sua tycoon' end
- local nextAngle=a+math.clamp(delta,-math.rad(20),math.rad(20))
- return Vector3.new(math.sin(nextAngle)*330,2,math.cos(nextAngle)*330),'Contorne a praça'
+ -- Normal theft routes stay north of the plaza. Keep exceptional positions
+ -- outside its protected square before returning to the street.
+ if position.Z<150 then
+  local side=position.X<0 and -1 or 1
+  if math.abs(position.X)<150 then return Vector3.new(side*170,2,position.Z),'Contorne a praça' end
+  return Vector3.new(side*170,2,170),'Contorne a praça'
+ end
+ local door=(destination*CFrame.new(0,2,-100*scale)).Position
+ -- Keep following this branch all the way to the owner's door, even after
+ -- leaving the street width, rather than directing the carrier back to it.
+ if math.abs(position.Z-door.Z)<20 then return door,'Sua tycoon' end
+ local layout=self.Config.MapLayout
+ local halfStreet=(layout and layout.RoadWidth or 32)*.5
+ if math.abs(position.X)>halfStreet+35 then
+  return Vector3.new(0,2,position.Z),'Rua central'
+ end
+ return Vector3.new(0,2,door.Z),'Siga pela rua central'
 end
 function Guide:Resolve(state,position)
  if state.NeedsClaim or not state.PlotId then return self:ClaimGoal(position) end

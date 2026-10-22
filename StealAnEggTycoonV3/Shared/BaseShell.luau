@@ -1,8 +1,9 @@
 -- Blender-authored industrial shell. Gameplay contents and plot identities stay authored.
 local Data=require(script.Parent.BaseIndustrialData)
 local Generator=require(script.Parent.Generator)
+local C=require(script.Parent.Config)
 local AssetService=game:GetService('AssetService')
-local Shell={Revision=4}
+local Shell={Revision=5}
 local cache={}
 local legacy={Perimeter=true,Frame=true,Roof=true,RoofFrame=true,DoorHeader=true,Laser=true,LaserBeam=true}
 
@@ -48,11 +49,11 @@ local function batteryDefaults(plot)
  end
 end
 
-local function ownerSign(plot,cf)
+local function ownerSign(plot,cf,scale)
  local p=plot:FindFirstChild('OwnerSign')
  if not p then p=Instance.new('Part');p.Name='OwnerSign';p.Parent=plot end
  assert(p:IsA('BasePart'),'OwnerSign must remain a BasePart')
- p.Size=Vector3.new(59,7.8,.8);p.CFrame=cf*CFrame.new(0,29,-83.35)
+ p.Size=Vector3.new(59,7.8,.8)*scale;p.CFrame=cf*CFrame.new(Vector3.new(0,29,-83.35)*scale)
  p.Color=Color3.fromRGB(139,72,55);p.Material=Enum.Material.SmoothPlastic
  p.Anchored=true;p.Transparency=0;p.CanCollide=false;p.CanTouch=false;p.CanQuery=false
  for _,face in ipairs({'TopSurface','BottomSurface','FrontSurface','BackSurface','LeftSurface','RightSurface'}) do p[face]=Enum.SurfaceType.Smooth end
@@ -81,20 +82,77 @@ local function ownerSign(plot,cf)
  end
 end
 
+-- Owner/parent/generation can change while an uploaded mesh is loading.
+local function current(plot,parent,owner,generation)
+ return plot.Parent==parent and plot:GetAttribute('OwnerUserId')==owner
+  and plot:GetAttribute('BaseShellGeneration')==generation
+end
+
+function Shell.SetHalf(plot,half)
+ assert(plot and plot:IsA('Model'),'BaseShell.SetHalf expects a plot Model')
+ assert(half==C.PlotHalf or half==C.LegacyPlotHalf,'Unsupported plot size')
+ local floor=plot:FindFirstChild('Floor')
+ assert(floor and floor:IsA('BasePart'),'BaseShell requires the authored Floor')
+ local expected=Vector3.new(half*2,1,half*2)
+ if plot:GetAttribute('PlotHalf')==half and floor.Size==expected then return Shell.Apply(plot) end
+ local parent,owner,generation=plot.Parent,plot:GetAttribute('OwnerUserId'),plot:GetAttribute('BaseShellGeneration')
+ for _,def in ipairs(Data.Meshes) do
+  prototype(def)
+  if not current(plot,parent,owner,generation) then return false end
+ end
+ -- Ensure the generator is ready before changing its placement; the subsequent
+ -- Apply sees the already loaded visual and does not yield for generator assets.
+ Generator.Apply(plot)
+ if plot.Parent~=parent or plot:GetAttribute('OwnerUserId')~=owner then return false end
+ -- Generator.Apply may increment this generation for its own visual install.
+ generation=plot:GetAttribute('BaseShellGeneration')
+ local cf=plot:GetPivot()
+ local scale=half/80
+ local battery=plot:FindFirstChild('Battery')
+ if battery and battery:IsA('BasePart') then
+  local relative=cf:ToObjectSpace(battery.CFrame)
+  local target=cf*CFrame.new(24*scale,relative.Y,-86*scale)*relative.Rotation
+  local delta=target*battery.CFrame:Inverse()
+  for _,part in ipairs(battery:GetDescendants()) do
+   if part:IsA('BasePart') then part.CFrame=delta*part.CFrame end
+  end
+  battery.CFrame=target
+ end
+ floor.Size=expected -- CFrame/PivotOffset and every saved build remain unchanged.
+ plot:SetAttribute('PlotHalf',half)
+ for _,definition in ipairs({{'ClaimPad',-96},{'DeliveryPad',-65}}) do
+  local pad=plot:FindFirstChild(definition[1])
+  if pad and pad:IsA('BasePart') then
+   local y=cf:ToObjectSpace(pad.CFrame).Y
+   pad.CFrame=cf*CFrame.new(0,y,definition[2]*scale)
+  end
+ end
+ return Shell.Apply(plot,true)
+end
+
 function Shell.Apply(plot,force)
  assert(plot and plot:IsA('Model'),'BaseShell.Apply expects a plot Model')
+ local parent,owner,generation=plot.Parent,plot:GetAttribute('OwnerUserId'),plot:GetAttribute('BaseShellGeneration')
+ local scale=C.PlotHalfFor(plot)/80
  Generator.Apply(plot)
+ if plot.Parent~=parent or plot:GetAttribute('OwnerUserId')~=owner then return false end
+ -- Generator.Apply may increment this generation for its own visual install.
+ generation=plot:GetAttribute('BaseShellGeneration')
  local count=0
  for _,p in ipairs(plot:GetChildren()) do if p:IsA('BasePart') and p:GetAttribute('BaseShellPart') then count+=1 end end
  if not force and plot:GetAttribute('BaseShellRevision')==Shell.Revision
+  and plot:GetAttribute('BaseShellScale')==scale
   and count==plot:GetAttribute('BaseShellPartCount') and plot:FindFirstChild('Roof')
   and plot:FindFirstChild('Laser') and plot:FindFirstChild('OwnerSign') then return plot end
  -- Asset loading can yield/fail. Complete it before removing the previous envelope.
- for _,def in ipairs(Data.Meshes) do prototype(def) end
+ for _,def in ipairs(Data.Meshes) do
+  prototype(def)
+  if not current(plot,parent,owner,generation) then return false end
+ end
  local cf=plot:GetPivot()
  local staging=Instance.new('Model')
  local function block(name,size,offset,color,material,alpha,collide,query)
-  local p=Instance.new('Part');p.Name=name;p.Size=size;p.CFrame=cf*CFrame.new(offset)
+  local p=Instance.new('Part');p.Name=name;p.Size=size*scale;p.CFrame=cf*CFrame.new(offset*scale)
   p.Anchored=true;p.Color=color;p.Material=material or Enum.Material.SmoothPlastic
   p.Transparency=alpha or 0;p.CanCollide=collide==true;p.CanTouch=p.CanCollide;p.CanQuery=query==true
   p.CastShadow=p.Transparency<1
@@ -103,7 +161,7 @@ function Shell.Apply(plot,force)
   return p
  end
  for _,def in ipairs(Data.Meshes) do
-  local p=prototype(def):Clone();p.Name=def.Name;p.Size=def.Size;p.CFrame=cf*def.LocalCF
+  local p=prototype(def):Clone();p.Name=def.Name;p.Size=def.Size*scale;p.CFrame=cf*CFrame.new(def.LocalCF.Position*scale)*def.LocalCF.Rotation
   p.Color=def.Color;p.Material=Enum.Material.SmoothPlastic;p.Transparency=0
   p.Anchored=true;p.CanCollide=false;p.CanTouch=false;p.CanQuery=false;p.CastShadow=true
   p:SetAttribute('BlenderBaseVisual',true);defaults(p,0,false,false);p.Parent=staging
@@ -134,6 +192,7 @@ function Shell.Apply(plot,force)
   local p=block('LaserBeam',Vector3.new(.48,25,.48),Vector3.new(x,13.5,-80),red,Enum.Material.Neon,0,false,true)
   if not owned then p.Transparency=1;p.CanQuery=false end
  end
+ if not current(plot,parent,owner,generation) then staging:Destroy();return false end
  for _,p in ipairs(plot:GetChildren()) do
   if p:IsA('BasePart') and p.Name~='OwnerSign' and (p:GetAttribute('BaseShellPart') or legacy[p.Name]) then p:Destroy() end
  end
@@ -142,10 +201,11 @@ function Shell.Apply(plot,force)
  -- Preserve floor identity, size and pivot; match the gray floor in the Blender design.
  local floor=plot:FindFirstChild('Floor')
  if floor and floor:IsA('BasePart') then floor.Color=Color3.fromRGB(92,95,109) end
- ownerSign(plot,cf);batteryDefaults(plot)
+ ownerSign(plot,cf,scale);batteryDefaults(plot)
  count=0
  for _,p in ipairs(plot:GetChildren()) do if p:IsA('BasePart') and p:GetAttribute('BaseShellPart') then count+=1 end end
  plot:SetAttribute('BaseShellRevision',Shell.Revision)
+ plot:SetAttribute('BaseShellScale',scale)
  plot:SetAttribute('BaseShellGeneration',(plot:GetAttribute('BaseShellGeneration') or 0)+1)
  plot:SetAttribute('BaseShellPartCount',count);plot:SetAttribute('DefensesBuilt',true)
  return plot

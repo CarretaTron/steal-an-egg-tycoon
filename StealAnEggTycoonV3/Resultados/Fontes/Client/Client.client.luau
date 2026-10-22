@@ -36,7 +36,8 @@ function hud:InsidePlot()
  local cf=state.PlotCFrame or (state.PlotId and C.PlotCFrame(state.PlotId))
  if not root or not cf or not state.PlotId or state.NeedsClaim then return false end
  local at=cf:PointToObjectSpace(root.Position)
- return math.abs(at.X)<79 and at.Z>-79 and at.Z<79 and at.Y>=-4 and at.Y<28
+ local half=state.PlotHalf or C.PlotHalf
+ return math.abs(at.X)<half-1 and at.Z>-half+1 and at.Z<half-1 and at.Y>=-4 and at.Y<28*half/(C.LegacyPlotHalf or 80)
 end
 local gui=Instance.new("ScreenGui")
 gui.Name="EggTycoonV3UI"
@@ -808,7 +809,7 @@ local function updateGhost()
  local candidate={Id=build.Id or "Preview",Kind=build.Kind,X=x,Z=z,R=build.R}
  local key=build.Kind..":"..x..":"..z..":"..build.R
  if key~=lastCandidateKey then
-  local valid,reason=Rules.Validate(state.Builds or {},candidate,build.Id)
+  local valid,reason=Rules.Validate(state.Builds or {},candidate,build.Id,state.PlotHalf or C.PlotHalf)
   if not build.Id and (state.Inventory[build.Kind] or 0)<1 then valid=false reason="Sem unidades guardadas. Compre mais na oficina." end
   if (state.LastCombatRemaining or 0)>0 then valid=false reason="Edição bloqueada durante combate." end
   build.Valid=valid build.Reason=reason build.Candidate=candidate lastCandidateKey=key

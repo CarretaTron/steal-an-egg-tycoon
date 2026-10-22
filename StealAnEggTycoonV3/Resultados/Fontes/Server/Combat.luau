@@ -1,6 +1,7 @@
 -- Server-authoritative weapons, batteries, entry barriers and upgrades.
 local Players = game:GetService("Players")
 local Generator = require(game:GetService("ReplicatedStorage").EggTycoonV3.Shared.Generator)
+local BaseShell = require(game:GetService("ReplicatedStorage").EggTycoonV3.Shared.BaseShell)
 local Combat = {}
 Combat.__index = Combat
 
@@ -59,6 +60,7 @@ function Combat:ApplyPlotDefenses(plot,owned,built,open)
 end
 function Combat:SetPlotVacant(plot)
  if not plot then return end
+ if BaseShell.SetHalf(plot,self.C.PlotHalf)==false then return false end
  self:ApplyPlotDefenses(plot,false,false,true)
 end
 function Combat:BuildDefenses(state)
@@ -201,6 +203,9 @@ function Combat:Step(dt)
   -- ApplyPlotDefenses restores authored transparency and query settings on each
   -- transition. Do not overwrite that presentation with hard-coded values here.
   local cf=s.Plot:GetPivot()
+  local half=self.C.PlotHalfFor(s.Plot)
+  local scale=half/80
+  local insideHalf,front=half-1,-half+.5
   for _,visitor in pairs(self.ctx.States) do
    local root=rootOf(visitor.Player)
    if not root then continue end
@@ -209,13 +214,13 @@ function Combat:Step(dt)
    r.Positions[visitor.Player.UserId]=lp
    if visitor==s or open then continue end
    -- Crossing inward through the entry is blocked. Crossing outward always works.
-   local inside=math.abs(lp.X)<79 and lp.Z>-79.5 and lp.Z<79 and lp.Y<30
-   local wasInside=previous and math.abs(previous.X)<79 and previous.Z>-79.5 and previous.Z<79 and previous.Y<30
+   local inside=math.abs(lp.X)<insideHalf and lp.Z>front and lp.Z<insideHalf and lp.Y<30*scale
+   local wasInside=previous and math.abs(previous.X)<insideHalf and previous.Z>front and previous.Z<insideHalf and previous.Y<30*scale
    if inside and not wasInside then
-    local safe=cf*CFrame.new(0,4,-87)
+    local safe=cf*CFrame.new(0,4,-87*scale)
     root.CFrame=CFrame.lookAt(safe.Position,safe.Position+cf.LookVector)
     root.AssemblyLinearVelocity=Vector3.zero
-    r.Positions[visitor.Player.UserId]=Vector3.new(0,4,-87)
+    r.Positions[visitor.Player.UserId]=Vector3.new(0,4,-87*scale)
     if now-(visitor.Runtime.LastLaserNotice or 0)>2 then
      visitor.Runtime.LastLaserNotice=now
      self.ctx:Toast(visitor.Player,"Destrua a bateria externa para abrir esta entrada.")
