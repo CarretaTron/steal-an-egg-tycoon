@@ -1,10 +1,22 @@
 # Estado atual — 22/10/2026
 
-## Etapa atual: bases sem cercas e teto sempre visível
+## Etapa atual: gerador industrial com painel de vida
+
+Oito geradores originais do Blender substituem as baterias visuais: carcaça verde, grelhas, portas, ferragens e chassi cinza com studs. Console superior inclinado com SurfaceGui 1024 ×320: vida em números grandes, barra, nível ativo e contagem de reconstrução. As legendas flutuantes BatteryLabel foram removidas.
+
+Fontes: Shared/Generator.luau (revisão2) e GeneratorData.luau, integrados a BaseShell, WorldFactory e Combat. Battery mantém identidade e posição; sua hitbox invisível12 ×7 ×6 recebe os ataques. As sete malhas por modelo e o painel são não físicos/sem query. Terrenos livres continuam ocultando a bateria; base ocupada mostra o modelo e visor. Dano, níveis e reconstrução são decididos pelo servidor, com melhoria adiada mostrada apenas após reconstruir.
+
+Criação em Blender/GeradorIndustrial/; entrega atual em Resultados/GeradorIndustrial/, com portátil e fontes dos 28 módulos/scripts. Mapa2974 instâncias em oito raízes,201 malhas estáticas(48 bases+56 geradores+97 catálogo). LightInfluence, CanvasSize e SizingMode são preservados pelo exportador. Nenhuma malha foi convertida em caixa.
+
+Validação em Edit:208 verificações de instalação/identidade/idempotência;24 de apresentação com Combat real e jogadores simulados em clones;28 fontes compilados. O harness existente de Combat passou365 verificações com mocks lexicais, hospedado no Studio Edit porque o CLI standalone não foi encontrado. Isso não é teste de arte, física, perfis ou clientes reais. Sem Play, dois clientes ou FPS nesta tarefa.
+
+Registro: coordination/tasks/2026-10-22-codex-a-gerador-painel.md. Checkout gerenciado bases-laser; WIP original de D:/Roblox aura preservado. Branch da tarefa codex/gerador-painel-vida, a integrar por avanço simples à codex/bases-blender/PR #3. Backups em Backups/AntesGeradorIndustrial/.
+
+## Revisão anterior: bases sem cercas e teto sempre visível
 
 As oito bases usam BaseShell revisão 4 e seis malhas originais do Blender: estrutura cinza com studs, janelas brancas, placa madeira, teto sólido e fachada com 35 lasers vermelhos. As faixas baixas de cerca foram removidas. Cada base tem 67 peças. O Client não possui mais o recorte local do teto: entrar ou construir mantém a cobertura visível. Colisões e filtro de seleção continuam preservados.
 
-A versão está na branch `codex/bases-blender`, PR #3, após integrar a tarefa `codex/bases-sem-cercas-teto`. Checkout: `C:/Users/alexp/.codex/worktrees/bases-laser/Roblox aura`. O WIP antigo de D:/Roblox aura permanece separado. Entrega atual em `Resultados/SemCercasTeto/`, criação em `Blender/BaseIndustrialSemCercas/`, registro `coordination/tasks/2026-10-22-codex-a-sem-cercas-teto.md`.
+A versão está na branch `codex/bases-blender`, PR #3, após integrar a tarefa `codex/bases-sem-cercas-teto`. Checkout: `C:/Users/alexp/.codex/worktrees/bases-laser/Roblox aura`. O WIP antigo de D:/Roblox aura permanece separado. Entrega histórica sem cercas em `Resultados/SemCercasTeto/`, criação em `Blender/BaseIndustrialSemCercas/`, registro `coordination/tasks/2026-10-22-codex-a-sem-cercas-teto.md`.
 
 Conferência desta revisão em Edit: 45 verificações de ausência das cercas, opacidade/colisão do teto, identidades por idempotência e reconstrução, com 26 fontes compilados. Portátil e cópias dos 26 fontes passaram no verificador, com V2 preservada e oito ensaios desativados. O mapa tem oito raízes, 2.830 instâncias e 145 malhas estáticas (48 das bases + 97 catálogo); as 145 foram comparadas ao XML final. Sem Play, perfis, dois clientes, clique/toque em execução ou FPS.
 

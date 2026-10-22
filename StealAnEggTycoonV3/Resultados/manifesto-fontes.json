@@ -9,7 +9,7 @@
   },
   {
     "path": "Shared/BaseShell.luau",
-    "sha256": "74c0dab81271c826489fca6221579b1373d20e2b1305087eba7ba6b451708329"
+    "sha256": "48a6653f6a04e8a8eb95d5730a969a915bc5de64e577f020907ea42b51f93321"
   },
   {
     "path": "Shared/BuildRules.luau",
@@ -18,6 +18,14 @@
   {
     "path": "Shared/Config.luau",
     "sha256": "f1b3fa3c573ba8888d2133c763f2cf2e122380b94327f71fe3b701ace5d0f748"
+  },
+  {
+    "path": "Shared/Generator.luau",
+    "sha256": "f6ca03954fcdfc96945fb0b7df89c39a32e066cb5bcf1d3476d6e37e6db00fe6"
+  },
+  {
+    "path": "Shared/GeneratorData.luau",
+    "sha256": "e40dae08e8c00e98ef8e9e4accef41d2f330887a7f6ab2d52391ed57820cd854"
   },
   {
     "path": "Shared/GeometryData.luau",
@@ -37,7 +45,7 @@
   },
   {
     "path": "Server/Combat.luau",
-    "sha256": "11812e5b0f39b1958f246a259dadf2d7893c16c2e9cf06543142220032a8e1a6"
+    "sha256": "57089bc55158ed099f4f779df760bb4ac1c62767f22a0a99f01a8e7c75d93604"
   },
   {
     "path": "Server/Persistence.luau",
@@ -85,7 +93,7 @@
   },
   {
     "path": "Server/WorldFactory.luau",
-    "sha256": "9f93a6d142bb88b63f8c7e774c03c0e70acc6816309a67db62faa6d1af902ec3"
+    "sha256": "811febd6b80d3456b449ab9c3258c8b28068eb9776cd16eca982bd473d700c89"
   },
   {
     "path": "Client/Client.client.luau",

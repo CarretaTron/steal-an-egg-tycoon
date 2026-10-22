@@ -1,5 +1,6 @@
 -- Blender-authored industrial shell. Gameplay contents and plot identities stay authored.
 local Data=require(script.Parent.BaseIndustrialData)
+local Generator=require(script.Parent.Generator)
 local AssetService=game:GetService('AssetService')
 local Shell={Revision=4}
 local cache={}
@@ -82,6 +83,7 @@ end
 
 function Shell.Apply(plot,force)
  assert(plot and plot:IsA('Model'),'BaseShell.Apply expects a plot Model')
+ Generator.Apply(plot)
  local count=0
  for _,p in ipairs(plot:GetChildren()) do if p:IsA('BasePart') and p:GetAttribute('BaseShellPart') then count+=1 end end
  if not force and plot:GetAttribute('BaseShellRevision')==Shell.Revision

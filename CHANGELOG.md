@@ -2,6 +2,16 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-22 — Gerador industrial com vida no painel
+
+- Oito baterias visuais substituídas por geradores originais do Blender: carcaça verde, grelhas, portas, ferragens, chassi cinza com studs e console superior inclinado. Sete malhas permanentes por gerador, 4.072 vértices e 7.452 triângulos.
+- Vida, barra, nível ativo e contagem de reconstrução aparecem numa SurfaceGui física incorporada. Removidas as oito legendas BillboardGui. Canvas fixo 1024 ×320 e numeração grande.
+- Generator/GeneratorData controlam apenas montagem/apresentação. Battery conserva identidade e posição como hitbox invisível 12 ×7 ×6; servidor continua decidindo dano, resistência, melhorias e reconstrução. BaseShell aplica o gerador antes do retorno idempotente e WorldFactory não cria mais a legenda antiga.
+- Combat delega visibilidade/visor ao módulo novo. Malhas e painel não interceptam disparos; o raio alcança Battery. Exportador preserva LightInfluence para legibilidade do visor no portátil.
+- Conferência em Edit: 208 verificações de instalação e 24 do Combat real em clones com jogadores simulados, incluindo dano180/200, melhoria adiada, brecha e reconstrução450/450. Harness existente de Combat adaptado e aprovado em 365 verificações com mocks lexicais hospedados no Studio; CLI standalone indisponível.
+- 28 fontes compilados. Sem Play, perfis, dois clientes ou teste de FPS. Criação, snapshot e pacote em Blender/GeradorIndustrial/ e Resultados/GeradorIndustrial/. Mapa2974 instâncias/oito raízes/201 MeshParts.
+- Backups em Backups/AntesGeradorIndustrial/. Registro: coordination/tasks/2026-10-22-codex-a-gerador-painel.md.
+
 ## 2026-10-22 — Bases sem cercas e teto sempre visível
 
 - Removida a malha baixa BI_CercaMadeira das oito bases, dos dados de montagem e da nova criação Blender. BaseShell revisão 4 impede seu retorno na reconstrução; seis malhas e 67 peças por base.
@@ -26,7 +36,7 @@ Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. At
 
 - Oito estruturas substituídas por pavilhões originais: cercas cruzadas de madeira, pilares creme, arenito, borda turquesa, cobertura transparente sólida, placa dourada e emblema de ovo. Sete feixes vermelhos na entrada; terrenos livres mantêm o laser desligado.
 - Inspiração visual de duas bases reconstruídas a partir dos mapas locais. Não havia uma base laser nesses arquivos; o portal é próprio. Nenhum sistema ou script dos mapas de referência foi executado.
-- `Shared/BaseShell.luau` revisão 2 mantém abertura 16×18, grade livre, pisos, pivôs, bateria, placa e conteúdo dos jogadores. Cada estrutura tem 133 peças. A revisão impede que o visual antigo volte no próximo Play.
+- `Shared/BaseShell.luau` revisão 2 mantém abertura 16 ×18, grade livre, pisos, pivôs, bateria, placa e conteúdo dos jogadores. Cada estrutura tem 133 peças. A revisão impede que o visual antigo volte no próximo Play.
 - Continuação moderna de codex-b integrada ao catálogo em checkout isolado; controles de seta e recorte de teto já existentes no Studio foram capturados em Client/HudGuide. Não foram implementados nesta etapa. WIP antigo da pasta original preservado.
 - Validação em Edit: 2.651 verificações estruturais em clones, 118 de apresentação do módulo Combat e acesso à bateria por raios, oito aplicações idempotentes, 1.329 peças externas preservadas e 25 fontes compilados. Somente BaseShell mudou no Studio. Sem Play, perfis, dois clientes ou teste de desempenho.
 - Mapa exportado: 3.098 instâncias em sete raízes, incluindo 2.199 peças estáticas. Pacote atualizado e verificado: 25 fontes, oito ensaios desativados e backup V2. Catálogo decorativo preservado e entregue separadamente.
@@ -75,7 +85,7 @@ Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. At
 
 - Interface com cores vivas, textura de studs, contornos marcados e títulos legíveis, inspirada nas referências fornecidas pelo proprietário.
 - Botão 🔨 Construir visível somente dentro do próprio terreno. Reúne máquinas, esteiras e melhorias; sair da base encerra a construção.
-- Botão 📖 Livro abaixo do martelo, com sete espécies, descobertas, prévias 3D e acesso aos habitats.
+- Botão 📖 Livro abaixo do martelo, com sete espécies, descobertas, prévias 3 D e acesso aos habitats.
 - Botões ♻️ Renascer e 📜 Missões. As missões abrem por interação, sem o painel permanente no centro da tela.
 - Dinheiro em verde na região inferior esquerda, valores abreviados e quantidade de rebirths ao lado. Retiradas as barras de bateria e energia da HUD.
 - Novo módulo `Shared/HudGuide.luau`: seta na tela e marcadores no chão, com destino conforme a missão e o transporte atual.

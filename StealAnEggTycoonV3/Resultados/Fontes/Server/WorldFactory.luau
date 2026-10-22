@@ -120,7 +120,6 @@ function F.Build()
   local floor=part(plot,'Floor',Vector3.new(160,1,160),cf*CFrame.new(0,-.5,0),Color3.fromRGB(151,188,125),Enum.Material.SmoothPlastic,true)
   floor.TopSurface=Enum.SurfaceType.Studs floor.PivotOffset=floor.CFrame:ToObjectSpace(cf) plot.PrimaryPart=floor
   local battery=part(plot,'Battery',Vector3.new(6,7,4),cf*CFrame.new(24,3.5,-86),Color3.fromRGB(73,228,158),Enum.Material.Metal,true) battery:SetAttribute('PlotId',id)
-  local label=A.Label(plot,battery,'BATERIA','200 / 200',Color3.fromRGB(113,255,176),95) label.Name='BatteryLabel'
   local owner=sign(plot,cf*CFrame.new(0,20,-81),42,string.format('TYCOON %02d',id),'BASE DISPONÍVEL',gold) owner.Name='OwnerSign'
   folder(plot,'Structures');folder(plot,'Creatures')
   BaseShell.Apply(plot)

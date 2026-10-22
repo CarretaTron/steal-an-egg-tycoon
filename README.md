@@ -64,7 +64,7 @@ Na raiz do repositório, com Python 3 disponível:
 python StealAnEggTycoonV3/verify_package.py
 ```
 
-Esse verificador confere os hashes e as cópias dos 26 fontes Luau, os 19 FBX originais de criaturas, o arquivo Blender principal, a leitura do portátil, o backup da V2 e os oito scripts de ensaio desativados. A arte adicional possui seus próprios arquivos e relatórios em `Blender/Decoracao/` e `Blender/BaseIndustrial/`. Execute-o antes de entregar alterações no pacote. Os testes de jogabilidade continuam sendo realizados no Studio.
+Esse verificador confere os hashes e as cópias dos 28 fontes Luau, os 19 FBX originais de criaturas, o arquivo Blender principal, a leitura do portátil, o backup da V2 e os oito scripts de ensaio desativados. A arte adicional possui seus próprios arquivos e relatórios em `Blender/Decoracao/` e `Blender/BaseIndustrial/`. Execute-o antes de entregar alterações no pacote. Os testes de jogabilidade continuam sendo realizados no Studio.
 
 O exemplo [verificar-pacote.workflow.yml](docs/verificar-pacote.workflow.yml) permite automatizar essa verificação no GitHub. Para ativá-lo, um desenvolvedor com permissão de publicação de workflows pode copiá-lo para `.github/workflows/verify.yml`. Ele é entregue como exemplo e não está ativo.
 
@@ -89,7 +89,13 @@ A importação de 20/10/2026 foi validada por um clone novo do GitHub: os 140 ar
 
 As oito bases usam arte original do Blender em `Shared/BaseShell.luau` revisão 4: estrutura cinza com studs, janelas brancas, placa de madeira e 35 lasers vermelhos por fachada. As cercas baixas de madeira foram removidas; o teto permanece visível ao entrar e construir. As máquinas continuam livres. São seis malhas e 67 peças por base, mantendo piso, pivô, bateria e conteúdos.
 
-A branch `codex/bases-blender` continua a integração de codex-b e do catálogo decorativo. A entrega atual está em `Resultados/SemCercasTeto/`; criação e FBX em `Blender/BaseIndustrialSemCercas/`. O portátil e as cópias dos 26 fontes foram regenerados e verificados, incluindo 145 malhas estáticas. Conferência em Editar; sem novo Play, dois clientes ou medição de desempenho. O pavilhão da revisão 2 permanece no histórico e nos backups.
+A branch `codex/bases-blender` continua a integração de codex-b e do catálogo decorativo. A entrega histórica desta revisão de bases está em `Resultados/SemCercasTeto/`; criação e FBX em `Blender/BaseIndustrialSemCercas/`. A revisão sem cercas foi conferida com 26 fontes e145 malhas; a entrega atual com geradores está indicada abaixo. Conferência em Editar; sem novo Play, dois clientes ou medição de desempenho. O pavilhão da revisão 2 permanece no histórico e nos backups.
+
+## Geradores atuais — 22/10/2026
+
+As oito bases têm um gerador original criado no Blender, verde/cinza, com painel físico na parte superior. A vida, barra de integridade, nível ativo e tempo de reconstrução aparecem no próprio visor. Não há legenda flutuante de bateria. Arte em `Blender/GeradorIndustrial/`; entrega atual em `Resultados/GeradorIndustrial/`.
+
+O portátil atual possui 28 fontes e201 MeshParts; pacote e visor conferidos em Edit. Bateria e regras de combate continuam sob autoridade do servidor. Geradores acompanham a visibilidade por propriedade já existente: terrenos livres mantêm a bateria oculta.
 
 ## Funcionalidades preservadas
 

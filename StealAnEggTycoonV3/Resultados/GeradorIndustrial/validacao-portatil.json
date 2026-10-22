@@ -1,0 +1,13 @@
+{
+  "staticMeshPartsVerified": 201,
+  "initialMeshExtentsVerified": 201,
+  "Passed": true,
+  "SceneInstances": 2974,
+  "PhysicalPanels": 8,
+  "FloatingBatteryLabels": 0,
+  "PanelFontSize": 90,
+  "BatteryLocationsPreserved": 8,
+  "Limitations": [
+    "XML properties and isolated Edit validation; no new Studio load, Play, real players or replication."
+  ]
+}

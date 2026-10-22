@@ -1,5 +1,6 @@
 -- Server-authoritative weapons, batteries, entry barriers and upgrades.
 local Players = game:GetService("Players")
+local Generator = require(game:GetService("ReplicatedStorage").EggTycoonV3.Shared.Generator)
 local Combat = {}
 Combat.__index = Combat
 
@@ -49,16 +50,7 @@ function Combat:ApplyPlotDefenses(plot,owned,built,open)
     if isLaser then part.CanCollide=false;part.CanTouch=false end
     if part.Name=="Laser" then part:SetAttribute("Open",not built or open or not owned) end
    elseif part.Name=="Battery" then
-    self:SetPartVisible(part,owned)
-    for _,label in ipairs(part:GetDescendants()) do
-     if label:IsA("BillboardGui") or label:IsA("SurfaceGui") then
-      if self.LabelDefaults[label]==nil then
-       local saved=label:GetAttribute("BaseShellEnabled")
-       self.LabelDefaults[label]=saved==nil and label.Enabled or saved
-      end
-      label.Enabled=owned and self.LabelDefaults[label] or false
-     end
-    end
+    Generator.Present(plot,owned,open)
    end
   end
  end
@@ -204,12 +196,7 @@ function Combat:Step(dt)
   if battery then
    battery:SetAttribute("HP",r.BatteryHP)
    battery:SetAttribute("MaxHP",r.BatteryMax)
-   battery.Color=open and Color3.fromRGB(75,78,87) or Color3.fromRGB(90,225,255)
-   local label=s.Plot:FindFirstChild("BatteryLabel",true)
-   local text=label and label:FindFirstChild("Text",true)
-   if text and text:IsA("TextLabel") then
-    text.Text=open and ("RECONSTRUINDO • "..math.ceil(r.BreachUntil-now).."s") or ("BATERIA "..math.ceil(r.BatteryHP).." / "..r.BatteryMax)
-   end
+   Generator.Update(s.Plot,r.BatteryHP,r.BatteryMax,open,math.max(0,(r.BreachUntil or 0)-now),r.ActiveBatteryLevel)
   end
   -- ApplyPlotDefenses restores authored transparency and query settings on each
   -- transition. Do not overwrite that presentation with hard-coded values here.

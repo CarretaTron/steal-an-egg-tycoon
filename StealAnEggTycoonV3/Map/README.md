@@ -2,8 +2,8 @@
 
 Esta pasta preserva a praça circular ajustada manualmente, os caminhos, as oito bases, os sete biomas e as paredes externas do lugar `119288590672557`.
 
-- `AuthoredMap.rbxm`: snapshot nativo completo dos oito objetos de raiz exportáveis do Workspace, com 2.830 instâncias. Preserva as malhas e propriedades originais para edição no Studio.
-- `scene.json`: hierarquia tipada utilizada por `package_project.py` para incluir o mapa atual no portátil. 145 malhas estáticas permanentes mantêm geometria, IDs e InitialSize. Peças de malha dos ovos/guardiões viram pivôs transparentes no portátil; `WorldFactory` renova essas malhas a partir dos dados Blender ao iniciar a sessão.
+- `AuthoredMap.rbxm`: snapshot nativo completo dos oito objetos de raiz exportáveis do Workspace, com 2.974 instâncias. Preserva as malhas e propriedades originais para edição no Studio.
+- `scene.json`: hierarquia tipada utilizada por `package_project.py` para incluir o mapa atual no portátil. 201 malhas estáticas permanentes mantêm geometria, IDs e InitialSize. Peças de malha dos ovos/guardiões viram pivôs transparentes no portátil; `WorldFactory` renova essas malhas a partir dos dados Blender ao iniciar a sessão.
 
 ## Depois de editar o mapa
 
@@ -35,3 +35,9 @@ Portátil regenerado e verificado com 26 fontes; todas as 153 malhas e suas dime
 Captura atual da revisão 4: oito raízes, 2.830 instâncias, 1.864 peças estáticas e 145 MeshParts (48 das bases e 97 do catálogo). Removidas somente as oito BI_CercaMadeira. Roof e RoofCollision preservados; o Client não esconde mais o teto.
 
 Backup da captura anterior em Backups/AntesRemoverCercasTeto/MapRev3/. Portátil regenerado com 26 fontes; pacote e 145 malhas conferidos. Sem novo Play nesta revisão.
+
+## Captura com geradores — 22/10/2026
+
+Captura atual: oito raízes,2.974 instâncias e201 MeshParts permanentes. Oito geradores de sete malhas instalados sob as Battery originais; oito painéis SurfaceGui e nenhuma BillboardGui de bateria. Root Battery segue Part com colisão/consulta; as malhas visuais e painel não usam física. Sem prévia temporária no mapa.
+
+CanvasSize1024 ×320, SizingModeFixedSize e LightInfluence0 preservados para os visores. Backup anterior em Backups/AntesGeradorIndustrial/MapAnterior/. Portátil com28 fontes conferido; sem novo Play.

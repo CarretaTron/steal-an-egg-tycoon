@@ -38,7 +38,7 @@ local function finitePositive(vector)
  return true
 end
 local fields={'Name','Size','CFrame','Color','Material','MaterialVariant','Transparency','Reflectance','Anchored','CanCollide','CanTouch','CanQuery','CastShadow','Shape','TopSurface','BottomSurface','LeftSurface','RightSurface','FrontSurface','BackSurface','PrimaryPart','PivotOffset','StudsOffset','StudsOffsetWorldSpace','MaxDistance','AlwaysOnTop','Adornee','Text','TextColor3','TextSize','Font','TextStrokeTransparency','TextStrokeColor3','TextScaled','TextWrapped','TextXAlignment','TextYAlignment','BackgroundColor3','BackgroundTransparency','BorderSizePixel','AnchorPoint','Rotation','ZIndex','Visible','CornerRadius','Thickness','LightEmission','Brightness','Range','Value','ActionText','ObjectText','KeyboardKeyCode','GamepadKeyCode','MaxActivationDistance','HoldDuration','RequiresLineOfSight','ClickablePrompt','Style','Color3','ResetOnSpawn','PixelsPerStud','Face','Duration','Neutral','Enabled','Active','BaseMaterial','ColorMap','NormalMap','MetalnessMap','RoughnessMap','StudsPerTile','ModelStreamingMode'}
-table.insert(fields,'SizingMode');table.insert(fields,'CanvasSize')
+table.insert(fields,'SizingMode');table.insert(fields,'CanvasSize');table.insert(fields,'LightInfluence')
 local meshFields={'MeshId','TextureID','DoubleSided','CollisionFidelity','RenderFidelity'}
 local rows={}
 local staticMeshes=0
