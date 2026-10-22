@@ -51,4 +51,4 @@ Próximo trabalho deve começar pela branch atual e seu PR, preservando o WIP or
 
 ## GitHub
 
-Branch autorizada enviada; PR será registrado após o envio do commit de entrega.
+Entrega enviada no commit 46c1c5b. PR: https://github.com/CarretaTron/steal-an-egg-tycoon/pull/3 (base main, head codex/bases-blender). Não houve merge automático.
