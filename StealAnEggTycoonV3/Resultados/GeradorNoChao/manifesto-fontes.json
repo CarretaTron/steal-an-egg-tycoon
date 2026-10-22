@@ -1,0 +1,114 @@
+[
+  {
+    "path": "Shared/Art.luau",
+    "sha256": "226f43229d6f5f4ff19c63a48a720dd9ede80fd942d7670eeebaf7b1caa167de"
+  },
+  {
+    "path": "Shared/BaseIndustrialData.luau",
+    "sha256": "a22e5860183c2baa075497285a120aec237ea9341c69811714852fefb1ae4574"
+  },
+  {
+    "path": "Shared/BaseShell.luau",
+    "sha256": "48a6653f6a04e8a8eb95d5730a969a915bc5de64e577f020907ea42b51f93321"
+  },
+  {
+    "path": "Shared/BuildRules.luau",
+    "sha256": "c9979f81162715f48a15fbbc7ae5280669055a0be7a9c459793f982b4c3ae371"
+  },
+  {
+    "path": "Shared/Config.luau",
+    "sha256": "f1b3fa3c573ba8888d2133c763f2cf2e122380b94327f71fe3b701ace5d0f748"
+  },
+  {
+    "path": "Shared/Generator.luau",
+    "sha256": "4342e6002287f120e61cb63548fbd23a59c19bb7f604869866eac718caaa4464"
+  },
+  {
+    "path": "Shared/GeneratorData.luau",
+    "sha256": "e40dae08e8c00e98ef8e9e4accef41d2f330887a7f6ab2d52391ed57820cd854"
+  },
+  {
+    "path": "Shared/GeometryData.luau",
+    "sha256": "e4866591e1e6d3fadb12a1e2a98959d80f694894fa16bfe678d89aacf5b163fc"
+  },
+  {
+    "path": "Shared/HudGuide.luau",
+    "sha256": "06071881e911764b3972848b2b0aa232a1982636f6201e46bc2faed4c33dea36"
+  },
+  {
+    "path": "Server/Bootstrap.server.luau",
+    "sha256": "54e011f66204879b21824c0ff9edf61c63704279c2c1e47f853d4890d36683d3"
+  },
+  {
+    "path": "Server/Building.luau",
+    "sha256": "ada06b7696ebc64b1fa7fb2b275831f8fcc70207dde3fdda583370c33a4aa0ce"
+  },
+  {
+    "path": "Server/Combat.luau",
+    "sha256": "57089bc55158ed099f4f779df760bb4ac1c62767f22a0a99f01a8e7c75d93604"
+  },
+  {
+    "path": "Server/Persistence.luau",
+    "sha256": "f09105b21d1f65706beea244d048537af7570a6e5cb30259551ddebbeba67fbc"
+  },
+  {
+    "path": "Server/Production.luau",
+    "sha256": "07319ef5d99bf44cb5e87e18ae1583f0ff0b62fadd820752d2d43bd5bdb44138"
+  },
+  {
+    "path": "Server/Progression.luau",
+    "sha256": "1a2d2a1c7cc7748c1a1092fa8fc193ca7195f7c0e16392a4f8c5503f0d2da301"
+  },
+  {
+    "path": "Server/StudioMobile.server.luau",
+    "sha256": "093db2d8805cbf9e986eb59bc65e0896ee771fb89df563f668b3982c9f109f82"
+  },
+  {
+    "path": "Server/StudioPersistenceQA.luau",
+    "sha256": "6eed3ee1886e1c25e0e5b19db1fcd3b94113fbe1b0345c29f7ee787205914f86"
+  },
+  {
+    "path": "Server/StudioProgressionQA.luau",
+    "sha256": "99a4ba864c303c94f50de92c9ba7a3063ec2da7291b269f60722558647feb599"
+  },
+  {
+    "path": "Server/StudioQA.server.luau",
+    "sha256": "eca47bba963061f51d61aacbf6e2875a244d01453c210ed513f55898485a31be"
+  },
+  {
+    "path": "Server/StudioRegression.server.luau",
+    "sha256": "6d975e7ff25219258f1d781dd0cb44b684a71ca2297b3f926dbf8629bc9310f9"
+  },
+  {
+    "path": "Server/StudioRulesQA.luau",
+    "sha256": "364a46063d01fb8019a0be465f67c2376665e3060c454e1c836c13e371bdcdcb"
+  },
+  {
+    "path": "Server/StudioStress.server.luau",
+    "sha256": "92d8cb5db7fd96e585ff8ea985dede1c269548813939c141259df196f917cc21"
+  },
+  {
+    "path": "Server/StudioTraversal.server.luau",
+    "sha256": "1dbf33c45f05b5ebaf9d498223a9d8e4b734eeedb4fa0b434dc4d02de63a6180"
+  },
+  {
+    "path": "Server/WorldFactory.luau",
+    "sha256": "811febd6b80d3456b449ab9c3258c8b28068eb9776cd16eca982bd473d700c89"
+  },
+  {
+    "path": "Client/Client.client.luau",
+    "sha256": "8822a0962eb243fe39a012b3ee678cfa3bc523b232208737ac43ddd825bd6ba9"
+  },
+  {
+    "path": "Client/StudioMobile.client.luau",
+    "sha256": "4ba750738556b5479b2b98b142c6471488f6f6a719b1517dc831662751d17f7d"
+  },
+  {
+    "path": "Client/StudioQA.client.luau",
+    "sha256": "186771d34f53d34ba6297cec0ab766352e04d26d953664f7f7ab0fa74c435b36"
+  },
+  {
+    "path": "Client/StudioStress.client.luau",
+    "sha256": "6f970e22a47a6734b7142f5d6625291b00b6bf9c63138655c0c21399acdc2592"
+  }
+]

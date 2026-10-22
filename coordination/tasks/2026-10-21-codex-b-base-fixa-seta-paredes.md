@@ -1,0 +1,32 @@
+# Tarefa: base fixa, orientação suave e paredes com janelas
+
+| Campo | Valor |
+|---|---|
+| Status | in_progress |
+| Responsável | codex-b, continuação do pedido do proprietário |
+| Atualizado em | 2026-10-21, America/Sao_Paulo |
+| Branch | codex-b/base-fixa-seta-paredes |
+| Commit de partida | 62a925e37683ad28f651162946588c3df7fe32c2 |
+| Pedido autorizado | Restaurar somente paredes/cobertura prontas; máquinas continuam livres para colocar e mover. Oferecer ocultar seta, suavizar orientação e mudar paredes inspiradas na referência enviada |
+
+## Interpretação e escopo
+
+- Correção explícita do usuário após a primeira interpretação: **somente as paredes são prontas; máquinas podem ser posicionadas e movidas livremente**. Nenhuma conversão de layout para posições fixas será implementada.
+- Manter spawn na praça, escolha do terreno, kit em inventário, construção livre e preview. Paredes/cobertura ficam prontas para todas as bases, sem ação de montagem no menu.
+- Preservar identidades, níveis, criaturas, incubações, layouts e valores pendentes dos perfis anteriores.
+- Melhorar seta/caminho e permitir ocultar toda a orientação. Separar resolução de destino da renderização por quadro; evitar movimento a 6,7 atualizações por segundo.
+- Paredes da base com blocos cinza e studs, janelas largas emolduradas, placa superior e lasers vermelhos; preservar piso, posição dos oito terrenos e mapa externo.
+- Fontes previstos: Bootstrap/Persistence; Client/HudGuide; WorldFactory/Combat e módulo de estrutura. Building, produção e regras de posicionamento livre preservados. Atualizar pacote, mapa e documentação quando necessário.
+
+## Sessões
+
+- Studio 119288590672557, sessão f8a8ea27-5747-4b4a-b5fe-37098c6d329f, encontrado em Edit. Os 24 hashes dos fontes lidos correspondem ao estado entregue; preservar mudanças manuais do mapa.
+- Somente a sessão principal aplica fontes/mapa. Sem Play/simulador automático, conforme a passagem de testes visuais para o usuário; compilar e executar ensaios offline pertinentes.
+- Blender não precisa de novos modelos nesta etapa.
+
+## Passagem
+
+- Diagnóstico: o cliente atualiza a seta dentro da rotina limitada a 0,15 segundo; mover câmera/jogador entre atualizações causa os saltos vistos na referência.
+- Primeira correção concluída: paredes prontas em perfis novos, saves WIP antes abertos, escolha da base e rebirth. A migração preserva máquinas, criaturas e incubações. Os 44 casos offline do ciclo de vida passaram; Bootstrap e Persistence compilaram.
+- Snapshot anterior à mudança das paredes: `Backups/AntesParedesProntas/`, incluindo portátil, cena JSON e RBXM nativo exportado agora do Studio. Baseline para preservação: 1.136 peças fora da casca das bases, incluindo pisos e baterias, guardadas em memória para comparar após aplicar o visual.
+- Publicar fontes e artefatos nesta branch durante a execução. Manter PR anterior atualizado ao integrar a continuação, sem perder o histórico.

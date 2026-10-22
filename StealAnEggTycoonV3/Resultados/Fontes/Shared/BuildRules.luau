@@ -39,9 +39,9 @@ local function key(x, z)
 	return tostring(x) .. ":" .. tostring(z)
 end
 
-local function walkable(builds)
+local function walkable(builds,plotHalf)
 	-- Belts sit below the avatar's step height. Machines require room around them.
-	local half, spacing = C.PlotHalf-8, C.Grid
+	local half, spacing = plotHalf-8, C.Grid
 	local blocked, reached = {}, {}
 	for x = -half, half, spacing do
 		for z = -half, half, spacing do
@@ -87,7 +87,9 @@ local function walkable(builds)
 	return true
 end
 
-function Rules.Validate(builds, candidate, ignoreId)
+function Rules.Validate(builds, candidate, ignoreId, plotHalf)
+	plotHalf = plotHalf or C.PlotHalf
+	local scale = plotHalf/(C.LegacyPlotHalf or 80)
 	if type(builds) ~= "table" then return false, "Construções inválidas." end
 	local all = {}
 	for _, build in ipairs(builds) do
@@ -107,11 +109,11 @@ function Rules.Validate(builds, candidate, ignoreId)
 			return false, "Use a grade de quatro studs e giros de 90 graus."
 		end
 		local bounds = Rules.Bounds(build)
-		local limit = C.PlotHalf-8
+		local limit = plotHalf-8
 		if bounds.MinX < -limit or bounds.MaxX > limit or bounds.MinZ < -limit or bounds.MaxZ > limit then
 			return false, "A construção precisa ficar dentro do terreno."
 		end
-		if not Rules.IsBelt(build.Kind) and bounds.MinX<8 and bounds.MaxX>-8 and bounds.MinZ<-56 and bounds.MaxZ>-72 then
+		if not Rules.IsBelt(build.Kind) and bounds.MinX<8*scale and bounds.MaxX>-8*scale and bounds.MinZ<-56*scale and bounds.MaxZ>-72*scale then
 			return false, "Mantenha livre a área de chegada e entrega."
 		end
 		if build.Kind == "Habitat" then habitats += 1 end
@@ -123,7 +125,7 @@ function Rules.Validate(builds, candidate, ignoreId)
 		end
 	end
 	if habitats > C.MaxHabitats then return false, "Você pode construir até oito habitats." end
-	return walkable(all)
+	return walkable(all,plotHalf)
 end
 
 function Rules.Graph(builds)

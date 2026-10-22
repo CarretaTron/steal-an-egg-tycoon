@@ -1,0 +1,206 @@
+{
+  "arrange_avenue.luau": {
+    "sha256": "1246f3b304d899355f6dfe5333ef4509090ca3ba12d9160c7e2f56bb1e86d1a7",
+    "bytes": 6782
+  },
+  "AuthoredMap.rbxm": {
+    "sha256": "0813a558e3b2cdcd20d96e1caa75841195d0d62055a2d17a8ad98c07fa64cca0",
+    "bytes": 482435
+  },
+  "manifesto-fontes.json": {
+    "sha256": "2bb4d1294f399054c195b01f5c02635acf90fc840350a1e8c77044ac73867212",
+    "bytes": 3796
+  },
+  "previa-geral.jpg": {
+    "sha256": "0ff5b2d624706d7754196bf028c88f4d470c425e2cd3f767e350b48515080bcd",
+    "bytes": 226079
+  },
+  "previa-portas.jpg": {
+    "sha256": "ec476c5ea75a6481da3ad8586cf60571e26dd9b1b2a50f727b53889beea62a16",
+    "bytes": 348196
+  },
+  "README.md": {
+    "sha256": "e14e9f1a83e3064bc5b3f4803da0b64cdef6af1151f82e1639e622954e82a177",
+    "bytes": 3039
+  },
+  "referencia-layout.png": {
+    "sha256": "4cb317cc8d211238bac0467e9eeade41fe53656a57feafe517d5d44836ca2bb8",
+    "bytes": 2591894
+  },
+  "scene.json": {
+    "sha256": "13b7a2a2770e63383d2b509b26b909ee0b3e9686c1e771a58c87916afcf2e91a",
+    "bytes": 4702753
+  },
+  "StealAnEggTycoonV3.rbxlx": {
+    "sha256": "d0578af6c7a0a7c9b6a71dbc41e94a65937d6af8ce3c12864410df24a3a0ceb8",
+    "bytes": 5581188
+  },
+  "validacao-pacote.json": {
+    "sha256": "71e205173bc64a0b7869d7da3a1479a80324655ecd8dc14aadf92d13cd93457f",
+    "bytes": 613
+  },
+  "validacao-portatil.json": {
+    "sha256": "17bcf47d457c670f02f64cff80c6c8f7b9638f21ff9e8f560efa99425444b9ca",
+    "bytes": 345
+  },
+  "validacao-studio.json": {
+    "sha256": "9d9e09b918b22e709eb4566f5fb4f632cc6b32d62523af38030868e665fbe5ad",
+    "bytes": 1186
+  },
+  "verificar-layout.luau": {
+    "sha256": "580e833b7378c7365f48d4b84bd6c1e11612b50d9709d7abc2170d0df0e469cb",
+    "bytes": 4263
+  },
+  "Antes/arrange_avenue-primeira-montagem.luau": {
+    "sha256": "219378f437bfeaf80cb328383e27cf3b516074fae4bf51c35828aeab19408589",
+    "bytes": 6539
+  },
+  "Antes/AuthoredMap.rbxm": {
+    "sha256": "5a4ec7ae2ad62130d122e516f8c34fd1016a60e32d403af6c08f6f7836d3848e",
+    "bytes": 461605
+  },
+  "Antes/fontes-studio.json": {
+    "sha256": "d628ce067a8048d2a479112a531b3baf35552077553fbe45460d1b23c14745a8",
+    "bytes": 53254
+  },
+  "Antes/scene.json": {
+    "sha256": "0a392c8900def3149eb01bc88acf482ee9d0d940dbdb5b1016bae64d97b2467e",
+    "bytes": 3368220
+  },
+  "Transferencia/AntesMap.zst": {
+    "sha256": "2d7c8af695653095b2bb4defc5a79316b0269824a432711ee3f9d5de4f06748d",
+    "bytes": 425162
+  },
+  "Transferencia/AntesScene.zst": {
+    "sha256": "3ead4ba32273244000e758b2007c0ed7c8005c4cd3101bf44fb39ca4c01ab8e8",
+    "bytes": 91060
+  },
+  "Transferencia/AntesSources.zst": {
+    "sha256": "40fb405be17a507a21dae10a2f35eed474a0d87ba4cf0ecd1e7eda4eead43e71",
+    "bytes": 16936
+  },
+  "Transferencia/Map.zst": {
+    "sha256": "d8065dc27dd411baec9be749c6e94f54a3952307223b2ecfa3a7a5ac1ba76c05",
+    "bytes": 436444
+  },
+  "Transferencia/Report.zst": {
+    "sha256": "da1a387c8f863549c2e2a90ad87acb412de40d2bfa9e35e5129c6b8cc464abdc",
+    "bytes": 573
+  },
+  "Transferencia/Scene.zst": {
+    "sha256": "a1976114a84d9ba110ad3f1a1fa8082517e75f82d9a5af062b1267941d50f68b",
+    "bytes": 121415
+  },
+  "Fontes/Client/Client.client.luau": {
+    "sha256": "8822a0962eb243fe39a012b3ee678cfa3bc523b232208737ac43ddd825bd6ba9",
+    "bytes": 67864
+  },
+  "Fontes/Client/StudioMobile.client.luau": {
+    "sha256": "4ba750738556b5479b2b98b142c6471488f6f6a719b1517dc831662751d17f7d",
+    "bytes": 3994
+  },
+  "Fontes/Client/StudioQA.client.luau": {
+    "sha256": "186771d34f53d34ba6297cec0ab766352e04d26d953664f7f7ab0fa74c435b36",
+    "bytes": 2051
+  },
+  "Fontes/Client/StudioStress.client.luau": {
+    "sha256": "6f970e22a47a6734b7142f5d6625291b00b6bf9c63138655c0c21399acdc2592",
+    "bytes": 1276
+  },
+  "Fontes/Server/Bootstrap.server.luau": {
+    "sha256": "54e011f66204879b21824c0ff9edf61c63704279c2c1e47f853d4890d36683d3",
+    "bytes": 42375
+  },
+  "Fontes/Server/Building.luau": {
+    "sha256": "ada06b7696ebc64b1fa7fb2b275831f8fcc70207dde3fdda583370c33a4aa0ce",
+    "bytes": 8933
+  },
+  "Fontes/Server/Combat.luau": {
+    "sha256": "57089bc55158ed099f4f779df760bb4ac1c62767f22a0a99f01a8e7c75d93604",
+    "bytes": 11422
+  },
+  "Fontes/Server/Persistence.luau": {
+    "sha256": "f09105b21d1f65706beea244d048537af7570a6e5cb30259551ddebbeba67fbc",
+    "bytes": 20961
+  },
+  "Fontes/Server/Production.luau": {
+    "sha256": "07319ef5d99bf44cb5e87e18ae1583f0ff0b62fadd820752d2d43bd5bdb44138",
+    "bytes": 8270
+  },
+  "Fontes/Server/Progression.luau": {
+    "sha256": "1a2d2a1c7cc7748c1a1092fa8fc193ca7195f7c0e16392a4f8c5503f0d2da301",
+    "bytes": 5086
+  },
+  "Fontes/Server/StudioMobile.server.luau": {
+    "sha256": "093db2d8805cbf9e986eb59bc65e0896ee771fb89df563f668b3982c9f109f82",
+    "bytes": 6927
+  },
+  "Fontes/Server/StudioPersistenceQA.luau": {
+    "sha256": "6eed3ee1886e1c25e0e5b19db1fcd3b94113fbe1b0345c29f7ee787205914f86",
+    "bytes": 14887
+  },
+  "Fontes/Server/StudioProgressionQA.luau": {
+    "sha256": "99a4ba864c303c94f50de92c9ba7a3063ec2da7291b269f60722558647feb599",
+    "bytes": 2420
+  },
+  "Fontes/Server/StudioQA.server.luau": {
+    "sha256": "eca47bba963061f51d61aacbf6e2875a244d01453c210ed513f55898485a31be",
+    "bytes": 12697
+  },
+  "Fontes/Server/StudioRegression.server.luau": {
+    "sha256": "6d975e7ff25219258f1d781dd0cb44b684a71ca2297b3f926dbf8629bc9310f9",
+    "bytes": 19313
+  },
+  "Fontes/Server/StudioRulesQA.luau": {
+    "sha256": "364a46063d01fb8019a0be465f67c2376665e3060c454e1c836c13e371bdcdcb",
+    "bytes": 7549
+  },
+  "Fontes/Server/StudioStress.server.luau": {
+    "sha256": "92d8cb5db7fd96e585ff8ea985dede1c269548813939c141259df196f917cc21",
+    "bytes": 3749
+  },
+  "Fontes/Server/StudioTraversal.server.luau": {
+    "sha256": "1dbf33c45f05b5ebaf9d498223a9d8e4b734eeedb4fa0b434dc4d02de63a6180",
+    "bytes": 15480
+  },
+  "Fontes/Server/WorldFactory.luau": {
+    "sha256": "a7400235521dabb036e6c223cf7f28dd7ee820aa6b92fd4c1bd291f383b3b02f",
+    "bytes": 13653
+  },
+  "Fontes/Shared/Art.luau": {
+    "sha256": "226f43229d6f5f4ff19c63a48a720dd9ede80fd942d7670eeebaf7b1caa167de",
+    "bytes": 7007
+  },
+  "Fontes/Shared/BaseIndustrialData.luau": {
+    "sha256": "a22e5860183c2baa075497285a120aec237ea9341c69811714852fefb1ae4574",
+    "bytes": 1395
+  },
+  "Fontes/Shared/BaseShell.luau": {
+    "sha256": "48a6653f6a04e8a8eb95d5730a969a915bc5de64e577f020907ea42b51f93321",
+    "bytes": 8620
+  },
+  "Fontes/Shared/BuildRules.luau": {
+    "sha256": "c9979f81162715f48a15fbbc7ae5280669055a0be7a9c459793f982b4c3ae371",
+    "bytes": 7720
+  },
+  "Fontes/Shared/Config.luau": {
+    "sha256": "9e2ecf840c2df844e69abf6eef49b19a28de6626fe0d854c5467949acf75d61a",
+    "bytes": 4712
+  },
+  "Fontes/Shared/Generator.luau": {
+    "sha256": "4342e6002287f120e61cb63548fbd23a59c19bb7f604869866eac718caaa4464",
+    "bytes": 9831
+  },
+  "Fontes/Shared/GeneratorData.luau": {
+    "sha256": "e40dae08e8c00e98ef8e9e4accef41d2f330887a7f6ab2d52391ed57820cd854",
+    "bytes": 1760
+  },
+  "Fontes/Shared/GeometryData.luau": {
+    "sha256": "e4866591e1e6d3fadb12a1e2a98959d80f694894fa16bfe678d89aacf5b163fc",
+    "bytes": 66878
+  },
+  "Fontes/Shared/HudGuide.luau": {
+    "sha256": "ca616ed8e9e8da04a01d464ce7ccd42ac241e08e7009a87ac33b62411541a999",
+    "bytes": 17149
+  }
+}

@@ -4,6 +4,12 @@ local Rules = require(ReplicatedStorage:WaitForChild("EggTycoonV3").Shared.Build
 local Production = {}
 Production.__index = Production
 
+local function plotCFrame(state,config)
+	-- Real plots follow the authored map; older data-only fixtures have a table stub.
+	if state.Plot and type(state.Plot.GetPivot)=="function" then return state.Plot:GetPivot() end
+	return config.PlotCFrame(state.PlotId)
+end
+
 function Production.new(ctx)
 	return setmetatable({ctx=ctx},Production)
 end
@@ -49,6 +55,7 @@ function Production:Multiplier(state,habitatId)
 end
 
 function Production:Income(state)
+	if not state.Plot then return 0 end
 	local income=0
 	for _,creature in ipairs(state.Profile.Creatures) do
 		if not self:IsTransported(state,creature) and self:Route(state,creature.HabitatId) then
@@ -60,6 +67,7 @@ function Production:Income(state)
 end
 
 function Production:RenderCreatures(state)
+	if not state.Plot then return end
 	local folder=state.Plot:FindFirstChild("Creatures")
 	if not folder then folder=Instance.new("Folder") folder.Name="Creatures" folder.Parent=state.Plot end
 	folder:ClearAllChildren()
@@ -69,7 +77,7 @@ function Production:RenderCreatures(state)
 		local build=building:GetBuild(state,creature.HabitatId)
 		local species=self.ctx.Config.Species[creature.Species]
 		if build and species and not self:IsTransported(state,creature) then
-			local cf=self.ctx.Config.ItemCFrame(self.ctx.Config.PlotCFrame(state.PlotId),build)*CFrame.new(0,1.1,0)
+			local cf=self.ctx.Config.ItemCFrame(plotCFrame(state,self.ctx.Config),build)*CFrame.new(0,1.1,0)
 			local model=self.ctx.Art.Creature(creature.Species,cf,1,folder)
 			model.Name="Creature_"..creature.Id
 			model:SetAttribute("CreatureId",creature.Id)
@@ -124,7 +132,7 @@ function Production:Step(state,dt)
 		runtime.PacketGeneration=state.Generation
 		if firstStep then
 			local restored={}
-			local plotCf=self.ctx.Config.PlotCFrame(state.PlotId)
+			local plotCf=plotCFrame(state,self.ctx.Config)
 			for _,packet in ipairs(state.Profile.ResourceEscrow or {}) do
 				if packet.Id and not restored[packet.Id] and #runtime.ResourcePackets<256 then
 					restored[packet.Id]=true
@@ -161,7 +169,7 @@ function Production:Step(state,dt)
 		end
 	end
 	local living={}
-	local plotCf=self.ctx.Config.PlotCFrame(state.PlotId)
+	local plotCf=plotCFrame(state,self.ctx.Config)
 	for _,creature in ipairs(state.Profile.Creatures) do
 		living[creature.Id]=true
 		local species=self.ctx.Config.Species[creature.Species]

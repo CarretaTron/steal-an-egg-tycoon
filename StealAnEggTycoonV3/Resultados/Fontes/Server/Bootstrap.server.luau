@@ -53,14 +53,15 @@ end
 function ctx:Sync(state)
  if not state.Ready or state.Player.Parent~=Players then return end
  local now=os.clock();local p=state.Profile;local pending={}
- for habitatId,v in pairs(state.Pending) do
+ for habitatId,v in pairs(state.Pending or {}) do
   pending[habitatId]={Id=v.Id,Species=v.Species,Remaining=math.max(0,v.EndsAt-now)}
  end
  local carry=state.Carry
  local carryName=carry and (carry.Kind=="Egg" and "Ovo de " or "Criatura: ")..Config.Species[carry.Kind=="Egg" and carry.Species or carry.Creature.Species].Name or ""
  self.Remotes.State:FireClient(state.Player,{
-  Cash=p.Cash,Rebirths=p.Rebirths,Income=self.Services.Production:Income(state),Carry=carryName,Carrying=carry~=nil,
-  PlotId=state.PlotId,PlotCFrame=state.Plot:GetPivot(),Energy=math.floor(state.Energy),BatteryHP=state.Runtime.BatteryHP,
+  Cash=p.Cash,Rebirths=p.Rebirths,Income=state.Plot and self.Services.Production:Income(state) or 0,Carry=carryName,Carrying=carry~=nil,
+  NeedsClaim=state.Plot==nil,DefensesBuilt=p.DefensesBuilt==true,
+  PlotId=state.PlotId,PlotCFrame=state.Plot and state.Plot:GetPivot() or nil,PlotHalf=Config.PlotHalfFor(state.Plot),Energy=math.floor(state.Energy),BatteryHP=state.Runtime.BatteryHP,
   BatteryMax=state.Runtime.BatteryMax,BreachRemaining=math.max(0,(state.Runtime.BreachUntil or 0)-now),
   LastCombatRemaining=state.LastCombat>0 and math.max(0,Config.CombatLock-(now-state.LastCombat)) or 0,Inventory=copy(p.Inventory),Builds=copy(p.Builds),
   Creatures=copy(p.Creatures),Pending=pending,SpeedLevel=p.SpeedLevel,WeaponLevel=p.WeaponLevel,BatteryLevel=p.BatteryLevel,
@@ -103,7 +104,8 @@ function ctx:RestoreCarry(state,reason)
     state.Runtime.TransferCommitting=false;c.Committing=nil
     if finalized and committed then
      state.Carry=nil;clearCarryVisual(state);self:ApplySpeed(state)
-     self.Services.Production:RenderCreatures(victim);self.Services.Production:RenderCreatures(state)
+     if victim.Plot then self.Services.Production:RenderCreatures(victim) end
+     if state.Plot then self.Services.Production:RenderCreatures(state) end
      state.OperationBusy=wasBusy;self:Sync(victim);self:Sync(state)
      self:Toast(state.Player,"Transferência já confirmada pelo servidor; criatura entregue.")
      return true
@@ -121,7 +123,8 @@ function ctx:RestoreCarry(state,reason)
  if c.Kind=="Creature" then
   local victim=self.States[c.VictimUserId]
   if victim and victim.Ready then
-   self.Services.Production:RenderCreatures(victim);self:Sync(victim)
+   if victim.Plot then self.Services.Production:RenderCreatures(victim) end
+   self:Sync(victim)
    self:Toast(victim.Player,"Sua criatura retornou ao habitat.")
   end
  elseif c.NestId and self.Nests[c.NestId] then
@@ -152,6 +155,7 @@ local function createTool(name,kind,color)
  return tool
 end
 function ctx:GrantTools(state)
+ if not state.Plot then return end
  local backpack=state.Player:FindFirstChildOfClass("Backpack")
  if not backpack then return end
  local char=state.Player.Character
@@ -189,6 +193,7 @@ for _,model in ipairs(World.Guardians:GetChildren()) do
  end
 end
 local function stealEgg(state,nestId)
+ if not state.Plot then ctx:Toast(state.Player,"Escolha uma tycoon livre antes de buscar seu ovo.");return end
  local n=ctx.Nests[nestId]
  if not n or state.Carry or not state.Ready or state.Leaving or n.RespawnAt>os.clock() or n.Model:GetAttribute("Available")~=true then return end
  local egg=n.Model:FindFirstChild("Egg");local part=egg and egg.PrimaryPart or n.Model.PrimaryPart
@@ -201,6 +206,7 @@ local function stealEgg(state,nestId)
  ctx:Toast(state.Player,"O guardião percebeu! Leve o ovo à sua incubadora.")
 end
 local function renderPending(state,habitatId,pending)
+ if not state.Plot then return end
  local build=ctx.Services.Building:GetBuild(state,habitatId);if not build then return end
  local folder=state.Plot:FindFirstChild("Incubations") or Instance.new("Folder")
  folder.Name="Incubations";folder.Parent=state.Plot
@@ -212,6 +218,7 @@ local function renderPending(state,habitatId,pending)
  end
 end
 local function deliveryPosition(state,buildId,egg)
+ if not state.Plot then return nil end
  if egg then
   local build=buildId and ctx.Services.Building:GetBuild(state,buildId)
   if build and build.Kind=="Incubator" then return Config.ItemCFrame(state.Plot:GetPivot(),build).Position,build.Id end
@@ -219,10 +226,11 @@ local function deliveryPosition(state,buildId,egg)
    local position=Config.ItemCFrame(state.Plot:GetPivot(),candidate).Position
    if candidate.Kind=="Incubator" and ctx:Near(state.Player,position,14) then return position,candidate.Id end
   end
- else return (state.Plot:GetPivot()*CFrame.new(0,0,-65)).Position end
+ else return (state.Plot:GetPivot()*CFrame.new(0,0,-65*Config.PlotHalfFor(state.Plot)/Config.LegacyPlotHalf)).Position end
  return nil
 end
 local function deliver(state,buildId)
+ if not state.Plot then return end
  local c=state.Carry;if not c or state.OperationBusy then return end
  if c.Kind=="Creature" then
   local root=characterRoot(state.Player);local previous=state.Runtime.LastAllowedCF
@@ -242,7 +250,7 @@ local function deliver(state,buildId)
  else
   local victim=ctx.States[c.VictimUserId]
   local destination=ctx.Services.Building:GetBuild(state,c.DestinationHabitatId)
-  if not victim or victim.Leaving or not destination or destination.Kind~="Habitat" then ctx:RestoreCarry(state,"O roubo foi cancelado; criatura devolvida.");return end
+  if not victim or not victim.Plot or victim.Leaving or not destination or destination.Kind~="Habitat" then ctx:RestoreCarry(state,"O roubo foi cancelado; criatura devolvida.");return end
   for _,cr in ipairs(state.Profile.Creatures) do if cr.HabitatId==destination.Id then ctx:RestoreCarry(state,"O habitat de destino está ocupado.");return end end
   state.OperationBusy=true;state.Runtime.TransferCommitting=true;c.Committing=true
   local ok,result=pcall(function() return ctx.Services.Persistence:CommitTransfer(victim,state,c) end)
@@ -261,7 +269,7 @@ local function deliver(state,buildId)
 end
 local function theftContext(state,victimId,creatureId)
  local victim=ctx.States[tonumber(victimId)]
-  if not victim or victim==state or not victim.Ready or victim.Leaving or state.Carry or state.OperationBusy then return end
+  if not state.Plot or not victim or not victim.Plot or victim==state or not victim.Ready or victim.Leaving or state.Carry or state.OperationBusy then return end
  local creature
  for _,c in ipairs(victim.Profile.Creatures) do if c.Id==creatureId then creature=c;break end end
  if not creature or ctx.Services.Building:Reserved(victim,creature.HabitatId) then return end
@@ -270,8 +278,10 @@ local function theftContext(state,victimId,creatureId)
  local root=characterRoot(state.Player)
  local lp=root and victim.Plot:GetPivot():PointToObjectSpace(root.Position)
  local previous=victim.Runtime.Positions and victim.Runtime.Positions[state.Player.UserId]
- local alreadyInside=previous and math.abs(previous.X)<79 and previous.Z>-79.5 and previous.Z<79 and previous.Y<30
- if not lp or math.abs(lp.X)>=79 or lp.Z<=-79.5 or lp.Z>=79 or lp.Y>=30 or ((victim.Runtime.BreachUntil or 0)<=os.clock() and not alreadyInside) then return end
+ local half=Config.PlotHalfFor(victim.Plot)
+ local insideHalf,front,roof=half-1,-half+.5,30*half/Config.LegacyPlotHalf
+ local alreadyInside=previous and math.abs(previous.X)<insideHalf and previous.Z>front and previous.Z<insideHalf and previous.Y<roof
+ if not lp or math.abs(lp.X)>=insideHalf or lp.Z<=front or lp.Z>=insideHalf or lp.Y>=roof or (victim.Profile.DefensesBuilt~=false and (victim.Runtime.BreachUntil or 0)<=os.clock() and not alreadyInside) then return end
  local habitat=ctx.Services.Building:FreeHabitat(state)
   if not habitat then return nil,nil,nil,"Você precisa de um habitat livre na sua base." end
   return victim,creature,habitat
@@ -297,6 +307,7 @@ local function stealCreature(state,victimId,creatureId)
  ctx:Toast(state.Player,"Leve a criatura à sua base. A praça e o corredor estão bloqueados durante o roubo.")
 end
 local function rebirth(state)
+ if not state.Plot then ctx:Toast(state.Player,"Escolha sua tycoon antes de renascer.");return end
  local cost=Config.RebirthCost*3^state.Profile.Rebirths
  if state.Profile.Cash<cost then ctx:Toast(state.Player,"Rebirth requer $"..tostring(cost)..".");return end
  if ctx:HasTransfer(state) then ctx:Toast(state.Player,"Conclua os roubos em andamento antes do rebirth.");return end
@@ -305,7 +316,7 @@ local function rebirth(state)
  state.OperationBusy=true;state.Generation+=1
  local p=state.Profile
  p.Rebirths+=1;p.Cash=0;p.SpeedLevel=0;p.WeaponLevel=0;p.BatteryLevel=1;p.ProcessorLevel=1
-  p.Inventory=copy(Config.StarterInventory);p.Builds={};p.Creatures={};p.StoredHabitats={};p.Incubations={};p.ResourceEscrow={};p.StarterPlaced=false;state.Pending={}
+  p.Inventory=copy(Config.StarterInventory);p.Builds={};p.Creatures={};p.StoredHabitats={};p.Incubations={};p.ResourceEscrow={};p.StarterPlaced=true;p.DefensesBuilt=true;state.Pending={}
  local pending=state.Plot:FindFirstChild("Incubations");if pending then pending:ClearAllChildren() end
  ctx.Services.Building:Render(state);ctx.Services.Production:RenderCreatures(state);ctx.Services.Combat:Reset(state)
  ctx:GrantTools(state);ctx:ApplySpeed(state);ctx:Sync(state)
@@ -316,6 +327,7 @@ end
 
 -- Prompt hold time and continuous distance are validated on the server.
 local holds={}
+local claimPlot
 local function promptPosition(prompt)
  local parent=prompt.Parent
  if parent and parent:IsA("BasePart") then return parent.Position end
@@ -326,7 +338,8 @@ end
 local function setupPrompt(prompt)
  if not prompt:IsA("ProximityPrompt") then return end
  local action=prompt:GetAttribute("Action")
- if action=="StealCreature" then prompt.HoldDuration=2;prompt.ActionText="Roubar criatura";prompt.ObjectText="Leve até sua base"
+ if action=="ClaimPlot" then prompt.HoldDuration=.35;prompt.ActionText="Escolher tycoon";prompt.ObjectText="Terreno livre"
+ elseif action=="StealCreature" then prompt.HoldDuration=2;prompt.ActionText="Roubar criatura";prompt.ObjectText="Leve até sua base"
  elseif action=="StealEgg" then prompt.HoldDuration=.6;prompt.ActionText="Roubar ovo"
  elseif action=="Deliver" then prompt.HoldDuration=.35;prompt.ActionText="Entregar / incubar" end
 end
@@ -355,7 +368,9 @@ local function triggerPrompt(prompt,player)
  if prompt.HoldDuration>0 and (not hold or hold.Prompt~=prompt or not hold.Valid or os.clock()-hold.Started<math.max(0,prompt.HoldDuration-.1) or os.clock()-hold.Started>8) then return end
  holds[player.UserId]=nil
  local action=prompt:GetAttribute("Action")
- if action=="StealEgg" then stealEgg(state,prompt:GetAttribute("NestId"))
+ if action=="ClaimPlot" then claimPlot(state,prompt:GetAttribute("PlotId"))
+ elseif not state.Plot then ctx:Toast(player,"Escolha uma tycoon livre primeiro.")
+ elseif action=="StealEgg" then stealEgg(state,prompt:GetAttribute("NestId"))
  elseif action=="StealCreature" then stealCreature(state,prompt:GetAttribute("OwnerUserId"),prompt:GetAttribute("CreatureId"))
  elseif action=="Deliver" and (not prompt:GetAttribute("OwnerUserId") or prompt:GetAttribute("OwnerUserId")==player.UserId) then deliver(state,prompt:GetAttribute("BuildId")) end
 end
@@ -368,13 +383,20 @@ addConnection(ctx.Remotes.Command.OnServerEvent:Connect(function(player,action,p
  if not state or not state.Ready or state.Leaving or type(action)~="string" then return end
  local now=os.clock()
  if action=="GetState" then if now-(state.Runtime.LastGetState or 0)>.3 then state.Runtime.LastGetState=now;ctx:Sync(state) end;return end
- if action=="Attack" then ctx.Services.Combat:Attack(state,payload);return end
+ if action=="Attack" then if state.Plot then ctx.Services.Combat:Attack(state,payload) end;return end
  if state.OperationBusy or now-(state.Runtime.LastCommand or 0)<.12 then return end
  state.Runtime.LastCommand=now
+ if action=="ClaimPlot" then
+  claimPlot(state,type(payload)=="table" and payload.PlotId or nil);return
+ end
+ if not state.Plot then ctx:Toast(player,"Escolha uma tycoon livre primeiro.");return end
  if buildActions[action] then
   local root=characterRoot(player);local localPosition=root and state.Plot:GetPivot():PointToObjectSpace(root.Position)
-  if not localPosition or math.abs(localPosition.X)>90 or math.abs(localPosition.Z)>95 then ctx:Toast(player,"Volte à sua base para construir.");return end
+  local half=Config.PlotHalfFor(state.Plot)
+  if not localPosition or math.abs(localPosition.X)>half+10 or math.abs(localPosition.Z)>half+15 then ctx:Toast(player,"Volte à sua base para construir.");return end
   ctx.Services.Building:Command(state,action,type(payload)=="table" and payload or {})
+ elseif action=="BuildDefenses" then
+  ctx.Services.Combat:BuildDefenses(state)
  elseif action=="Upgrade" then
   if type(payload)=="table" then ctx.Services.Combat:Upgrade(state,payload.Kind) end
   elseif action=="ClaimMission" then
@@ -391,7 +413,7 @@ end))
 local function makeDeliveryPad(state)
  local old=state.Plot:FindFirstChild("DeliveryPad");if old then old:Destroy() end
  local part=Instance.new("Part");part.Name="DeliveryPad";part.Size=Vector3.new(12,.2,8);part.Anchored=true;part.CanCollide=false
- part.Material=Enum.Material.Neon;part.Color=Color3.fromRGB(102,234,164);part.Transparency=.5;part.CFrame=state.Plot:GetPivot()*CFrame.new(0,.15,-65);part.Parent=state.Plot
+ part.Material=Enum.Material.Neon;part.Color=Color3.fromRGB(102,234,164);part.Transparency=.5;part.CFrame=state.Plot:GetPivot()*CFrame.new(0,.15,-65*Config.PlotHalfFor(state.Plot)/Config.LegacyPlotHalf);part.Parent=state.Plot
  local p=Instance.new("ProximityPrompt");p.ActionText="Entregar criatura";p.ObjectText="Sua base";p.RequiresLineOfSight=false;p.MaxActivationDistance=12;p.HoldDuration=.35
  p:SetAttribute("Action","Deliver");p:SetAttribute("OwnerUserId",state.Player.UserId);p.Parent=part
 end
@@ -400,12 +422,94 @@ local function ownerSign(plot,player)
  local title=sign and sign:FindFirstChild("Title",true)
  local subtitle=sign and sign:FindFirstChild("Subtitle",true)
  if title and title:IsA("TextLabel") then title.Text=player and ("BASE DE "..string.upper(player.DisplayName)) or "BASE DISPONÍVEL" end
- if subtitle and subtitle:IsA("TextLabel") then subtitle.Text=player and "Roube • incube • produza • defenda" or "Aguardando jogador" end
+ if subtitle and subtitle:IsA("TextLabel") then subtitle.Text=player and "Roube • incube • produza • defenda" or "Escolha na placa verde da entrada" end
+end
+local function claimLabel(plot,pad)
+ local label=pad:FindFirstChild("ClaimLabel") or plot:FindFirstChild("ClaimLabel")
+ -- Previous in-progress maps parented this billboard to the plot instead of its pad.
+ if label then label.Parent=pad end
+ return label
+end
+local function claimAvailable(plot,available)
+ local pad=plot:FindFirstChild("ClaimPad")
+ if not pad then return end
+ pad.Transparency=available and .15 or 1
+ pad.CanQuery=available
+ local prompt=pad:FindFirstChild("ClaimPlot")
+ if prompt then prompt.Enabled=available end
+ local label=claimLabel(plot,pad)
+ if label then label.Enabled=available end
+end
+for id=1,8 do
+ local plot=World.Plots:FindFirstChild(string.format("Plot_%02d",id))
+ if plot then
+  plot:SetAttribute("OwnerUserId",0)
+  for _,name in ipairs({"Structures","Creatures","Incubations"}) do
+   local folder=plot:FindFirstChild(name);if folder then folder:ClearAllChildren() end
+  end
+  local oldDelivery=plot:FindFirstChild("DeliveryPad");if oldDelivery then oldDelivery:Destroy() end
+  local pad=plot:FindFirstChild("ClaimPad")
+  if not pad then
+   pad=Instance.new("Part");pad.Name="ClaimPad";pad.Size=Vector3.new(16,.4,10);pad.Anchored=true;pad.CanCollide=false;pad.CanTouch=false
+   pad.CFrame=plot:GetPivot()*CFrame.new(0,.25,-96*Config.PlotHalfFor(plot)/Config.LegacyPlotHalf);pad.Material=Enum.Material.Neon;pad.Color=Color3.fromRGB(112,255,66)
+   pad:SetAttribute("PlotId",id);pad.Parent=plot
+  end
+  local prompt=pad:FindFirstChild("ClaimPlot") or Instance.new("ProximityPrompt")
+  prompt.Name="ClaimPlot";prompt.ActionText="Escolher tycoon";prompt.ObjectText="Terreno livre";prompt.HoldDuration=.35
+  prompt.RequiresLineOfSight=false;prompt.MaxActivationDistance=12;prompt:SetAttribute("Action","ClaimPlot");prompt:SetAttribute("PlotId",id);prompt.Parent=pad
+  if not claimLabel(plot,pad) then
+   local label=Art.Label(pad,pad,"TYCOON LIVRE","ESCOLHA SUA BASE",Color3.fromRGB(154,255,100),110);label.Name="ClaimLabel"
+  end
+  ctx.Services.Combat:SetPlotVacant(plot)
+  claimAvailable(plot,true);ownerSign(plot,nil)
+ end
+end
+
+claimPlot=function(state,id)
+ if not state or not state.Ready or state.Leaving or state.OperationBusy or state.Player.Parent~=Players then return false end
+ if state.Plot then ctx:Toast(state.Player,"Você já escolheu uma tycoon neste servidor.");return false end
+ if type(id)~="number" or id~=id or id%1~=0 or id<1 or id>8 then return false end
+ local plot=World.Plots:FindFirstChild(string.format("Plot_%02d",id))
+ local pad=plot and plot:FindFirstChild("ClaimPad")
+ local prompt=pad and pad:FindFirstChild("ClaimPlot")
+ if not plot or not pad or not prompt or not prompt.Enabled or (plot:GetAttribute("OwnerUserId") or 0)~=0 then
+  ctx:Toast(state.Player,"Essa tycoon já foi escolhida. Procure outra placa verde.");return false
+ end
+ if not ctx:Near(state.Player,pad.Position,prompt.MaxActivationDistance+2) then
+  ctx:Toast(state.Player,"Aproxime-se da placa verde da tycoon que quer escolher.");return false
+ end
+ -- Reserve both sides before rendering can yield: concurrent requests cannot share a plot.
+ local profileBefore,runtimeBefore=copy(state.Profile),copy(state.Runtime)
+ state.OperationBusy=true;state.Plot=plot;state.PlotId=id
+ plot:SetAttribute("OwnerUserId",state.Player.UserId);claimAvailable(plot,false)
+ local ok,err=xpcall(function()
+  ctx.Services.Persistence:RestoreIncubations(state)
+  state.Profile.DefensesBuilt=true
+  ctx.Services.Combat:Reset(state)
+  ctx.Services.Building:Render(state);ctx.Services.Production:RenderCreatures(state);makeDeliveryPad(state)
+  for habitatId,pending in pairs(state.Pending) do renderPending(state,habitatId,pending) end
+  ownerSign(plot,state.Player)
+ end,debug.traceback)
+ if not ok then
+  for _,name in ipairs({"Structures","Creatures","Incubations"}) do local f=plot:FindFirstChild(name);if f then f:ClearAllChildren() end end
+  local delivery=plot:FindFirstChild("DeliveryPad");if delivery then delivery:Destroy() end
+  state.Profile=profileBefore;state.Runtime=runtimeBefore;state.Pending=nil;state.Plot=nil;state.PlotId=nil
+  plot:SetAttribute("OwnerUserId",0);ctx.Services.Combat:SetPlotVacant(plot);claimAvailable(plot,true);ownerSign(plot,nil)
+  state.OperationBusy=false
+  warn("[EggTycoonV3] Claim preservado para nova tentativa:",err)
+  ctx:Sync(state);ctx:Toast(state.Player,"Não foi possível montar sua base agora. Seu progresso foi preservado; tente novamente.")
+  return false
+ end
+ state.OperationBusy=false
+ ctx:GrantTools(state);ctx:ApplySpeed(state);ctx:Sync(state)
+ ctx:Toast(state.Player,#state.Profile.Builds==0 and "Tycoon escolhida! Abra o martelo dentro do terreno e posicione seu kit gratuito." or "Tycoon escolhida! Sua base salva foi restaurada neste terreno.")
+ return true
 end
 local function spawnCharacter(state,character)
  local root=character:WaitForChild("HumanoidRootPart",10);local hum=character:FindFirstChildOfClass("Humanoid")
  if not root or not hum or state.Leaving or not state.Ready then return end
- character:PivotTo(state.Plot:GetPivot()*CFrame.new(0,5,-62))
+ local spawn=World.Decorations:FindFirstChild("SpawnSeguro")
+ character:PivotTo(spawn and spawn.CFrame*CFrame.new(0,4,0) or CFrame.new(0,5,0))
  state.Runtime.SpawnProtectedUntil=os.clock()+3
  ctx:GrantTools(state);ctx:ApplySpeed(state)
  addConnection(hum.Died:Connect(function()
@@ -413,37 +517,30 @@ local function spawnCharacter(state,character)
   ctx:RestoreCarry(state,"Você foi derrotado. Seu transporte foi devolvido.")
  end))
 end
+local joining={}
 local function join(player)
- if ctx.States[player.UserId] then return end
- local slot
- for id=1,8 do
-  local plot=World.Plots:FindFirstChild(string.format("Plot_%02d",id))
-  if plot and (plot:GetAttribute("OwnerUserId") or 0)==0 then slot={Id=id,Plot=plot};plot:SetAttribute("OwnerUserId",player.UserId);break end
- end
- if not slot then player:Kick("Todas as oito bases estão ocupadas. Entre em outro servidor.");return end
+ if ctx.States[player.UserId] or joining[player.UserId] then return end
+ joining[player.UserId]=true
+ local spawn=World.Decorations:FindFirstChild("SpawnSeguro")
+ if spawn and spawn:IsA("SpawnLocation") then player.RespawnLocation=spawn end
  local ok,profile,mode=pcall(function() return ctx.Services.Persistence:Load(player) end)
  if not ok or not profile then
-  slot.Plot:SetAttribute("OwnerUserId",0)
+  joining[player.UserId]=nil
   player:Kick("Não foi possível carregar seu progresso com segurança. Tente novamente.")
   warn("[EggTycoonV3] Profile load:",mode or profile);return
  end
- local state={Player=player,Plot=slot.Plot,PlotId=slot.Id,Profile=profile,Carry=nil,LastCombat=0,Energy=100,LastAttack=0,Generation=0,Pending={},Runtime={},SaveMode=mode,Ready=false}
-  ctx.Services.Persistence:RestoreIncubations(state)
- ctx.States[player.UserId]=state
- ownerSign(state.Plot,player)
- ctx.Services.Combat:Reset(state)
- ctx.Services.Building:Render(state);ctx.Services.Production:RenderCreatures(state);makeDeliveryPad(state)
-  for habitatId,pending in pairs(state.Pending) do renderPending(state,habitatId,pending) end
- state.Ready=true
+ -- No runtime queues exist in the lobby: saving here retains stored incubation and packets.
+ local state={Player=player,Profile=profile,Carry=nil,LastCombat=0,Energy=100,LastAttack=0,Generation=0,Runtime={},SaveMode=mode,Ready=true}
  if player.Parent~=Players then
-  ctx.Services.Persistence:Release(state);ctx.States[player.UserId]=nil;slot.Plot:SetAttribute("OwnerUserId",0);return
+  ctx.Services.Persistence:Release(state);joining[player.UserId]=nil;return
  end
+ ctx.States[player.UserId]=state;joining[player.UserId]=nil
  addConnection(player.CharacterAdded:Connect(function(character) spawnCharacter(state,character) end))
  if player.Character then task.spawn(spawnCharacter,state,player.Character) end
  ctx:Sync(state)
  task.delay(2,function()
   if state.Leaving then return end
-  ctx:Toast(player,"Roube um ovo no corredor, fuja e entregue na sua incubadora. Produção precisa de esteiras conectadas!")
+  if not state.Plot then ctx:Toast(player,"Você nasceu na praça. Escolha uma tycoon livre na placa verde da entrada.") end
   if mode and string.find(mode,"Sessão") then ctx:Toast(player,"TESTE LOCAL: APIs desativadas; progresso desta sessão não é persistente.") end
  end)
 end
@@ -482,9 +579,14 @@ leave=function(player,forceSnapshot)
    warn("[EggTycoonV3] Release retained for retry:",released)
    return deferLeave(state)
   end
- for _,name in ipairs({"Structures","Creatures","Incubations"}) do local f=state.Plot:FindFirstChild(name);if f then f:ClearAllChildren() end end
- local pad=state.Plot:FindFirstChild("DeliveryPad");if pad then pad:Destroy() end
- state.Plot:SetAttribute("OwnerUserId",0);ownerSign(state.Plot,nil);ctx.States[player.UserId]=nil
+ if state.Plot then
+  local plot=state.Plot
+  for _,name in ipairs({"Structures","Creatures","Incubations"}) do local f=plot:FindFirstChild(name);if f then f:ClearAllChildren() end end
+  local pad=plot:FindFirstChild("DeliveryPad");if pad then pad:Destroy() end
+  plot:SetAttribute("OwnerUserId",0);ctx.Services.Combat:SetPlotVacant(plot)
+  claimAvailable(plot,true);ownerSign(plot,nil)
+ end
+ ctx.States[player.UserId]=nil
   state.Ready=false;state.Runtime.LeaveInProgress=false
   return true
 end
@@ -546,7 +648,7 @@ addConnection(RunService.Heartbeat:Connect(function(dt)
   if now-hold.Started>8 then holds[userId]=nil end
  end
  for _,s in pairs(ctx.States) do
-  if not s.Ready or s.Leaving then continue end
+  if not s.Ready or s.Leaving or s.OperationBusy or not s.Plot then continue end
   ctx.Services.Production:Step(s,dt)
   local root=characterRoot(s.Player)
   if s.Carry and root then
@@ -604,7 +706,7 @@ function ctx:Shutdown()
  for _,connection in ipairs(self.Connections) do connection:Disconnect() end
 end
 if RunService:IsStudio() then
- ctx.QA={PickupEgg=stealEgg,Deliver=deliver,Steal=stealCreature,Rebirth=rebirth,BeginHold=beginHold,TriggerPrompt=triggerPrompt}
+ ctx.QA={ClaimPlot=claimPlot,PickupEgg=stealEgg,Deliver=deliver,Steal=stealCreature,Rebirth=rebirth,BeginHold=beginHold,TriggerPrompt=triggerPrompt}
  _G.EggTycoonV3=ctx
 end
 game:BindToClose(function()

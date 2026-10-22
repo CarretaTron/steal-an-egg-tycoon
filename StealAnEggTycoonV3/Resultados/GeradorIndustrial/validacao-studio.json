@@ -1,0 +1,68 @@
+{
+  "Installation": {
+    "Passed": true,
+    "Mode": "Edit",
+    "Assertions": 208,
+    "Plots": {
+      "1": {
+        "OldBillboardRemoved": true,
+        "MeshParts": 7,
+        "Name": "Plot_05",
+        "SurfaceGui": true
+      },
+      "2": {
+        "OldBillboardRemoved": true,
+        "MeshParts": 7,
+        "Name": "Plot_08",
+        "SurfaceGui": true
+      },
+      "3": {
+        "OldBillboardRemoved": true,
+        "MeshParts": 7,
+        "Name": "Plot_02",
+        "SurfaceGui": true
+      },
+      "4": {
+        "OldBillboardRemoved": true,
+        "MeshParts": 7,
+        "Name": "Plot_03",
+        "SurfaceGui": true
+      },
+      "5": {
+        "OldBillboardRemoved": true,
+        "MeshParts": 7,
+        "Name": "Plot_04",
+        "SurfaceGui": true
+      },
+      "6": {
+        "OldBillboardRemoved": true,
+        "MeshParts": 7,
+        "Name": "Plot_07",
+        "SurfaceGui": true
+      },
+      "7": {
+        "OldBillboardRemoved": true,
+        "MeshParts": 7,
+        "Name": "Plot_01",
+        "SurfaceGui": true
+      },
+      "8": {
+        "OldBillboardRemoved": true,
+        "MeshParts": 7,
+        "Name": "Plot_06",
+        "SurfaceGui": true
+      }
+    }
+  },
+  "Behavior": {
+    "FixedCanvasVerified": true,
+    "Compiled": 28,
+    "NumericFontVerified": 90,
+    "Assertions": 24,
+    "Mode": "Edit",
+    "Passed": true,
+    "Limitations": {
+      "1": "Edit-only isolated real Combat module with mock players. No Play, real player damage, replication, profiles, physics or touch."
+    }
+  }
+}

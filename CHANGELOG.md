@@ -2,6 +2,100 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-22 — Bases menores e mais perto da expedição
+
+- Continuação solicitada durante a montagem: padrão 144 × 144 studs, 10% menor, oito bases em quatro pares, portas para a rua. Centros X±190 e Z440/684/928/1172; entrada dos biomas 340 studs mais próxima que na avenida maior. Mesmas cem decorações e sete biomas.
+- BaseShell revisão 5 escala somente a casca; piso, gerador externo e acessos acompanham a mudança. Máquinas e esteiras mantêm dimensões e grade de quatro studs. Construção, HUD, roubo, laser e entrega usam a dimensão efetiva.
+- Layouts antigos que precisem da borda/reserva/acessibilidade de 160 studs preservam esse espaço durante a ocupação. IDs, posições, criaturas, inventário e circuitos não são convertidos; ao vagar, terreno volta a 144. Proteções de proprietário/geração após carregamento de malhas evitam aplicar uma montagem a outro dono.
+- Edit: 3.563 verificações, 56 rotas simuladas, 200 amostras de chão, 28 fontes compilados, dois layouts legados sintéticos preservados e Combat real com jogadores/visuais simulados. Acesso externo ao gerador, bloqueio de entrada, saída e brecha aprovados. Sem interseção com paredões. Harness existente passou 365 verificações com mocks lexicais, sem CLI standalone.
+- Snapshot atual: 3.952 instâncias, seis raízes e 675 malhas. Entrega em Resultados/MapaCompacto/; etapa maior preservada em Resultados/MapaFileiras/ e backup imediato em Backups/AntesMapaCompacto/. Sem Play, DataStore, clientes reais ou FPS. Registro compartilhado: coordination/tasks/2026-10-22-codex-a-mapa-fileiras.md.
+
+## 2026-10-22 — Avenida com oito tycoons e decoração
+
+- Oito bases em duas fileiras de quatro, conforme a referência e confirmação do usuário. Portas voltadas para a rua central, com oito acessos perpendiculares. Praça circular e spawn preservados. IDs, pisos de 160 × 160 studs, geradores e coordenadas locais dos conteúdos mantidos.
+- Terreno alongado em duas peças adjacentes; biomas/ninhos/guardiões avançados1.000 studs e paredões estendidos com20 cópias dos módulos existentes. Config, geração básica e rotas do HudGuide atualizados. A rua permite PvP; corredor seguro acompanha a entrada dos biomas.
+- Cem modelos prontos do Blender distribuídos no cenário:32 árvores campestres,40 arbustos,16 flores e12 pedras, com468 MeshParts. Criação, catálogo e IDs existentes preservados.
+- Studio Edit:6.095 verificações de preservação/posição/orientação,56 rotas de roubo simuladas até a base sem cruzar zona segura,95 amostras de continuidade do piso;28 fontes compilados. Helper não duplica modelos ao reaplicar. Sem Play, perfis, clientes reais ou medição de FPS nesta etapa.
+- Snapshot final:3.952 instâncias,6 raízes,675 malhas. Portátil e fontes regenerados; entrega em Resultados/MapaFileiras/, backups do Studio e mapa versionado em Backups/AntesMapaFileiras/. Registro: coordination/tasks/2026-10-22-codex-a-mapa-fileiras.md.
+
+## 2026-10-22 — Geradores apoiados na grama
+
+- Corrigido vão de 1 stud: a montagem herdava Y1 do piso interno, enquanto o chão externo está em Y0. A geometria Blender não precisava de alteração.
+- Generator revisão 3 mede o apoio por raycast e move visual, painel e Battery juntos, preservando identidade, X/Z, rotação e HP. Ignora plots, guardiões, ninhos e personagens; sem apoio válido mantém a pose anterior.
+- Edit: 320 verificações nos oito geradores e 68 em quatro cenários de montagem, incluindo terreno sem Parent, piso elevado, ausência de chão e reconstrução sem deslocamento acumulado. 25 fontes da árvore principal compilados.
+- Play iniciado pelo usuário: leitura do servidor confirmou os oito geradores na revisão 3, pés em Y0 e Battery centro Y3,5. Nenhum teste foi iniciado/interrompido pelo agente; não houve teste completo de combate ou clientes adicionais.
+- Snapshot de Edit com 2.974 instâncias/201 malhas; fontes, mapa e portátil em Resultados/GeradorNoChao/. Backup em Backups/AntesApoioGerador/. Registro: coordination/tasks/2026-10-22-codex-a-gerador-chao.md.
+
+## 2026-10-22 — Gerador industrial com vida no painel
+
+- Oito baterias visuais substituídas por geradores originais do Blender: carcaça verde, grelhas, portas, ferragens, chassi cinza com studs e console superior inclinado. Sete malhas permanentes por gerador, 4.072 vértices e 7.452 triângulos.
+- Vida, barra, nível ativo e contagem de reconstrução aparecem numa SurfaceGui física incorporada. Removidas as oito legendas BillboardGui. Canvas fixo 1024 × 320 e numeração grande.
+- Generator/GeneratorData controlam apenas montagem/apresentação. Battery conserva identidade e posição como hitbox invisível 12 × 7 × 6; servidor continua decidindo dano, resistência, melhorias e reconstrução. BaseShell aplica o gerador antes do retorno idempotente e WorldFactory não cria mais a legenda antiga.
+- Combat delega visibilidade/visor ao módulo novo. Malhas e painel não interceptam disparos; o raio alcança Battery. Exportador preserva LightInfluence para legibilidade do visor no portátil.
+- Conferência em Edit: 208 verificações de instalação e 24 do Combat real em clones com jogadores simulados, incluindo dano (180/200), melhoria adiada, brecha e reconstrução (450/450). Harness existente de Combat adaptado e aprovado em 365 verificações com mocks lexicais hospedados no Studio; CLI standalone indisponível.
+- 28 fontes compilados. Sem Play, perfis, dois clientes ou teste de FPS. Criação, snapshot e pacote em Blender/GeradorIndustrial/ e Resultados/GeradorIndustrial/. Mapa com 2.974 instâncias/oito raízes/201 MeshParts.
+- Backups em Backups/AntesGeradorIndustrial/. Registro: coordination/tasks/2026-10-22-codex-a-gerador-painel.md.
+
+## 2026-10-22 — Bases sem cercas e teto sempre visível
+
+- Removida a malha baixa BI_CercaMadeira das oito bases, dos dados de montagem e da nova criação Blender. BaseShell revisão 4 impede seu retorno na reconstrução; seis malhas e 67 peças por base.
+- Retirado do Client o código de recorte do teto e suas três chamadas. Entrar na base ou construir não altera mais a transparência local do teto; colisão e seleção das máquinas foram preservadas.
+- Nova cena, gerador, geometria e FBX de seis malhas em Blender/BaseIndustrialSemCercas/. Seis IDs já importados foram reaproveitados; modelos anteriores preservados.
+- Snapshot renovado: 2.830 instâncias, oito raízes e 145 MeshParts. Portátil/cópias dos 26 fontes regenerados e conferidos; todas as 145 malhas comparadas ao XML final.
+- Conferência em Edit: 45 verificações de ausência das cercas, opacidade/colisão do teto, idempotência e reconstrução, com 26 fontes compilados. Sem Play ou perfis.
+- Entrega e evidências em Resultados/SemCercasTeto/; backup em Backups/AntesRemoverCercasTeto/. Registro: coordination/tasks/2026-10-22-codex-a-sem-cercas-teto.md. Integração no PR #3 das bases.
+
+## 2026-10-22 — Bases industriais modeladas no Blender
+
+- Pavilhão anterior substituído nas oito bases por um modelo original próximo das prints: estrutura cinza com studs reais, grandes janelas brancas, teto sólido, placa de madeira, degraus vermelhos e detalhes baixos de cerca cruzada.
+- Sete malhas Blender por base, com 13.440 vértices e 20.688 triângulos no conjunto; transferência real por FBX/Importer, com IDs permanentes registrados em Shared/BaseIndustrialData.luau. Cena, gerador, geometria e FBX preservados.
+- Shared/BaseShell.luau revisão 3 mantém 68 peças por base e usa colisores Part separados. Fachada com 35 feixes e campo laser 140 × 25; terrenos livres ficam desligados. Pisos mantêm identidade, tamanho e posição, com cor cinza intencional. Bateria, placa funcional, conteúdos e pivôs preservados.
+- Filtro de seleção do Client passa a ignorar RoofCollision ao selecionar máquinas, mantendo o teto consultável pelos raios de combate. Somente BaseShell e essa condição do Client mudaram entre os 25 fontes anteriores; novo módulo de dados adiciona o 26º fonte.
+- Conferência em Edit: 1.846 verificações estruturais e 1.688 de apresentação/preservação, mais três verificações do filtro de seleção. 26 fontes compilados; 23 anteriores inalterados. 1.321 peças externas aos pisos preservadas. Sete malhas recarregadas pelo módulo sem usar o modelo de importação.
+- Exportador passou a preservar malhas estáticas permanentes, incluindo tamanho original InitialSize, sem convertê-las em blocos. Mapa atualizado: oito raízes, 2.838 instâncias e 153 MeshParts (56 bases + 97 catálogo). Snapshot anterior em Backups/AntesBaseBlender/MapRev2/.
+- Portátil regenerado e verificado: 26 fontes/cópias, oito ensaios desativados e V2 preservada. As 153 malhas foram comparadas com o XML final; ensaio sintético recusou sete adulterações. Não houve Play, dois clientes, perfis ou teste de FPS; não foi publicada a experiência.
+- Entrega, prévia e relatórios em StealAnEggTycoonV3/Resultados/BaseIndustrial/. Registro: coordination/tasks/2026-10-21-codex-a-base-blender.md. Branch codex/bases-blender.
+
+## 2026-10-21 — Bases de jardim com portal laser
+
+- Oito estruturas substituídas por pavilhões originais: cercas cruzadas de madeira, pilares creme, arenito, borda turquesa, cobertura transparente sólida, placa dourada e emblema de ovo. Sete feixes vermelhos na entrada; terrenos livres mantêm o laser desligado.
+- Inspiração visual de duas bases reconstruídas a partir dos mapas locais. Não havia uma base laser nesses arquivos; o portal é próprio. Nenhum sistema ou script dos mapas de referência foi executado.
+- `Shared/BaseShell.luau` revisão 2 mantém abertura 16 × 18, grade livre, pisos, pivôs, bateria, placa e conteúdo dos jogadores. Cada estrutura tem 133 peças. A revisão impede que o visual antigo volte no próximo Play.
+- Continuação moderna de codex-b integrada ao catálogo em checkout isolado; controles de seta e recorte de teto já existentes no Studio foram capturados em Client/HudGuide. Não foram implementados nesta etapa. WIP antigo da pasta original preservado.
+- Validação em Edit: 2.651 verificações estruturais em clones, 118 de apresentação do módulo Combat e acesso à bateria por raios, oito aplicações idempotentes, 1.329 peças externas preservadas e 25 fontes compilados. Somente BaseShell mudou no Studio. Sem Play, perfis, dois clientes ou teste de desempenho.
+- Mapa exportado: 3.098 instâncias em sete raízes, incluindo 2.199 peças estáticas. Pacote atualizado e verificado: 25 fontes, oito ensaios desativados e backup V2. Catálogo decorativo preservado e entregue separadamente.
+- Registro: `coordination/tasks/2026-10-21-codex-a-bases-laser.md`; entrega e prévias em `Resultados/BasesLaser/`; backup em `Backups/AntesBaseLaser/`. Branch `codex/bases-laser`.
+
+## 2026-10-21 — Escolha de tycoon e construção manual
+
+- Continuação da branch `codex-a/escolha-base-preview` e dos nove fontes parciais do RAR recebido, preservando o mapa autorado e a HUD.
+- Entrada e respawn na praça; escolha de um terreno livre pela placa verde, com proximidade e propriedade validadas no servidor. Nenhuma base é atribuída automaticamente.
+- Kit inicial no inventário, sem máquinas posicionadas; paredes, cobertura e entrada a laser são montadas pela ação gratuita de defesas no menu Construir. A bateria externa fica fixa e só protege uma base com defesas montadas. Perfis antigos mantêm layout, criaturas e proteção salvos.
+- Prévia com o modelo real semitransparente e não físico, rotação e contorno de validade. O cliente reaproveita as malhas replicadas, sem criar EditableMesh próprio.
+- Orientação automática para escolher terreno e montar a primeira linha; retomada após rebirth. Placa de terreno livre corrigida após escolha, falha e liberação. Combate ignora jogadores ainda sem base; defesas preservam as transparências do mapa editado.
+- Verificações novas: 42 casos de ciclo de vida e persistência, 359 verificações do módulo de combate, 13 casos do guia e 28 contratos estáticos do preview. São ensaios offline com dependências simuladas; os três programas reproduzíveis estão em `StealAnEggTycoonV3/Tests/`.
+- Os 24 fontes compilaram com Luau; os nove alterados também foram compilados e aplicados no Studio em Edit. Play, simulador e validação visual não foram iniciados nesta continuação, respeitando a passagem de testes para o usuário.
+- Pacote regenerado e conferido: 24 fontes embutidos idênticos e nos caminhos corretos, mapa autorado com 1.562 instâncias, V2 preservada e oito ensaios desativados. Nove adulterações temporárias do portátil foram recusadas pelo verificador reforçado. Nenhuma publicação da experiência foi feita.
+- Registro: `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md`; evidência em `Resultados/Testes/escolha-base-preview.json` e `validacao-pacote.json`.
+## 2026-10-21 — Catálogo de árvores e decoração
+
+- Etapa de bases interrompida a pedido do usuário; alterações locais anteriores preservadas, sem nova aplicação nesta tarefa. A continuação de codex-b e o mapa atual do Studio não foram substituídos.
+- Três mapas locais examinados como dados; nove referências primitivas reconstruídas e vistas para selecionar silhuetas e paletas. Nenhum script dos mapas de referência foi executado.
+- Vinte modelos originais criados no Blender: seis árvores, sete plantas e sete complementos, com 97 malhas e 10.716 triângulos. Cena, gerador, geometria e vinte FBX finais em `Blender/Decoracao/`.
+- Importação permanente via FBX/Importer validada primeiro numa árvore. Escala, orientação, cores sRGB, pivôs no chão e colisões simples aplicados. Vitrine em `Workspace/CatalogoDecoracao`, próximo de X=1600; biblioteca limpa em `ServerStorage/BibliotecaDecoracao`.
+- Conferência em Edit aprovada para os vinte modelos/97 MeshParts. As 1.656 peças e os 25 scripts existentes ficaram idênticos ao início. Três malhas de amostra foram recarregadas por ID e os pacotes nativos passaram pela ida e volta de serialização. Não houve Play, reinício do Studio ou ensaio com dois clientes.
+- Entrega independente em `Resultados/Decoracao/`; portátil e snapshot principal não foram regenerados a partir do checkout antigo. O exportador JSON principal ainda precisa de suporte para malhas decorativas antes de incluir cópias no mapa.
+- Registro: `coordination/tasks/2026-10-21-codex-a-catalogo-decoracao.md`. Branch: `codex-a/catalogo-decoracao-blender`.
+
+## 2026-10-20 — Mapa editado preservado e rebirth junto ao saldo
+
+- `WorldFactory` preserva a praça, caminhos, paredes e bases editados no Studio. Somente as malhas de ovos e guardiões são renovadas por sessão, mantendo prompts e labels.
+- Mapa autorado versionado em `Map/AuthoredMap.rbxm` e `Map/scene.json`; empacotador e verificador incluem o mapa atual e atualizam as cópias da entrega.
+- Comparação Edit/Play confirmou os 32 segmentos da praça e as 82 peças das paredes com transformações, cores e materiais preservados; 14 ovos e prompts, 14 guardiões e inicialização repetida conferidos. Evidência em `Resultados/Testes/mapa-edit-play.json`.
+- Rebirth fica imediatamente ao lado do dinheiro, com espaço de 10 pixels e um único layout horizontal. Não há reposicionamento concorrente por frame. Valores grandes ajustam a fonte quando necessário.
+- Scripts compilados no Studio; pacote verificado. O teste visual final da linha dinheiro/rebirth fica com o usuário, que assumiu os testes. Não foi iniciado novo Play nem simulador para essa revisão visual.
+- Registro: `coordination/tasks/2026-10-20-codex-a-mapa-rebirth.md`.
+
 ## 2026-10-20 — Preparação do repositório compartilhado
 
 - Inclusão do projeto completo disponível na pasta: fontes, portátil `.rbxlx`, arquivos `.blend`/`.blend1`, geometria, gerador Blender, 19 exportações FBX, backups da V2 e V3, RAR original e resultados dos ensaios.
@@ -15,7 +109,7 @@ Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. At
 
 - Interface com cores vivas, textura de studs, contornos marcados e títulos legíveis, inspirada nas referências fornecidas pelo proprietário.
 - Botão 🔨 Construir visível somente dentro do próprio terreno. Reúne máquinas, esteiras e melhorias; sair da base encerra a construção.
-- Botão 📖 Livro abaixo do martelo, com sete espécies, descobertas, prévias 3D e acesso aos habitats.
+- Botão 📖 Livro abaixo do martelo, com sete espécies, descobertas, prévias 3 D e acesso aos habitats.
 - Botões ♻️ Renascer e 📜 Missões. As missões abrem por interação, sem o painel permanente no centro da tela.
 - Dinheiro em verde na região inferior esquerda, valores abreviados e quantidade de rebirths ao lado. Retiradas as barras de bateria e energia da HUD.
 - Novo módulo `Shared/HudGuide.luau`: seta na tela e marcadores no chão, com destino conforme a missão e o transporte atual.

@@ -1,7 +1,17 @@
 local C = {}
 C.Version = 3
+C.MapLayout = {
+ Revision=2,PlotX=190,PlotStartZ=440,RowSpacing=244,Rows=4,PlotY=1,
+ CorridorOffset=660,CorridorStart=1260,CorridorEnd=2610,
+ GroundCenterZ=320,GroundDepth=2040,RoadWidth=32,RoadStart=115,RoadEnd=1310,CliffExtra=40,
+}
 C.Grid = 4
-C.PlotHalf = 80
+C.PlotHalf = 72
+C.LegacyPlotHalf = 80
+function C.PlotHalfFor(plot)
+ local half=plot and plot:GetAttribute("PlotHalf")
+ return half==C.LegacyPlotHalf and C.LegacyPlotHalf or C.PlotHalf
+end
 C.MaxHabitats = 8
 C.MaxBuilds = 180
 C.WalkSpeed = 20
@@ -26,6 +36,7 @@ C.Items = {
 }
 C.BatteryHP={200,450,900,1800}
 C.BatteryPrices={5000,25000,100000}
+C.DefensesPrice=0 -- The starter walls/roof kit is assembled explicitly by its owner.
 C.BreachTime=30
 C.CombatLock=10
 C.SpeedPrices={500,1500,4500,13500,40500}
@@ -57,12 +68,15 @@ C.DataStoreName="EggTycoonV3_DEV_v1"
 C.ProfileLease=180
 C.AutoSave=45
 function C.IsSafe(p)
- return (math.abs(p.X)<=115 and math.abs(p.Z)<=115) or (math.abs(p.X)<=90 and p.Z>=600 and p.Z<=1950)
+ return (math.abs(p.X)<=115 and math.abs(p.Z)<=115)
+  or (math.abs(p.X)<=90 and p.Z>=C.MapLayout.CorridorStart and p.Z<=C.MapLayout.CorridorEnd)
 end
 function C.PlotCFrame(id)
- local a=math.rad(22.5+(id-1)*45)
- local p=Vector3.new(math.sin(a)*500,0,math.cos(a)*500)
- return CFrame.lookAt(p,Vector3.zero)
+ local layout=C.MapLayout
+ local side=id%2==1 and -1 or 1
+ local row=math.floor((id-1)/2)
+ local p=Vector3.new(side*layout.PlotX,layout.PlotY,layout.PlotStartZ+row*layout.RowSpacing)
+ return CFrame.lookAt(p,Vector3.new(0,p.Y,p.Z))
 end
 function C.ItemCFrame(cf,b)
  return cf*CFrame.new(b.X,0,b.Z)*CFrame.Angles(0,(b.R or 0)*math.pi/2,0)

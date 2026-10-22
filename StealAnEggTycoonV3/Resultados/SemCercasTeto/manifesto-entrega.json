@@ -1,0 +1,47 @@
+[
+  {
+    "path": "Client/Client.client.luau",
+    "sha256": "8822a0962eb243fe39a012b3ee678cfa3bc523b232208737ac43ddd825bd6ba9",
+    "bytes": 67864
+  },
+  {
+    "path": "Shared/BaseShell.luau",
+    "sha256": "74c0dab81271c826489fca6221579b1373d20e2b1305087eba7ba6b451708329",
+    "bytes": 8548
+  },
+  {
+    "path": "Shared/BaseIndustrialData.luau",
+    "sha256": "a22e5860183c2baa075497285a120aec237ea9341c69811714852fefb1ae4574",
+    "bytes": 1395
+  },
+  {
+    "path": "Map/AuthoredMap.rbxm",
+    "sha256": "84236aab128f7d382b77e1535c4419a27c341ee9db8422d24ac3c7c7bb9e3a82",
+    "bytes": 413946
+  },
+  {
+    "path": "Map/scene.json",
+    "sha256": "1bb27e3bf661582653db736db44f81cbb055b34df4b69cc7e86285301315d77c",
+    "bytes": 3169622
+  },
+  {
+    "path": "StealAnEggTycoonV3.rbxlx",
+    "sha256": "e82afe0e217758cc77332115680656778cf2e39465096d6745b64451374b5567",
+    "bytes": 3939497
+  },
+  {
+    "path": "Blender/BaseIndustrialSemCercas/BaseIndustrial.blend",
+    "sha256": "35a8e2074e3f38a09cb2a5591bca77b356c538c57e2b9dfd4070c289209c4f59",
+    "bytes": 587304
+  },
+  {
+    "path": "Blender/BaseIndustrialSemCercas/Exportacoes/BaseIndustrial.fbx",
+    "sha256": "a0febd6688f95bbf1e3c2c45e8ed8e9d598e18d5f7015c7f76e1567b0d9dce74",
+    "bytes": 162444
+  },
+  {
+    "path": "Blender/BaseIndustrialSemCercas/build_base.py",
+    "sha256": "605e8c17ac3242435238f3111cda18d190c3586600afc92c59403fa31c4fb115",
+    "bytes": 15802
+  }
+]

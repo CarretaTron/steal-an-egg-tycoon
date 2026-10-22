@@ -2,7 +2,9 @@ local RS=game:GetService('ReplicatedStorage')
 local Lighting=game:GetService('Lighting')
 local C=require(RS.EggTycoonV3.Shared.Config)
 local A=require(RS.EggTycoonV3.Shared.Art)
+local BaseShell=require(RS.EggTycoonV3.Shared.BaseShell)
 local F={}
+local preparedWorld
 local white=Color3.fromRGB(240,246,252)
 local dark=Color3.fromRGB(34,49,67)
 local gold=Color3.fromRGB(255,208,65)
@@ -30,15 +32,78 @@ local function crystal(p,cf,color,s)
  for x=-1,1,2 do part(p,'CrystalShard',Vector3.new(s,4*s,s),cf*CFrame.new(x*1.8*s,1.8*s,0)*CFrame.Angles(0,0,-x*.4),color,Enum.Material.Glass,false) end
  return q
 end
+local function renewArtModel(old,create)
+ local cf=old:GetPivot()
+ local replacement=create(cf)
+ replacement.Name=old.Name
+ for name,value in pairs(old:GetAttributes()) do replacement:SetAttribute(name,value) end
+ local parts={}
+ for _,p in ipairs(replacement:GetChildren()) do
+  if p:IsA('BasePart') then parts[p.Name]=parts[p.Name] or {};table.insert(parts[p.Name],p) end
+ end
+ local used={}
+ for _,p in ipairs(old:GetChildren()) do
+  if not p:IsA('BasePart') then continue end
+  used[p.Name]=(used[p.Name] or 0)+1
+  local target=parts[p.Name] and parts[p.Name][used[p.Name]]
+  if not target then continue end
+  -- Authored mesh appearance is retained, but content comes from this session.
+  if not p:GetAttribute('SessionArtPlaceholder') then
+   target.Size=p.Size;target.CFrame=p.CFrame;target.Color=p.Color;target.Material=p.Material
+   target.Transparency=p.Transparency;target.CastShadow=p.CastShadow
+   target:SetAttribute('RestCF',cf:ToObjectSpace(p.CFrame))
+  end
+  for _,child in ipairs(p:GetChildren()) do
+   if child:IsA('LayerCollector') or child:IsA('ProximityPrompt') then
+    local copy=child:Clone()
+    if copy:IsA('BillboardGui') or copy:IsA('SurfaceGui') then copy.Adornee=target end
+    copy.Parent=target
+   end
+  end
+ end
+ replacement.Parent=old.Parent
+ old:Destroy()
+ return replacement
+end
+local function prepareAuthoredWorld(world)
+ for _,name in ipairs({'Plots','Biomes','Nests','Guardians','Decorations'}) do
+  assert(world:FindFirstChild(name),'Mapa editado incompleto: falta '..name..'. O mapa foi preservado.')
+ end
+ -- Static map instances belong to Studio editing; only session mesh content is renewed.
+ for _,nest in ipairs(world.Nests:GetChildren()) do
+  local species=nest:GetAttribute('Species')
+  local egg=nest:FindFirstChild('Egg')
+  if egg and C.Species[species] then renewArtModel(egg,function(cf) return A.Egg(species,cf,1.25,nil) end) end
+ end
+ for _,guard in ipairs(world.Guardians:GetChildren()) do
+  local species=guard:GetAttribute('Species')
+  if C.Species[species] then
+   local cf=guard:GetPivot()
+   local fresh=renewArtModel(guard,function(pivot) return A.Creature(species,pivot,2,nil) end)
+   fresh:SetAttribute('HomeX',cf.X);fresh:SetAttribute('HomeY',cf.Y);fresh:SetAttribute('HomeZ',cf.Z)
+  end
+ end
+end
 function F.Build()
  local old=workspace:FindFirstChild('EggTycoonV3')
- if old and old:GetAttribute('MapVersion')==3 and old:GetAttribute('RuntimeGenerated')==game:GetService('RunService'):IsRunning() then return old end
- if old then old:Destroy() end
+ if old then
+  local plots=old:FindFirstChild('Plots')
+  if plots then for _,plot in ipairs(plots:GetChildren()) do if plot:IsA('Model') then BaseShell.SetHalf(plot,C.PlotHalfFor(plot)) end end end
+  if game:GetService('RunService'):IsRunning() and preparedWorld~=old then
+   prepareAuthoredWorld(old)
+   old:SetAttribute('RuntimeGenerated',true)
+   preparedWorld=old
+  end
+  return old
+ end
  local world=Instance.new('Folder') world.Name='EggTycoonV3' world:SetAttribute('MapVersion',3) world.Parent=workspace
  world:SetAttribute('RuntimeGenerated',game:GetService('RunService'):IsRunning())
  local plots=folder(world,'Plots'); local biomes=folder(world,'Biomes');local nests=folder(world,'Nests');local guards=folder(world,'Guardians');local deco=folder(world,'Decorations')
  -- Chunked assembly keeps every parenting operation bounded.
  local ground=part(deco,'Island',Vector3.new(1400,8,1400),CFrame.new(0,-4,0),Color3.fromRGB(104,181,75),Enum.Material.Grass,true)
+ -- Two flush tiles avoid Roblox's 2048-stud maximum Part axis.
+ local extensionDepth=C.MapLayout.GroundDepth-1400
+ part(deco,'IslandExtension',Vector3.new(1400,8,extensionDepth),CFrame.new(0,-4,700+extensionDepth*.5),ground.Color,ground.Material,true)
  local plaza=part(deco,'SafePlaza',Vector3.new(220,.4,220),CFrame.new(0,.2,0),Color3.fromRGB(235,219,166),Enum.Material.Sandstone,true)
  plaza.TopSurface=Enum.SurfaceType.Studs
  for _,x in ipairs({-115,115}) do part(deco,'SafeBorder',Vector3.new(1,1,230),CFrame.new(x,.6,0),Color3.fromRGB(65,222,224),Enum.Material.Neon,false) end
@@ -47,37 +112,27 @@ function F.Build()
   local a=j*math.pi/16;local center=Vector3.new(math.sin(a)*330,.15,math.cos(a)*330)
   part(deco,'RingRoad',Vector3.new(58,.3,80),CFrame.new(center)*CFrame.Angles(0,a,0),Color3.fromRGB(210,198,154),Enum.Material.Pavement,true)
  end
- part(deco,'ExpeditionRoad',Vector3.new(30,.3,500),CFrame.new(0,.15,365),Color3.fromRGB(210,198,154),Enum.Material.Pavement,true)
+ part(deco,'ExpeditionRoad',Vector3.new(C.MapLayout.RoadWidth,.3,C.MapLayout.RoadEnd-C.MapLayout.RoadStart),CFrame.new(0,.15,(C.MapLayout.RoadStart+C.MapLayout.RoadEnd)*.5),Color3.fromRGB(210,198,154),Enum.Material.Pavement,true)
  sign(deco,CFrame.new(0,13,70),58,'STEAL AN EGG','ROUBE • CHOQUE • PRODUZA • DEFENDA',gold)
   sign(deco,CFrame.new(0,13,-85),36,'PRAÇA SEGURA','AS ARMAS NÃO FUNCIONAM AQUI',Color3.fromRGB(101,234,226))
  local spawn=Instance.new('SpawnLocation') spawn.Name='SpawnSeguro' spawn.Size=Vector3.new(16,.5,16) spawn.CFrame=CFrame.new(0,.8,0)
  spawn.Anchored=true spawn.Neutral=true spawn.Duration=0 spawn.Transparency=.15 spawn.Color=Color3.fromRGB(78,211,214) spawn.Material=Enum.Material.Neon spawn.Parent=deco
  for id=1,8 do
-  local plot=Instance.new('Model') plot.Name=string.format('Plot_%02d',id) plot:SetAttribute('PlotId',id) plot:SetAttribute('OwnerUserId',0)
+  local plot=Instance.new('Model') plot.Name=string.format('Plot_%02d',id) plot:SetAttribute('PlotId',id) plot:SetAttribute('OwnerUserId',0) plot:SetAttribute('PlotHalf',C.PlotHalf)
   local cf=C.PlotCFrame(id)
-  local floor=part(plot,'Floor',Vector3.new(160,1,160),cf*CFrame.new(0,-.5,0),Color3.fromRGB(151,188,125),Enum.Material.SmoothPlastic,true)
+  local floor=part(plot,'Floor',Vector3.new(C.PlotHalf*2,1,C.PlotHalf*2),cf*CFrame.new(0,-.5,0),Color3.fromRGB(151,188,125),Enum.Material.SmoothPlastic,true)
   floor.TopSurface=Enum.SurfaceType.Studs floor.PivotOffset=floor.CFrame:ToObjectSpace(cf) plot.PrimaryPart=floor
-  for s=-1,1,2 do
-   local wall=part(plot,'Perimeter',Vector3.new(1.4,28,160),cf*CFrame.new(s*80,14,0),Color3.fromRGB(116,170,187),Enum.Material.Glass,true) wall.Transparency=.65
-   part(plot,'Frame',Vector3.new(2.4,28,2.4),cf*CFrame.new(s*79,14,-79),dark,Enum.Material.Metal,true)
-   part(plot,'Frame',Vector3.new(2.4,28,2.4),cf*CFrame.new(s*79,14,79),dark,Enum.Material.Metal,true)
-   local front=part(plot,'Perimeter',Vector3.new(72,28,1.4),cf*CFrame.new(s*44,14,-80),Color3.fromRGB(116,170,187),Enum.Material.Glass,true) front.Transparency=.65
-  end
-  local rear=part(plot,'Perimeter',Vector3.new(160,28,1.4),cf*CFrame.new(0,14,80),Color3.fromRGB(116,170,187),Enum.Material.Glass,true) rear.Transparency=.65
-  local roof=part(plot,'Roof',Vector3.new(162,1,162),cf*CFrame.new(0,28,0),Color3.fromRGB(168,210,225),Enum.Material.Glass,true) roof.Transparency=.85
-  part(plot,'RoofFrame',Vector3.new(163,1,2),cf*CFrame.new(0,28,-80),dark,Enum.Material.Metal,true)
-  part(plot,'DoorHeader',Vector3.new(16,10,1.4),cf*CFrame.new(0,23,-80),dark,Enum.Material.Metal,true)
-  local laser=part(plot,'Laser',Vector3.new(16,18,1),cf*CFrame.new(0,9,-80),Color3.fromRGB(255,78,102),Enum.Material.Neon,false) laser.Transparency=.58
-  for x=-6,6,3 do part(plot,'LaserBeam',Vector3.new(.22,18,.22),cf*CFrame.new(x,9,-80),Color3.fromRGB(255,78,102),Enum.Material.Neon,false) end
-  local battery=part(plot,'Battery',Vector3.new(6,7,4),cf*CFrame.new(24,3.5,-86),Color3.fromRGB(73,228,158),Enum.Material.Metal,true) battery:SetAttribute('PlotId',id)
-  local label=A.Label(plot,battery,'BATERIA','200 / 200',Color3.fromRGB(113,255,176),95) label.Name='BatteryLabel'
+  local battery=part(plot,'Battery',Vector3.new(6,7,4),cf*CFrame.new(24*C.PlotHalf/80,2.5,-86*C.PlotHalf/80),Color3.fromRGB(73,228,158),Enum.Material.Metal,true) battery:SetAttribute('PlotId',id)
   local owner=sign(plot,cf*CFrame.new(0,20,-81),42,string.format('TYCOON %02d',id),'BASE DISPONÍVEL',gold) owner.Name='OwnerSign'
   folder(plot,'Structures');folder(plot,'Creatures')
-  part(deco,'PlotRoad',Vector3.new(20,.3,100),cf*CFrame.new(0,.15,-130),Color3.fromRGB(210,198,154),Enum.Material.Pavement,true)
+  BaseShell.Apply(plot)
+  local door=(cf*CFrame.new(0,0,-C.PlotHalf)).Position
+  local near=C.MapLayout.RoadWidth*.5;local far=math.abs(door.X)+2;local side=door.X<0 and -1 or 1
+  part(deco,'PlotRoad',Vector3.new(far-near,.3,20),CFrame.new(side*(near+far)*.5,.15,door.Z),Color3.fromRGB(210,198,154),Enum.Material.Pavement,true)
   plot.Parent=plots task.wait()
  end
  for i,species in ipairs(C.Species) do
-  local z=650+(i-1)*180
+  local z=650+(i-1)*180+C.MapLayout.CorridorOffset
   local section=Instance.new('Model') section.Name='Biome_'..i
   local cf=CFrame.new(0,0,z+90)
   local f=part(section,'BiomeGround',Vector3.new(176,8,180),cf*CFrame.new(0,-4,0),species.Ground,Enum.Material.SmoothPlastic,true) f.TopSurface=Enum.SurfaceType.Studs
@@ -123,9 +178,9 @@ function F.Build()
   end
   task.wait()
  end
-  sign(deco,CFrame.new(0,13,620),50,'EXPEDIÇÃO','ROUBE UM OVO E VOLTE AO TYCOON',gold)
- part(deco,'CorridorApproach',Vector3.new(176,8,70),CFrame.new(0,-4,615),C.Species[1].Ground,Enum.Material.Grass,true)
- part(deco,'FinalWall',Vector3.new(192,44,8),CFrame.new(0,22,1914),C.Species[7].Ground,Enum.Material.Slate,true)
+  sign(deco,CFrame.new(0,13,620+C.MapLayout.CorridorOffset),50,'EXPEDIÇÃO','ROUBE UM OVO E VOLTE AO TYCOON',gold)
+ part(deco,'CorridorApproach',Vector3.new(176,8,70),CFrame.new(0,-4,615+C.MapLayout.CorridorOffset),C.Species[1].Ground,Enum.Material.Grass,true)
+ part(deco,'FinalWall',Vector3.new(192,44,8),CFrame.new(0,22,1914+C.MapLayout.CorridorOffset),C.Species[7].Ground,Enum.Material.Slate,true)
  for j=1,12 do
   local a=j*math.pi/6
    local treeX,treeZ=math.sin(a)*640,math.cos(a)*640
@@ -137,6 +192,7 @@ function F.Build()
  Lighting.GlobalShadows=true Lighting.FogEnd=6000
  local atmosphere=Lighting:FindFirstChildOfClass('Atmosphere') or Instance.new('Atmosphere') atmosphere.Density=.15 atmosphere.Haze=.7 atmosphere.Color=Color3.fromRGB(196,224,255) atmosphere.Parent=Lighting
  local pilot=workspace:FindFirstChild('EggTycoonPilot') if pilot then pilot:Destroy() end
+ preparedWorld=world
  return world
 end
 return F

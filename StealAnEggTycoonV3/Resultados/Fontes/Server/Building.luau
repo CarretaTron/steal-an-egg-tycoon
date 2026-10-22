@@ -1,6 +1,7 @@
 local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Rules = require(ReplicatedStorage:WaitForChild("EggTycoonV3").Shared.BuildRules)
+local Shell = require(ReplicatedStorage:WaitForChild("EggTycoonV3").Shared.BaseShell)
 local Building = {}
 Building.__index = Building
 
@@ -31,6 +32,7 @@ function Building:Reserved(state,id)
 end
 
 function Building:FreeHabitat(state)
+	if not state.Plot or not state.PlotId then return nil end
 	local used = {}
 	for _, creature in ipairs(state.Profile.Creatures) do used[creature.HabitatId]=true end
 	for _, build in ipairs(state.Profile.Builds) do
@@ -47,33 +49,48 @@ local function occupied(state,id)
 end
 
 function Building:Starter(state)
-	if #state.Profile.Builds>0 then state.Profile.StarterPlaced=true;state.Runtime.StarterGeneration=state.Generation return end
-	if state.Profile.StarterPlaced then state.Runtime.StarterGeneration=state.Generation return end
-	if state.Runtime.StarterGeneration==state.Generation then return end
+	-- The free kit stays in inventory until the owner chooses each placement.
+	-- Existing layouts are never replaced when a player claims another plot.
 	state.Runtime.StarterGeneration=state.Generation
 	state.Profile.StarterPlaced=true
-	local layout = {
-		{"Habitat",0,16},{"Belt",0,0},{"Belt",0,-4},{"Belt",0,-8},
-		{"Processor",0,-16},{"Belt",0,-24},{"Belt",0,-28},
-		{"Seller",0,-36},{"Incubator",-32,-40},
-	}
-	for _, entry in ipairs(layout) do
-		local kind = entry[1]
-		if (state.Profile.Inventory[kind] or 0)>0 then
-			state.Profile.Inventory[kind] -= 1
-			table.insert(state.Profile.Builds,{Id=HttpService:GenerateGUID(false),Kind=kind,X=entry[2],Z=entry[3],R=0,Level=kind=="Habitat" and 0 or nil})
-		end
-	end
-	state.Runtime.BuildVersion = (state.Runtime.BuildVersion or 0)+1
 end
 
 function Building:Render(state)
+	local plot=state.Plot
+	if not plot or not state.PlotId or not state.Ready or state.Leaving or not state.Player then return false end
+	local owner=state.Player.UserId
+	if plot:GetAttribute("OwnerUserId")~=owner then return false end
+	local C=self.ctx.Config
+	local half=C.PlotHalfFor(plot)
+	local compactLimit=C.PlotHalf-8
+	-- Old edge layouts keep their original 160-stud envelope. Do not rescale,
+	-- relocate, replace or consume saved machines, creatures or conveyor IDs.
+	for _,build in ipairs(state.Profile.Builds) do
+		local bounds=Rules.Bounds(build)
+		if bounds.MinX < -compactLimit or bounds.MaxX > compactLimit
+			or bounds.MinZ < -compactLimit or bounds.MaxZ > compactLimit then
+			half=math.max(half,C.LegacyPlotHalf)
+			break
+		end
+	end
+	if half<C.LegacyPlotHalf and #state.Profile.Builds>0 then
+		-- A previously valid layout can also need the old arrival reserve or
+		-- outer walking cells even when all machine bounds fit the compact box.
+		local compactValid=Rules.Validate(state.Profile.Builds,nil,nil,C.PlotHalf)
+		if not compactValid then
+			local legacyValid=Rules.Validate(state.Profile.Builds,nil,nil,C.LegacyPlotHalf)
+			if legacyValid then half=C.LegacyPlotHalf end
+		end
+	end
+	-- An expanded base stays expanded until it is vacated, including after edits.
+	if Shell.SetHalf(plot,half)==false then return false end
+	if state.Plot~=plot or not state.Ready or state.Leaving or plot:GetAttribute("OwnerUserId")~=owner then return false end
 	self:Starter(state)
 	local folder = state.Plot:FindFirstChild("Structures")
 	if not folder then folder=Instance.new("Folder") folder.Name="Structures" folder.Parent=state.Plot end
 	folder:ClearAllChildren()
 	for _, build in ipairs(state.Profile.Builds) do
-		local model = self.ctx.Art.Structure(build.Kind,self.ctx.Config.ItemCFrame(self.ctx.Config.PlotCFrame(state.PlotId),build),folder)
+		local model = self.ctx.Art.Structure(build.Kind,self.ctx.Config.ItemCFrame(state.Plot:GetPivot(),build),folder)
 		model.Name = build.Kind .. "_" .. build.Id
 		model:SetAttribute("BuildId",build.Id)
 		model:SetAttribute("Kind",build.Kind)
@@ -107,6 +124,7 @@ function Building:Command(state,action,payload)
 	payload=type(payload)=="table" and payload or {}
 	local profile,C=state.Profile,self.ctx.Config
 	local function reject(message) self.ctx:Toast(state.Player,message) return false end
+	if not state.Plot or not state.PlotId then return reject("Escolha uma tycoon livre antes de construir.") end
 	if state.OperationBusy or state.Leaving then return reject("Aguarde a operação atual terminar.") end
 	local function success(message,render)
 		if render then self:Render(state) end
@@ -114,7 +132,7 @@ function Building:Command(state,action,payload)
 		if message then self.ctx:Toast(state.Player,message) end
 		return true
 	end
-	if not self.ctx:Near(state.Player,C.PlotCFrame(state.PlotId).Position,135) then return reject("Volte para sua base para construir.") end
+	if not self.ctx:Near(state.Player,state.Plot:GetPivot().Position,135) then return reject("Volte para sua base para construir.") end
 	if (state.LastCombat or 0)>0 and os.clock()-state.LastCombat<C.CombatLock then return reject("Construção bloqueada durante a invasão.") end
 	if action == "BuyItem" then
 		local def=C.Items[payload.Kind]
@@ -159,7 +177,7 @@ function Building:Command(state,action,payload)
 			end
 		end
 		local candidate={Id=previous and previous.Id or (storedHabitat and storedHabitat.Id or HttpService:GenerateGUID(false)),Kind=kind,X=payload.X,Z=payload.Z,R=payload.R or 0,Level=kind=="Habitat" and (previous and previous.Level or storedHabitat and storedHabitat.Level or 0) or nil}
-		local ok,reason=Rules.Validate(profile.Builds,candidate,previous and previous.Id)
+		local ok,reason=Rules.Validate(profile.Builds,candidate,previous and previous.Id,C.PlotHalfFor(state.Plot))
 		if not ok then return reject(reason) end
 		if previous then
 			previous.X,previous.Z,previous.R=candidate.X,candidate.Z,candidate.R
@@ -173,7 +191,7 @@ function Building:Command(state,action,payload)
 		local build=self:GetBuild(state,payload.BuildId)
 		if not build then return reject("Construção não encontrada.") end
 		if self:Reserved(state,build.Id) or occupied(state,build.Id) then return reject("Libere o habitat e aguarde a incubação ou roubo terminar.") end
-		local ok,reason=Rules.Validate(profile.Builds,nil,build.Id)
+		local ok,reason=Rules.Validate(profile.Builds,nil,build.Id,C.PlotHalfFor(state.Plot))
 		if not ok then return reject(reason) end
 		for i,item in ipairs(profile.Builds) do if item==build then table.remove(profile.Builds,i) break end end
 		profile.Inventory[build.Kind]=(profile.Inventory[build.Kind] or 0)+1

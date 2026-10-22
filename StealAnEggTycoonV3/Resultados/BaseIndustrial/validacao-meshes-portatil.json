@@ -1,0 +1,10 @@
+{
+  "staticMeshPartsVerified": 153,
+  "initialMeshExtentsVerified": 153,
+  "Passed": true,
+  "SceneInstances": 2838,
+  "SceneRoots": 8,
+  "Limitations": [
+    "XML fields and serializer only. The exported XML was not opened in a new Studio session or tested in Play."
+  ]
+}

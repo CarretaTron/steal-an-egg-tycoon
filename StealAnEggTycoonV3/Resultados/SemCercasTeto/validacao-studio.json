@@ -1,0 +1,52 @@
+{
+  "RemovedFences": 8,
+  "Compiled": 26,
+  "Plots": {
+    "1": {
+      "Name": "Plot_05",
+      "RoofVisible": true,
+      "Parts": 67
+    },
+    "2": {
+      "Name": "Plot_08",
+      "RoofVisible": true,
+      "Parts": 67
+    },
+    "3": {
+      "Name": "Plot_02",
+      "RoofVisible": true,
+      "Parts": 67
+    },
+    "4": {
+      "Name": "Plot_03",
+      "RoofVisible": true,
+      "Parts": 67
+    },
+    "5": {
+      "Name": "Plot_04",
+      "RoofVisible": true,
+      "Parts": 67
+    },
+    "6": {
+      "Name": "Plot_07",
+      "RoofVisible": true,
+      "Parts": 67
+    },
+    "7": {
+      "Name": "Plot_01",
+      "RoofVisible": true,
+      "Parts": 67
+    },
+    "8": {
+      "Name": "Plot_06",
+      "RoofVisible": true,
+      "Parts": 67
+    }
+  },
+  "Passed": true,
+  "Mode": "Edit",
+  "Assertions": 45,
+  "Limitations": {
+    "1": "Edit-only source, instance and rebuild checks. No Play, input, physics simulation, profile or client run."
+  }
+}

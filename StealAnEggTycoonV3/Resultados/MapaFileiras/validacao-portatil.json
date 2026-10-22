@@ -1,0 +1,13 @@
+{
+  "staticMeshPartsVerified": 675,
+  "initialMeshExtentsVerified": 675,
+  "plots": 8,
+  "decorationModels": 100,
+  "minimumGapBetweenPlotsStuds": 120.0,
+  "partAxesWithin2048": 2538,
+  "sources": 28,
+  "sourceCopiesMatch": true,
+  "disabledTestScripts": 8,
+  "instances": 3952,
+  "host": "package XML compared to final Edit scene"
+}

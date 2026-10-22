@@ -1,0 +1,14 @@
+{
+  "staticMeshPartsVerified": 675,
+  "initialMeshExtentsVerified": 675,
+  "plots": 8,
+  "normalSize": 144,
+  "legacySize": 160,
+  "minimumGapStandardPlotsStuds": 100.0,
+  "decorationModels": 100,
+  "instances": 3952,
+  "sources": 28,
+  "embeddedSourcesMatch": true,
+  "disabledTestScripts": 8,
+  "host": "XML compared to final Edit snapshot"
+}

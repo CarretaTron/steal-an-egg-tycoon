@@ -1,0 +1,11 @@
+{
+  "sources": 28,
+  "deliveredSourceCopies": 28,
+  "disabledTestScripts": 8,
+  "allSourceCopiesMatch": true,
+  "allEmbeddedSourcesMatch": true,
+  "v2BackupIncluded": true,
+  "authoredSceneInstances": 2974,
+  "authoredPartsVerified": 1928,
+  "host": "verify_package.py executed on this revision"
+}

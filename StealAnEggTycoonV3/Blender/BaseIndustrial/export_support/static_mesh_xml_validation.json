@@ -1,0 +1,21 @@
+{
+  "staticMeshPartsVerified": 1,
+  "initialMeshExtentsVerified": 1,
+  "Passed": true,
+  "SyntheticMeshes": 1,
+  "RefusedMutations": [
+    "MissingInitialSize",
+    "WrongInitialSize",
+    "WrongMeshId",
+    "WrongSize",
+    "WrongClass",
+    "WrongDoubleSided",
+    "WrongCollisionFidelity"
+  ],
+  "Serializer": "C:\\Users\\alexp\\.codex\\worktrees\\bases-laser\\Roblox aura\\StealAnEggTycoonV3\\package_project.py",
+  "CanonicalSerializerUnchanged": true,
+  "Limitations": [
+    "No Roblox load, rendering, asset-permission, replication or collision-geometry validation.",
+    "InitialSize serialization name additionally observed in the project own native CatalogoDecoracao.rbxm."
+  ]
+}
