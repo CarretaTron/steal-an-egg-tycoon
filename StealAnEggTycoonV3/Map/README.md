@@ -40,4 +40,4 @@ Backup da captura anterior em Backups/AntesRemoverCercasTeto/MapRev3/. Portátil
 
 Captura atual: oito raízes,2.974 instâncias e201 MeshParts permanentes. Oito geradores de sete malhas instalados sob as Battery originais; oito painéis SurfaceGui e nenhuma BillboardGui de bateria. Root Battery segue Part com colisão/consulta; as malhas visuais e painel não usam física. Sem prévia temporária no mapa.
 
-CanvasSize1024 ×320, SizingModeFixedSize e LightInfluence0 preservados para os visores. Backup anterior em Backups/AntesGeradorIndustrial/MapAnterior/. Portátil com28 fontes conferido; sem novo Play.
+CanvasSize1024 × 320, SizingModeFixedSize e LightInfluence0 preservados para os visores. Backup anterior em Backups/AntesGeradorIndustrial/MapAnterior/. Portátil com28 fontes conferido; sem novo Play.

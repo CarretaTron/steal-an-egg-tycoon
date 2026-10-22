@@ -1,6 +1,6 @@
 # Gerador industrial com painel de vida
 
-Oito bases recebem gerador original verde/cinza modelado no Blender, com grelhas, portas, ferragens e studs. Sete malhas por modelo,4072 vértices/7452 triângulos. A SurfaceGui fica presa ao console superior inclinado: vida, barra, nível ativo e reconstrução aparecem diretamente no painel. Sem legenda flutuante de bateria.
+Oito bases recebem gerador original verde/cinza modelado no Blender, com grelhas, portas, ferragens e studs. Sete malhas por modelo,4.072 vértices/7.452 triângulos. A SurfaceGui fica presa ao console superior inclinado: vida, barra, nível ativo e reconstrução aparecem diretamente no painel. Sem legenda flutuante de bateria.
 
 - StealAnEggTycoonV3.rbxlx: portátil completo com28 fontes e mapa atual.
 - BasesComGeradores.rbxm e Mapa/: capturas nativas dos oito terrenos/cenário.
@@ -12,7 +12,7 @@ Oito bases recebem gerador original verde/cinza modelado no Blender, com grelhas
 - manifesto-entrega.json e manifesto-fontes.json: hashes e tamanhos.
 - Transferencia/: buffers comprimidos usados na exportação.
 
-Battery conserva identidade/posição; agora é hitbox invisível12 ×7 ×6. As malhas e painel não interceptam raios. HP e níveis são servidor; melhorias durante invasão só aparecem após reconstruir. A visibilidade por propriedade foi preservada: geradores ficam ocultos nos terrenos livres.
+Battery conserva identidade/posição; agora é hitbox invisível de 12 × 7 × 6. As malhas e painel não interceptam raios. HP e níveis são servidor; melhorias durante invasão só aparecem após reconstruir. A visibilidade por propriedade foi preservada: geradores ficam ocultos nos terrenos livres.
 
 Instalação:208 verificações em Edit. Comportamento:24 verificações com Combat real em clones e365 do harness com mocks lexicais hospedado em Edit. Os28 fontes compilaram. Sem Play, perfis, dois clientes, física real ou medição de desempenho. CLI Luau standalone não disponível. Nenhuma publicação da experiência.
 

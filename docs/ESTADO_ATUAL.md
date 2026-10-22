@@ -2,15 +2,15 @@
 
 ## Etapa atual: gerador industrial com painel de vida
 
-Oito geradores originais do Blender substituem as baterias visuais: carcaça verde, grelhas, portas, ferragens e chassi cinza com studs. Console superior inclinado com SurfaceGui 1024 ×320: vida em números grandes, barra, nível ativo e contagem de reconstrução. As legendas flutuantes BatteryLabel foram removidas.
+Oito geradores originais do Blender substituem as baterias visuais: carcaça verde, grelhas, portas, ferragens e chassi cinza com studs. Console superior inclinado com SurfaceGui 1024 × 320: vida em números grandes, barra, nível ativo e contagem de reconstrução. As legendas flutuantes BatteryLabel foram removidas.
 
-Fontes: Shared/Generator.luau (revisão2) e GeneratorData.luau, integrados a BaseShell, WorldFactory e Combat. Battery mantém identidade e posição; sua hitbox invisível12 ×7 ×6 recebe os ataques. As sete malhas por modelo e o painel são não físicos/sem query. Terrenos livres continuam ocultando a bateria; base ocupada mostra o modelo e visor. Dano, níveis e reconstrução são decididos pelo servidor, com melhoria adiada mostrada apenas após reconstruir.
+Fontes: Shared/Generator.luau (revisão 2) e GeneratorData.luau, integrados a BaseShell, WorldFactory e Combat. Battery mantém identidade e posição; sua hitbox invisível de 12 × 7 × 6 recebe os ataques. As sete malhas por modelo e o painel são não físicos/sem query. Terrenos livres continuam ocultando a bateria; base ocupada mostra o modelo e visor. Dano, níveis e reconstrução são decididos pelo servidor, com melhoria adiada mostrada apenas após reconstruir.
 
-Criação em Blender/GeradorIndustrial/; entrega atual em Resultados/GeradorIndustrial/, com portátil e fontes dos 28 módulos/scripts. Mapa2974 instâncias em oito raízes,201 malhas estáticas(48 bases+56 geradores+97 catálogo). LightInfluence, CanvasSize e SizingMode são preservados pelo exportador. Nenhuma malha foi convertida em caixa.
+Criação em Blender/GeradorIndustrial/; entrega atual em Resultados/GeradorIndustrial/, com portátil e fontes dos 28 módulos/scripts. Mapa com 2.974 instâncias em oito raízes, 201 malhas estáticas (48 bases + 56 geradores + 97 catálogo). LightInfluence, CanvasSize e SizingMode são preservados pelo exportador. Nenhuma malha foi convertida em caixa.
 
-Validação em Edit:208 verificações de instalação/identidade/idempotência;24 de apresentação com Combat real e jogadores simulados em clones;28 fontes compilados. O harness existente de Combat passou365 verificações com mocks lexicais, hospedado no Studio Edit porque o CLI standalone não foi encontrado. Isso não é teste de arte, física, perfis ou clientes reais. Sem Play, dois clientes ou FPS nesta tarefa.
+Validação em Edit: 208 verificações de instalação/identidade/idempotência; 24 de apresentação com Combat real e jogadores simulados em clones; 28 fontes compilados. O harness existente de Combat passou 365 verificações com mocks lexicais, hospedado no Studio Edit porque o CLI standalone não foi encontrado. Isso não é teste de arte, física, perfis ou clientes reais. Sem Play, dois clientes ou FPS nesta tarefa.
 
-Registro: coordination/tasks/2026-10-22-codex-a-gerador-painel.md. Checkout gerenciado bases-laser; WIP original de D:/Roblox aura preservado. Branch da tarefa codex/gerador-painel-vida, a integrar por avanço simples à codex/bases-blender/PR #3. Backups em Backups/AntesGeradorIndustrial/.
+Registro: coordination/tasks/2026-10-22-codex-a-gerador-painel.md. Checkout gerenciado bases-laser; WIP original de D:/Roblox aura preservado. Branch da tarefa codex/gerador-painel-vida, integrada por avanço simples à codex/bases-blender/PR #3. Backups em Backups/AntesGeradorIndustrial/.
 
 ## Revisão anterior: bases sem cercas e teto sempre visível
 

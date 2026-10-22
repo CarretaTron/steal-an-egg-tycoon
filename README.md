@@ -95,7 +95,7 @@ A branch `codex/bases-blender` continua a integração de codex-b e do catálogo
 
 As oito bases têm um gerador original criado no Blender, verde/cinza, com painel físico na parte superior. A vida, barra de integridade, nível ativo e tempo de reconstrução aparecem no próprio visor. Não há legenda flutuante de bateria. Arte em `Blender/GeradorIndustrial/`; entrega atual em `Resultados/GeradorIndustrial/`.
 
-O portátil atual possui 28 fontes e201 MeshParts; pacote e visor conferidos em Edit. Bateria e regras de combate continuam sob autoridade do servidor. Geradores acompanham a visibilidade por propriedade já existente: terrenos livres mantêm a bateria oculta.
+O portátil atual possui 28 fontes e 201 MeshParts; pacote e visor conferidos em Edit. Bateria e regras de combate continuam sob autoridade do servidor. Geradores acompanham a visibilidade por propriedade já existente: terrenos livres mantêm a bateria oculta.
 
 ## Funcionalidades preservadas
 

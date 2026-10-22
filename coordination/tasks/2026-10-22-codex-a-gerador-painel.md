@@ -22,13 +22,13 @@ Checkout atual gerenciado bases-laser. WIP antigo de D:/Roblox aura permanece se
 
 ## Entrega e validação
 
-- Gerador original Blender:7 malhas,4072 vértices/7452 triângulos; FBX importado de fato com escala.01 e correção de eixos registrada em GeneratorData. Cena anterior preservada. Template em ServerStorage/GeradorIndustrial_FBX.
-- Generator.luau revisão2: montagem idempotente, malhas permanentes, hitbox invisível original12 ×7 ×6, painel SurfaceGui FixedSize1024 ×320 e fonte HP 90. Zero BillboardGui de bateria. Apresentação por propriedade e dados do servidor.
+- Gerador original Blender:7 malhas,4.072 vértices/7.452 triângulos; FBX importado de fato com escala.01 e correção de eixos registrada em GeneratorData. Cena anterior preservada. Template em ServerStorage/GeradorIndustrial_FBX.
+- Generator.luau revisão 2: montagem idempotente, malhas permanentes, hitbox invisível original12 × 7 × 6, painel SurfaceGui FixedSize1024 × 320 e fonte HP 90. Zero BillboardGui de bateria. Apresentação por propriedade e dados do servidor.
 - Integração em BaseShell antes do early-return cobre mapa existente e geração nova. WorldFactory remove a criação da legenda antiga. Combat delega Present/Update, mantendo HP, níveis ativos, melhoria adiada e reconstrução.
 - Exportador preserva LightInfluence0 no visor. Tests/combat_offline.py atualizado para dependência Generator via recording stub e contratos do mapa Blender atual. O teste não simula arte.
 - Fontes lidos do Studio e iguais aos locais antes de editar. Alterados somente BaseShell, WorldFactory e Combat; criados Generator/GeneratorData. Battery e Floor mantêm identidades, posições e pivôs.
--208 verificações de instalação em oito bases,24 do Combat real em clones com jogadores simulados; dano180/200, melhoria adiada, brecha0/200, reconstrução450/450, vacância/retomada e raio acertando Battery através das malhas.28 fontes compilados.
-- Harness existente passou365 verificações com mocks lexicais via loadstring em Studio Edit. CLI standalone indisponível; execução não certifica gráficos/física/replicação.
-- Mapa capturado com2974 instâncias, oito raízes,201 MeshParts; pacote e201 malhas/visores conferidos. Entrega Resultados/GeradorIndustrial/; criação Blender/GeradorIndustrial/; backups AntesGeradorIndustrial/. Prévia isolada removida antes de capturar.
+-208 verificações de instalação em oito bases,24 do Combat real em clones com jogadores simulados; dano (180/200), melhoria adiada, brecha0/200, reconstrução (450/450), vacância/retomada e raio acertando Battery através das malhas.28 fontes compilados.
+- Harness existente passou 365 verificações com mocks lexicais via loadstring em Studio Edit. CLI standalone indisponível; execução não certifica gráficos/física/replicação.
+- Mapa capturado com2974 instâncias, oito raízes, 201 MeshParts; pacote e201 malhas/visores conferidos. Entrega Resultados/GeradorIndustrial/; criação Blender/GeradorIndustrial/; backups AntesGeradorIndustrial/. Prévia isolada removida antes de capturar.
 - Sem Play, perfis, dados persistentes, dois clientes ou FPS. Sem publicação da experiência. Studio liberado em Edit; oito ensaios desativados. Blender na cena nova. WIP original preservado.
-- Branch será enviada e integrada por avanço simples ao PR #3/codex/bases-blender. CHANGELOG e ESTADO_ATUAL atualizados.
+- Entrega a0aeff9 enviada e integrada por avanço simples ao PR #3/codex/bases-blender: https://github.com/CarretaTron/steal-an-egg-tycoon/pull/3. Sem merge na main. CHANGELOG e ESTADO_ATUAL atualizados.
