@@ -1,5 +1,5 @@
 # Manter os bytes dos fontes e backups: o manifesto usa SHA-256.
-* -text
+* -text whitespace=cr-at-eol
 *.luau diff
 *.py diff
 *.md diff

@@ -1,6 +1,31 @@
-# Estado atual — 20/10/2026
+# Estado atual — 21/10/2026
+
+## Etapa atual: bases de jardim com portal laser
+
+As oito bases conectadas agora usam `Shared/BaseShell.luau` revisão 2: pavilhão aberto com cercas de madeira, pilares claros, borda turquesa, teto transparente sólido e portal com sete feixes vermelhos. Estrutura pronta, máquinas livres, escolha do terreno e spawn na praça continuam como na versão mais recente de codex-b. Lasers desligados em terrenos livres; a propriedade e a bateria continuam controladas pelo servidor.
+
+A branch `codex/bases-laser` integra a continuação `07112df` e o catálogo `204e284`, preservando também as melhorias de Client/HudGuide encontradas no Studio. O checkout principal antigo continua com seu WIP intacto. A versão atual e o portátil estão no checkout gerenciado `C:/Users/alexp/.codex/worktrees/bases-laser/Roblox aura`; a entrega de bases fica em `Resultados/BasesLaser/`.
+
+Validação em Edit aprovada: 2.651 verificações estruturais, 118 de apresentação e raios até a bateria, oito pivôs/identidades e idempotência, 1.329 peças externas preservadas e 25 fontes compilados. Apenas BaseShell foi alterado no aplicativo. Mapa capturado com 3.098 instâncias; portátil e 25 fontes/cópias verificados. Não houve Play, reinício, acesso a perfis nem dois clientes nesta etapa.
+
+O catálogo em X=1600 foi retirado temporariamente do Workspace apenas durante a captura do mapa principal e restaurado em seguida. Seus RBXM e fontes continuam na entrega própria. `Map/scene.json` captura o cenário jogável com as bases novas; `Resultados/BasesLaser/PlotsLaser.rbxm` preserva as oito estruturas e `Backups/AntesBaseLaser/` conserva o estado anterior. Consulte o registro `coordination/tasks/2026-10-21-codex-a-bases-laser.md`.
+
+## Histórico: catálogo de decoração
+
+
+O pedido de bases deste chat foi interrompido pelo usuário. Seus fontes locais permanecem preservados; as branches de codex-b contêm continuação posterior e não foram sobrescritas. Esta etapa adiciona somente arte e um catálogo separado, sem alterar os sistemas ou paredes do jogo.
+
+Há vinte modelos originais do Blender prontos em `Workspace/CatalogoDecoracao/Modelos_Para_Copiar`, próximo de X=1600, e uma biblioteca limpa em `ServerStorage/BibliotecaDecoracao`. Selecione um Model, use F para enquadrar e Ctrl+D para copiar. A cena, gerador, geometria e vinte FBX estão em `StealAnEggTycoonV3/Blender/Decoracao/`; a entrega nativa e os relatórios estão em `StealAnEggTycoonV3/Resultados/Decoracao/`.
+
+Conferência aprovada: vinte modelos, 97 malhas permanentes, 10.716 triângulos; tamanhos, cores, materiais, pivôs e ancoragem; 1.656 peças e 25 scripts anteriores preservados. Recarga por ID de três malhas e serialização nativa de ida e volta verificadas. Sem Play, reinício ou dois clientes nesta etapa. O catálogo não exige execução de scripts para copiar seus modelos.
+
+A branch `codex-a/catalogo-decoracao-blender` entrega a arte separadamente. O portátil principal não foi remontado com os fontes locais antigos da etapa interrompida. Antes de integrar ao trabalho mais recente de codex-b, preserve essa base e incorpore os novos arquivos de arte. O exportador de `Map/scene.json` atualmente recusa malhas decorativas; mova a vitrine para ServerStorage antes de capturar só o cenário principal. Cópias colocadas no cenário exigem ampliar o exportador ou preservar a entrega nativa, sem substituir geometria por blocos. Consulte `coordination/tasks/2026-10-21-codex-a-catalogo-decoracao.md`.
+
+## Histórico anterior deste checkout
 
 A V3 jogável e a etapa de HUD estão nos arquivos existentes. O projeto completo foi publicado no repositório público https://github.com/CarretaTron/steal-an-egg-tycoon, com documentação para dois desenvolvedores usando Codex. A importação `2963104` contém 140 arquivos; um clone novo confirmou que todos chegaram idênticos e passou na verificação do pacote. Consulte também `coordination/tasks/2026-10-20-codex-a-repositorio.md`.
+
+A tarefa atual, na branch `codex-b/concluir-escolha-base-preview`, continua a etapa iniciada em `codex-a/escolha-base-preview`. O usuário transferiu a continuação e forneceu um RAR com nove fontes mais recentes ainda não integrados ao pacote. Essa versão passa a nascer na praça, escolher terreno e montar o kit manualmente, com prévia do objeto real semitransparente. O mapa editado e a HUD anterior são preservados. Consulte `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md` para validações e passagem.
 
 ## Projeto preservado
 
@@ -10,7 +35,9 @@ O inventário anterior à criação dos documentos de colaboração contém 127 
 |---|---|
 | `StealAnEggTycoonV3/Client/`, `Server/`, `Shared/` | Fontes editáveis da versão atual |
 | `StealAnEggTycoonV3/Blender/` | Cena Blender, cena original, backup `.blend1`, gerador Python, geometria e 19 FBX |
-| `StealAnEggTycoonV3/StealAnEggTycoonV3.rbxlx` | Lugar portátil que recria mapa e malhas ao iniciar |
+| `StealAnEggTycoonV3/Map/` | Captura do mapa editado: `AuthoredMap.rbxm` nativo e `scene.json` para empacotamento |
+| `StealAnEggTycoonV3/export_authored_map.luau` | Exportação da captura após alterações manuais no mapa |
+| `StealAnEggTycoonV3/StealAnEggTycoonV3.rbxlx` | Lugar portátil; a correção passa a embutir o mapa de `Map/scene.json` e renovar a arte por sessão |
 | `StealAnEggTycoonV3/Resultados/` | Pacote de entrega e cópias derivadas dos fontes, arte e relatórios |
 | `StealAnEggTycoonV3/Backups/` | V2 e estados anteriores preservados; não são a versão ativa |
 | `StealAnEggTycoonV3.rar` | Arquivo original recebido, preservado integralmente |
@@ -21,7 +48,7 @@ O lugar conectado documentado é `119288590672557`. A V2 permanece desativada em
 
 O ciclo é roubar ovo, fugir do guardião, levar à base, incubar, produzir, processar, vender e melhorar a base. São sete biomas e espécies, oito terrenos, construção livre em grade, habitats, incubadoras, processadores, esteiras, vendedor, bateria externa e porta a laser. A praça e o corredor são zonas sem PvP; guardiões continuam perigosos no corredor.
 
-O kit inicial já tem uma linha conectada. As criaturas produzem a cada quatro segundos; a primeira venda natural de um pintinho básico é $32. Cada habitat desconectado armazena até 20 recursos. O servidor controla o percurso e o pagamento dos recursos; os objetos visuais não decidem o dinheiro.
+O kit inicial fica no inventário, sem posicionamento automático. Uma base nova começa aberta; o dono monta paredes, cobertura e entrada protegida gratuitamente no cartão de defesas dentro de Construir. Construções, criaturas e defesas de perfis antigos são preservadas e restauradas somente após a escolha do terreno. Rebirth volta ao kit manual. As criaturas produzem a cada quatro segundos; a primeira venda natural de um pintinho básico é $32. Cada habitat desconectado armazena até 20 recursos. O servidor controla o percurso e o pagamento dos recursos; os objetos visuais não decidem o dinheiro.
 
 Há combate, invasão por bateria, transporte de criatura e devolução/transferência conforme o desfecho, além de melhorias e rebirth. Habitats têm três melhorias individuais de $1.500, $7.500 e $30.000, com bônus de produção de +25%, +50% e +75%. Guardar e recolocar mantém identidade e nível.
 
@@ -39,6 +66,18 @@ O visual segue as referências enviadas: atalhos coloridos, contornos pretos, te
 - Em telas móveis, atalhos usam duas colunas e alvos de pelo menos 44 pixels; menus abertos ocultam atalhos e dinheiro para evitar sobreposição.
 
 A orientação acompanha expedição, transporte, incubação e produção. O transporte de criatura roubada recebe rota pelo anel externo, evitando a praça segura. A implementação principal dessa etapa está em `Client/Client.client.luau` e `Shared/HudGuide.luau`; o empacotador inclui o módulo novo.
+
+O contador de rebirth fica imediatamente ao lado do texto do dinheiro, com espaço de 10 pixels. `UIListLayout` é o único responsável pelas posições; os textos usam largura natural, e o ajuste de fonte para valores grandes é cacheado por texto e viewport. Não há disputa de posição entre a atualização da HUD e o redimensionamento. A conferência visual final fica com o usuário.
+
+## Preservação do mapa
+
+`WorldFactory` passa a reutilizar o mapa editado em vez de reconstruir o cenário antigo a cada Play. Apenas as malhas de ovos e guardiões são renovadas por sessão. O mapa manual é preservado em `Map/AuthoredMap.rbxm`, um snapshot nativo exato que inclui paredes e objetos externos; `Map/scene.json` fornece o cenário estático e os pivôs transparentes usados para recriar a arte de sessão.
+
+O empacotador passa a usar `scene.json`, em lugar do mapa antigo do backup, e a atualizar as cópias de fontes e mapa da entrega automaticamente. Alterações manuais futuras funcionam diretamente no Play da sessão editada, mas precisam ser reexportadas com `export_authored_map.luau` antes do empacotamento para chegarem ao GitHub e ao portátil. Nenhum backup anterior deve ser excluído.
+
+O exportador JSON deve falhar diante de tipos não suportados, como uma Union ou uma malha decorativa que não possa representar. Não pode perder geometria ou trocar objetos silenciosamente por blocos. O snapshot RBXM conserva o conteúdo nativo enquanto o suporte do portátil é resolvido.
+
+A comparação Edit/Play do mapa e a verificação do pacote anterior estão registradas em `Resultados/Testes/mapa-edit-play.json` e na tarefa `2026-10-20-codex-a-mapa-rebirth.md`. O teste visual final da linha dinheiro/rebirth foi assumido pelo usuário. Nesta continuação, as raízes do Workspace e os fontes foram comparados antes da aplicação; nenhum snapshot manual foi substituído.
 
 ## Arte e persistência
 
@@ -65,4 +104,8 @@ Scripts `StudioQA`, `StudioRegression`, `StudioTraversal`, `StudioMobile` e `Stu
 
 ## Próxima continuidade
 
-A publicação do backup completo e os registros de colaboração estão concluídos. Leia as tarefas e busque as alterações do remoto antes da próxima etapa. O exemplo de workflow em `docs/verificar-pacote.workflow.yml` é opcional e ainda não está ativo; o verificador local foi executado com sucesso. Novos recursos ficam sujeitos à próxima etapa solicitada. O usuário adiou a revisão geral de bugs; isso não significa que todos os critérios do projeto foram certificados. Testes físicos de celular e avaliação completa dos critérios restantes continuam pendentes. Monetização, trocas e renda offline são etapas futuras.
+A continuação de escolha de base e prévia está aplicada no Studio em Edit e no portátil da branch `codex-b/concluir-escolha-base-preview`. Foram aprovados os três ensaios offline do jogo (42 casos de ciclo de vida, 359 verificações de combate, 13 casos do guia), 28 contratos estáticos do preview, a compilação dos 24 fontes e a verificação do pacote. O verificador compara também o Source e a hierarquia dos 24 fontes embutidos; nove adulterações em cópias temporárias foram recusadas. Evidências em `Resultados/Testes/escolha-base-preview.json`, `validacao-pacote.json` e `Tests/`.
+
+O próximo passo é o teste visual assumido pelo usuário: escolha de terreno, kit manual, prévia e rotação, dois jogadores, saída/reentrada e preservação do perfil antigo. Nenhum Play nem simulador foi iniciado nesta continuação. Os ensaios históricos precisam ser adaptados ao novo fluxo de escolha antes de executá-los novamente. Studio está liberado em Edit, com os oito ensaios desativados; Blender não foi utilizado.
+
+Busque o remoto e leia a branch e a tarefa atual antes de trabalhar; `main` pode continuar na importação anterior até integração. O workflow de verificação ainda é exemplo opcional. A revisão geral de bugs e testes em celular físico continuam pendentes. Monetização, trocas e renda offline são etapas futuras.

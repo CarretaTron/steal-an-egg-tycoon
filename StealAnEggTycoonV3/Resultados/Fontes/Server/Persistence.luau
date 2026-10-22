@@ -45,7 +45,7 @@ function Persistence.new(ctx)
 end
 
 function Persistence:Default()
- return {Version=3,StarterPlaced=false,Cash=0,Rebirths=0,SpeedLevel=0,WeaponLevel=0,BatteryLevel=1,ProcessorLevel=1,
+ return {Version=3,StarterPlaced=true,DefensesBuilt=true,Cash=0,Rebirths=0,SpeedLevel=0,WeaponLevel=0,BatteryLevel=1,ProcessorLevel=1,
   Discovered={},Progress={Stats={},Claimed={}},Inventory=copy(self.Ctx.Config.StarterInventory),Builds={},StoredHabitats={},Creatures={},Incubations={},ResourceEscrow={},TransferRefs={}}
 end
 
@@ -54,6 +54,8 @@ function Persistence:Normalize(raw)
  local p=self:Default()
  -- Existing profiles have already received their kit; an empty saved layout can be intentional.
  p.StarterPlaced=raw.StarterPlaced~=false
+ -- Walls and roof are part of every claimed plot, including saves from the optional-defense WIP.
+ p.DefensesBuilt=true
  p.Cash=number(raw.Cash,0)
  p.Rebirths=math.floor(number(raw.Rebirths,0,0,100000))
  p.SpeedLevel=math.floor(number(raw.SpeedLevel,0,0,5))
@@ -132,7 +134,9 @@ function Persistence:Snapshot(state)
  local p=copy(state.Profile)
  p.Version=3
  p.TransferRefs=p.TransferRefs or {}
- -- Only connected time advances incubation. Snapshotting never grants an early hatch.
+ -- Lobby states deliberately have no Pending/ResourcePackets runtime queues.
+ -- Keep their saved incubation/escrow intact until a plot has been claimed.
+ -- Only active base time advances incubation. Snapshotting never grants an early hatch.
  if state.Pending then
   p.Incubations={}
   for habitat,pending in pairs(state.Pending) do

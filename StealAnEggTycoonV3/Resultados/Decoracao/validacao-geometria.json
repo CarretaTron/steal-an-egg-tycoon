@@ -1,0 +1,621 @@
+{
+  "Revision": "Decoracao_v1",
+  "Geometry": {
+    "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/geometry.json",
+    "Bytes": 759553,
+    "SHA256": "24f4730d58818507341b2053f23383b37674d590134d7c32a415a9497f95ce9e"
+  },
+  "Models": [
+    {
+      "Id": "ArvoreCampestre",
+      "Name": "Árvore campestre",
+      "Parts": 6,
+      "Vertices": 1740,
+      "Triangles": 734,
+      "Bounds": {
+        "Min": [
+          -6.72011,
+          0.0,
+          -5.59821
+        ],
+        "Max": [
+          6.85616,
+          16.91206,
+          4.34957
+        ],
+        "Size": [
+          13.576270000000001,
+          16.91206,
+          9.94778
+        ]
+      }
+    },
+    {
+      "Id": "ArvoreSakura",
+      "Name": "Cerejeira rosa",
+      "Parts": 6,
+      "Vertices": 1598,
+      "Triangles": 672,
+      "Bounds": {
+        "Min": [
+          -6.97041,
+          0.0,
+          -5.6922
+        ],
+        "Max": [
+          7.14792,
+          14.14398,
+          4.41929
+        ],
+        "Size": [
+          14.11833,
+          14.14398,
+          10.11149
+        ]
+      }
+    },
+    {
+      "Id": "PalmeiraBananeira",
+      "Name": "Palmeira bananeira",
+      "Parts": 7,
+      "Vertices": 2788,
+      "Triangles": 1412,
+      "Bounds": {
+        "Min": [
+          -5.46656,
+          0.0,
+          -7.49835
+        ],
+        "Max": [
+          8.91112,
+          16.74241,
+          6.40864
+        ],
+        "Size": [
+          14.377680000000002,
+          16.74241,
+          13.90699
+        ]
+      }
+    },
+    {
+      "Id": "PinheiroNevado",
+      "Name": "Pinheiro nevado",
+      "Parts": 8,
+      "Vertices": 824,
+      "Triangles": 440,
+      "Bounds": {
+        "Min": [
+          -4.73156,
+          0.0,
+          -4.79993
+        ],
+        "Max": [
+          4.72245,
+          16.66992,
+          4.51943
+        ],
+        "Size": [
+          9.45401,
+          16.66992,
+          9.31936
+        ]
+      }
+    },
+    {
+      "Id": "SalgueiroPantano",
+      "Name": "Salgueiro do pântano",
+      "Parts": 6,
+      "Vertices": 2906,
+      "Triangles": 1372,
+      "Bounds": {
+        "Min": [
+          -6.28322,
+          0.0,
+          -5.93711
+        ],
+        "Max": [
+          6.29016,
+          13.37707,
+          5.84802
+        ],
+        "Size": [
+          12.57338,
+          13.37707,
+          11.785129999999999
+        ]
+      }
+    },
+    {
+      "Id": "ArvoreCarbonizada",
+      "Name": "Árvore carbonizada",
+      "Parts": 4,
+      "Vertices": 750,
+      "Triangles": 392,
+      "Bounds": {
+        "Min": [
+          -3.53401,
+          0.0,
+          -1.73618
+        ],
+        "Max": [
+          4.03407,
+          12.68546,
+          2.27996
+        ],
+        "Size": [
+          7.56808,
+          12.68546,
+          4.01614
+        ]
+      }
+    },
+    {
+      "Id": "ArbustoFlorido",
+      "Name": "Arbusto florido",
+      "Parts": 5,
+      "Vertices": 1092,
+      "Triangles": 364,
+      "Bounds": {
+        "Min": [
+          -2.42849,
+          0.0,
+          -1.58742
+        ],
+        "Max": [
+          2.61568,
+          3.47,
+          2.06501
+        ],
+        "Size": [
+          5.044169999999999,
+          3.47,
+          3.65243
+        ]
+      }
+    },
+    {
+      "Id": "ArbustoRedondo",
+      "Name": "Arbusto arredondado",
+      "Parts": 3,
+      "Vertices": 324,
+      "Triangles": 108,
+      "Bounds": {
+        "Min": [
+          -2.42849,
+          0.0,
+          -1.58742
+        ],
+        "Max": [
+          2.61568,
+          3.47,
+          1.96265
+        ],
+        "Size": [
+          5.044169999999999,
+          3.47,
+          3.55007
+        ]
+      }
+    },
+    {
+      "Id": "Samambaia",
+      "Name": "Samambaia aberta",
+      "Parts": 3,
+      "Vertices": 3640,
+      "Triangles": 1820,
+      "Bounds": {
+        "Min": [
+          -2.79985,
+          0.0,
+          -2.75886
+        ],
+        "Max": [
+          2.78921,
+          2.72541,
+          3.02588
+        ],
+        "Size": [
+          5.58906,
+          2.72541,
+          5.784739999999999
+        ]
+      }
+    },
+    {
+      "Id": "FloresSilvestres",
+      "Name": "Flores silvestres",
+      "Parts": 5,
+      "Vertices": 1450,
+      "Triangles": 570,
+      "Bounds": {
+        "Min": [
+          -1.81115,
+          0.0,
+          -1.09881
+        ],
+        "Max": [
+          1.80474,
+          2.2999,
+          1.47048
+        ],
+        "Size": [
+          3.6158900000000003,
+          2.2999,
+          2.56929
+        ]
+      }
+    },
+    {
+      "Id": "CogumelosLuminosos",
+      "Name": "Cogumelos luminosos",
+      "Parts": 4,
+      "Vertices": 1116,
+      "Triangles": 456,
+      "Bounds": {
+        "Min": [
+          -2.31657,
+          0.0,
+          -1.30389
+        ],
+        "Max": [
+          2.02786,
+          3.13141,
+          1.83337
+        ],
+        "Size": [
+          4.34443,
+          3.13141,
+          3.13726
+        ]
+      }
+    },
+    {
+      "Id": "CactoRamificado",
+      "Name": "Cacto ramificado",
+      "Parts": 5,
+      "Vertices": 740,
+      "Triangles": 348,
+      "Bounds": {
+        "Min": [
+          -2.43494,
+          0.0,
+          -0.70232
+        ],
+        "Max": [
+          2.43494,
+          7.2215,
+          0.73867
+        ],
+        "Size": [
+          4.86988,
+          7.2215,
+          1.4409900000000002
+        ]
+      }
+    },
+    {
+      "Id": "PedraMusgo",
+      "Name": "Pedras com musgo",
+      "Parts": 5,
+      "Vertices": 498,
+      "Triangles": 182,
+      "Bounds": {
+        "Min": [
+          -2.54176,
+          0.0,
+          -1.89415
+        ],
+        "Max": [
+          3.27132,
+          2.9,
+          1.89683
+        ],
+        "Size": [
+          5.813079999999999,
+          2.9,
+          3.7909800000000002
+        ]
+      }
+    },
+    {
+      "Id": "RochaArenito",
+      "Name": "Rochas de arenito",
+      "Parts": 3,
+      "Vertices": 420,
+      "Triangles": 156,
+      "Bounds": {
+        "Min": [
+          -2.54176,
+          0.0,
+          -1.89415
+        ],
+        "Max": [
+          3.27132,
+          2.9,
+          1.89683
+        ],
+        "Size": [
+          5.813079999999999,
+          2.9,
+          3.7909800000000002
+        ]
+      }
+    },
+    {
+      "Id": "RochaVulcanica",
+      "Name": "Rocha vulcânica",
+      "Parts": 4,
+      "Vertices": 516,
+      "Triangles": 204,
+      "Bounds": {
+        "Min": [
+          -2.54176,
+          0.0,
+          -1.89415
+        ],
+        "Max": [
+          3.27132,
+          2.9,
+          1.89683
+        ],
+        "Size": [
+          5.813079999999999,
+          2.9,
+          3.7909800000000002
+        ]
+      }
+    },
+    {
+      "Id": "TroncoCaido",
+      "Name": "Tronco caído com musgo",
+      "Parts": 6,
+      "Vertices": 454,
+      "Triangles": 248,
+      "Bounds": {
+        "Min": [
+          -3.67,
+          0.0,
+          -1.00736
+        ],
+        "Max": [
+          3.67,
+          2.6466,
+          0.95737
+        ],
+        "Size": [
+          7.34,
+          2.6466,
+          1.96473
+        ]
+      }
+    },
+    {
+      "Id": "TocoRaizes",
+      "Name": "Toco com raízes",
+      "Parts": 4,
+      "Vertices": 448,
+      "Triangles": 244,
+      "Bounds": {
+        "Min": [
+          -1.72845,
+          0.0,
+          -1.81959
+        ],
+        "Max": [
+          1.77284,
+          2.5821,
+          1.56345
+        ],
+        "Size": [
+          3.50129,
+          2.5821,
+          3.3830400000000003
+        ]
+      }
+    },
+    {
+      "Id": "CristaisGelo",
+      "Name": "Cristais de gelo",
+      "Parts": 4,
+      "Vertices": 300,
+      "Triangles": 132,
+      "Bounds": {
+        "Min": [
+          -1.86631,
+          0.0,
+          -1.06574
+        ],
+        "Max": [
+          2.0,
+          5.7,
+          1.52308
+        ],
+        "Size": [
+          3.86631,
+          5.7,
+          2.58882
+        ]
+      }
+    },
+    {
+      "Id": "CristaisVazio",
+      "Name": "Cristais do vazio",
+      "Parts": 4,
+      "Vertices": 300,
+      "Triangles": 132,
+      "Bounds": {
+        "Min": [
+          -1.86631,
+          0.0,
+          -1.06574
+        ],
+        "Max": [
+          2.0,
+          5.7,
+          1.52308
+        ],
+        "Size": [
+          3.86631,
+          5.7,
+          2.58882
+        ]
+      }
+    },
+    {
+      "Id": "JuncoPantano",
+      "Name": "Juncos do pântano",
+      "Parts": 5,
+      "Vertices": 1570,
+      "Triangles": 730,
+      "Bounds": {
+        "Min": [
+          -1.50671,
+          0.0,
+          -0.82901
+        ],
+        "Max": [
+          1.70671,
+          5.05,
+          0.86533
+        ],
+        "Size": [
+          3.21342,
+          5.05,
+          1.69434
+        ]
+      }
+    }
+  ],
+  "Totals": {
+    "Models": 20,
+    "Parts": 97,
+    "Vertices": 23474,
+    "Triangles": 10716
+  },
+  "FBX": [
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/ArvoreCampestre.fbx",
+      "Bytes": 56332,
+      "SHA256": "bcdf6ba5e8f243d703650c7abbd8e2881b7bbfe9fd736077350882a796ffc3eb"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/ArvoreSakura.fbx",
+      "Bytes": 54428,
+      "SHA256": "4be90d286cf1b9a6ace546d9fdcb4ebe09675901524dcf4a2a65e40d9d285c02"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/PalmeiraBananeira.fbx",
+      "Bytes": 67164,
+      "SHA256": "ce854f8e718da93f04e2c01fe24c49684e25e891d481db4092df40fbef539465"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/PinheiroNevado.fbx",
+      "Bytes": 48012,
+      "SHA256": "48b9f891b70d637e41af8e95deb667654ebc323addaff244a4729383a37b3002"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/SalgueiroPantano.fbx",
+      "Bytes": 68668,
+      "SHA256": "7f1d3df38b609f0967bf2df286cec7312ea15fbce888e58a63c6e42909a45d67"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/ArvoreCarbonizada.fbx",
+      "Bytes": 35020,
+      "SHA256": "925ee199a90209ccf0a84efdee8cf793348974e34426bde539c4ccc947930fa4"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/ArbustoFlorido.fbx",
+      "Bytes": 38716,
+      "SHA256": "85405614a7671f0f74f99ced928e55c1fb06134663a0418205964b5752e76028"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/ArbustoRedondo.fbx",
+      "Bytes": 25052,
+      "SHA256": "a183edbc42a7f6b71cd4144a1143d4921b1941610d542aed1026e62126ae6d9c"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/Samambaia.fbx",
+      "Bytes": 62732,
+      "SHA256": "c66f9696c85b3fb42211bf1965d505b83a123bd2860e6acda9490a304f092d10"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/FloresSilvestres.fbx",
+      "Bytes": 42316,
+      "SHA256": "ee9eae8f688f48e06c5e25921b06dce349efa1c8c9ab9f6d8476ccf4c5bb297d"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/CogumelosLuminosos.fbx",
+      "Bytes": 37260,
+      "SHA256": "0a47b50ba6e5ece2032afdefaaa1c21ecb5b50416060e385d857c9a511a317a1"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/CactoRamificado.fbx",
+      "Bytes": 35548,
+      "SHA256": "829f0bce71745f0ad6f102afa6b43707b3519ac937f6e6ec197e36d995b9039d"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/PedraMusgo.fbx",
+      "Bytes": 33516,
+      "SHA256": "2add750846a445b560b6cb1ab711718f802c70efb579f434311963941248723a"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/RochaArenito.fbx",
+      "Bytes": 26508,
+      "SHA256": "08705539e492c61ac98abcaf94d53a9d7c94e98cc8000d26c6ca25efb73c2483"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/RochaVulcanica.fbx",
+      "Bytes": 30652,
+      "SHA256": "f4a78f0bbb90ca288daa0e5a4c9a12605a70f75eaf0dc57504fbf4439eb3cc2c"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/TroncoCaido.fbx",
+      "Bytes": 35772,
+      "SHA256": "e96d4feb2387be23c9311b84a77d86038fba3cf7a5f293321df7df537b04defd"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/TocoRaizes.fbx",
+      "Bytes": 30316,
+      "SHA256": "4acae6faaa3e8f2c5c090d77a4270a8db6575445c1b2e3c8149ba44c8cd009ef"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/CristaisGelo.fbx",
+      "Bytes": 27628,
+      "SHA256": "d0ad05ba631e2d388b6d09fdb1ed0750957d72d17a2c39512124b21393634d41"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/CristaisVazio.fbx",
+      "Bytes": 27628,
+      "SHA256": "3b2e946e18f43c152665acad5df3aa487ede252722712568b12637e78af18ff4"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/Exportacoes/JuncoPantano.fbx",
+      "Bytes": 45164,
+      "SHA256": "368a6909fc434ff02f8f66c17ff3267428e7270ca65f55fc86998ce67831f695"
+    }
+  ],
+  "Blender": [
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/CatalogoDecoracao.blend",
+      "Bytes": 364055,
+      "SHA256": "057e04b065991f4caba304a24f1df008d2e6cc99588843dbfc4f4d5a80494b02"
+    },
+    {
+      "Path": "D:/Roblox aura/StealAnEggTycoonV3/Blender/Decoracao/CatalogoDecoracao_Prototipo.blend",
+      "Bytes": 147906,
+      "SHA256": "95a20c901aa07274f5e66811bf09c4b993d92c82edcf51eada94e92a2ba37dfe"
+    }
+  ],
+  "ArtifactsChecked": true,
+  "GroundToleranceStuds": 0.05,
+  "Limits": {
+    "PartsPerModel": 64,
+    "TrianglesPerModel": 10000
+  },
+  "Limitations": [
+    "No Studio/Blender execution, rendering, client replication or runtime performance test.",
+    "Artifact headers/hashes do not prove that Blender/Studio can import them.",
+    "Reference-map ownership/licensing is not inferred from local filenames."
+  ]
+}

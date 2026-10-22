@@ -37,7 +37,11 @@ Antes de substituir scripts pelo MCP, leia a versão atual no Studio. Compare co
 
 Só um responsável executa mutações e testes na mesma sessão por vez. Iniciar ou parar Play pode interromper o ensaio do outro Codex. O fato de estarem em branches distintas não isola o aplicativo aberto. Para trabalho simultâneo, use cópias separadas do lugar e informe qual foi usada.
 
-O lugar vinculado pode conter edições manuais do mapa. O `.rbxlx` portátil reconstrói o mapa de `Server/WorldFactory.luau`. Exportar scripts sem atualizar esse gerador não preserva automaticamente essas edições. Registre a diferença e entregue o fonte do gerador ou um snapshot aplicável para reproduzi-la.
+O lugar vinculado pode conter edições manuais do mapa. A correção atual faz `Server/WorldFactory.luau` reutilizar esse cenário ao iniciar Play, renovando apenas as malhas de ovos e guardiões por sessão. Mudanças feitas no modo Edit passam a valer diretamente nessa sessão; para chegarem ao GitHub e ao portátil, precisam ser capturadas antes do empacotamento.
+
+Use `StealAnEggTycoonV3/export_authored_map.luau` para atualizar `Map/AuthoredMap.rbxm` e `Map/scene.json`. O RBXM nativo preserva o mapa exato, incluindo paredes e objetos externos. O JSON representa o cenário estático e os pivôs transparentes usados para repor a arte por sessão; ele é a entrada do mapa portátil. Registre os arquivos exportados e a comparação Edit → Play na tarefa. Preserve os backups anteriores.
+
+O exportador JSON deve recusar tipos que não consegue preservar, como Unions ou malhas decorativas ainda não suportadas. Não ignore o erro, não descarte esses objetos e não os substitua silenciosamente por blocos. Preserve o snapshot nativo e atualize o suporte antes de gerar um pacote que se declare equivalente. A correção do mapa ainda aguarda sua validação de Edit → Play e do pacote; os testes anteriores não comprovam esse comportamento novo.
 
 ### Arquivos Blender e exportações
 
@@ -45,7 +49,7 @@ Combine quem altera cada `.blend`. Guarde o gerador Python e a geometria corresp
 
 ### Fontes e pacotes
 
-Os fontes editáveis são `StealAnEggTycoonV3/Client`, `Server` e `Shared`. O diretório `Resultados` reúne a entrega gerada, inclusive uma cópia `Fontes`. Não faça a mesma correção manualmente nas duas árvores. Edite a árvore principal e regenere a entrega quando necessário, usando `package_project.py` e a verificação correspondente. Confira as instruções do projeto antes de executar os geradores.
+Os fontes editáveis são `StealAnEggTycoonV3/Client`, `Server` e `Shared`; a captura do mapa fica em `StealAnEggTycoonV3/Map`. O diretório `Resultados` reúne a entrega gerada, inclusive cópias `Fontes` e `Map`. Não faça a mesma correção manualmente nas duas árvores. Edite a árvore principal, reexporte o mapa se ele mudou e regenere a entrega com `package_project.py`. O empacotador passa a usar `Map/scene.json`, em lugar do mapa antigo do backup, e a atualizar as cópias de fontes e mapa automaticamente. Execute a verificação correspondente e confira as instruções do projeto antes dos geradores.
 
 ## Concluir e integrar
 

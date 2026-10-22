@@ -2,6 +2,46 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-21 — Bases de jardim com portal laser
+
+- Oito estruturas substituídas por pavilhões originais: cercas cruzadas de madeira, pilares creme, arenito, borda turquesa, cobertura transparente sólida, placa dourada e emblema de ovo. Sete feixes vermelhos na entrada; terrenos livres mantêm o laser desligado.
+- Inspiração visual de duas bases reconstruídas a partir dos mapas locais. Não havia uma base laser nesses arquivos; o portal é próprio. Nenhum sistema ou script dos mapas de referência foi executado.
+- `Shared/BaseShell.luau` revisão 2 mantém abertura 16×18, grade livre, pisos, pivôs, bateria, placa e conteúdo dos jogadores. Cada estrutura tem 133 peças. A revisão impede que o visual antigo volte no próximo Play.
+- Continuação moderna de codex-b integrada ao catálogo em checkout isolado; controles de seta e recorte de teto já existentes no Studio foram capturados em Client/HudGuide. Não foram implementados nesta etapa. WIP antigo da pasta original preservado.
+- Validação em Edit: 2.651 verificações estruturais em clones, 118 de apresentação do módulo Combat e acesso à bateria por raios, oito aplicações idempotentes, 1.329 peças externas preservadas e 25 fontes compilados. Somente BaseShell mudou no Studio. Sem Play, perfis, dois clientes ou teste de desempenho.
+- Mapa exportado: 3.098 instâncias em sete raízes, incluindo 2.199 peças estáticas. Pacote atualizado e verificado: 25 fontes, oito ensaios desativados e backup V2. Catálogo decorativo preservado e entregue separadamente.
+- Registro: `coordination/tasks/2026-10-21-codex-a-bases-laser.md`; entrega e prévias em `Resultados/BasesLaser/`; backup em `Backups/AntesBaseLaser/`. Branch `codex/bases-laser`.
+
+## 2026-10-21 — Escolha de tycoon e construção manual
+
+- Continuação da branch `codex-a/escolha-base-preview` e dos nove fontes parciais do RAR recebido, preservando o mapa autorado e a HUD.
+- Entrada e respawn na praça; escolha de um terreno livre pela placa verde, com proximidade e propriedade validadas no servidor. Nenhuma base é atribuída automaticamente.
+- Kit inicial no inventário, sem máquinas posicionadas; paredes, cobertura e entrada a laser são montadas pela ação gratuita de defesas no menu Construir. A bateria externa fica fixa e só protege uma base com defesas montadas. Perfis antigos mantêm layout, criaturas e proteção salvos.
+- Prévia com o modelo real semitransparente e não físico, rotação e contorno de validade. O cliente reaproveita as malhas replicadas, sem criar EditableMesh próprio.
+- Orientação automática para escolher terreno e montar a primeira linha; retomada após rebirth. Placa de terreno livre corrigida após escolha, falha e liberação. Combate ignora jogadores ainda sem base; defesas preservam as transparências do mapa editado.
+- Verificações novas: 42 casos de ciclo de vida e persistência, 359 verificações do módulo de combate, 13 casos do guia e 28 contratos estáticos do preview. São ensaios offline com dependências simuladas; os três programas reproduzíveis estão em `StealAnEggTycoonV3/Tests/`.
+- Os 24 fontes compilaram com Luau; os nove alterados também foram compilados e aplicados no Studio em Edit. Play, simulador e validação visual não foram iniciados nesta continuação, respeitando a passagem de testes para o usuário.
+- Pacote regenerado e conferido: 24 fontes embutidos idênticos e nos caminhos corretos, mapa autorado com 1.562 instâncias, V2 preservada e oito ensaios desativados. Nove adulterações temporárias do portátil foram recusadas pelo verificador reforçado. Nenhuma publicação da experiência foi feita.
+- Registro: `coordination/tasks/2026-10-21-codex-b-concluir-base-preview.md`; evidência em `Resultados/Testes/escolha-base-preview.json` e `validacao-pacote.json`.
+## 2026-10-21 — Catálogo de árvores e decoração
+
+- Etapa de bases interrompida a pedido do usuário; alterações locais anteriores preservadas, sem nova aplicação nesta tarefa. A continuação de codex-b e o mapa atual do Studio não foram substituídos.
+- Três mapas locais examinados como dados; nove referências primitivas reconstruídas e vistas para selecionar silhuetas e paletas. Nenhum script dos mapas de referência foi executado.
+- Vinte modelos originais criados no Blender: seis árvores, sete plantas e sete complementos, com 97 malhas e 10.716 triângulos. Cena, gerador, geometria e vinte FBX finais em `Blender/Decoracao/`.
+- Importação permanente via FBX/Importer validada primeiro numa árvore. Escala, orientação, cores sRGB, pivôs no chão e colisões simples aplicados. Vitrine em `Workspace/CatalogoDecoracao`, próximo de X=1600; biblioteca limpa em `ServerStorage/BibliotecaDecoracao`.
+- Conferência em Edit aprovada para os vinte modelos/97 MeshParts. As 1.656 peças e os 25 scripts existentes ficaram idênticos ao início. Três malhas de amostra foram recarregadas por ID e os pacotes nativos passaram pela ida e volta de serialização. Não houve Play, reinício do Studio ou ensaio com dois clientes.
+- Entrega independente em `Resultados/Decoracao/`; portátil e snapshot principal não foram regenerados a partir do checkout antigo. O exportador JSON principal ainda precisa de suporte para malhas decorativas antes de incluir cópias no mapa.
+- Registro: `coordination/tasks/2026-10-21-codex-a-catalogo-decoracao.md`. Branch: `codex-a/catalogo-decoracao-blender`.
+
+## 2026-10-20 — Mapa editado preservado e rebirth junto ao saldo
+
+- `WorldFactory` preserva a praça, caminhos, paredes e bases editados no Studio. Somente as malhas de ovos e guardiões são renovadas por sessão, mantendo prompts e labels.
+- Mapa autorado versionado em `Map/AuthoredMap.rbxm` e `Map/scene.json`; empacotador e verificador incluem o mapa atual e atualizam as cópias da entrega.
+- Comparação Edit/Play confirmou os 32 segmentos da praça e as 82 peças das paredes com transformações, cores e materiais preservados; 14 ovos e prompts, 14 guardiões e inicialização repetida conferidos. Evidência em `Resultados/Testes/mapa-edit-play.json`.
+- Rebirth fica imediatamente ao lado do dinheiro, com espaço de 10 pixels e um único layout horizontal. Não há reposicionamento concorrente por frame. Valores grandes ajustam a fonte quando necessário.
+- Scripts compilados no Studio; pacote verificado. O teste visual final da linha dinheiro/rebirth fica com o usuário, que assumiu os testes. Não foi iniciado novo Play nem simulador para essa revisão visual.
+- Registro: `coordination/tasks/2026-10-20-codex-a-mapa-rebirth.md`.
+
 ## 2026-10-20 — Preparação do repositório compartilhado
 
 - Inclusão do projeto completo disponível na pasta: fontes, portátil `.rbxlx`, arquivos `.blend`/`.blend1`, geometria, gerador Blender, 19 exportações FBX, backups da V2 e V3, RAR original e resultados dos ensaios.

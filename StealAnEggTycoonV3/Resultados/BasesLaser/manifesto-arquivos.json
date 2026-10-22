@@ -1,0 +1,22 @@
+{
+  "PlotsLaser.rbxm": {
+    "Bytes": 22897,
+    "SHA256": "413f9caef14e35d28723f85f63242ec0b171a44eaa487db255496910fa897aef"
+  },
+  "ModeloBaseLaser.rbxm": {
+    "Bytes": 13264,
+    "SHA256": "e5ff281e64201a9042f056148504ace0ec2bd665c38b8e25844a207de7a390e9"
+  },
+  "StealAnEggTycoonV3.rbxlx": {
+    "Bytes": 4439464,
+    "SHA256": "173246c50c059dd0bf001000f298d4773b1287920a2015eb592e9fbc53f137d5"
+  },
+  "SnapshotMapa/AuthoredMap.rbxm": {
+    "Bytes": 90663,
+    "SHA256": "e13f7dff91d6f181a3c0d35f97b786bc7e2d288ec4b6caadaff6eae2bc4bc201"
+  },
+  "SnapshotMapa/scene.json": {
+    "Bytes": 3646620,
+    "SHA256": "0aac73ad6c87119044aad4cd30b083a817125e926fb26c514db058ce64aac491"
+  }
+}
