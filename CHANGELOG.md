@@ -2,6 +2,16 @@
 
 Histórico compartilhado pelos dois desenvolvedores e suas sessões do Codex. Atualize junto com a alteração entregue, vinculando o arquivo da tarefa e, quando disponível, o commit ou PR. Registre separadamente o que foi implementado, validado e o que continua pendente.
 
+## 2026-10-21 — Catálogo de árvores e decoração
+
+- Etapa de bases interrompida a pedido do usuário; alterações locais anteriores preservadas, sem nova aplicação nesta tarefa. A continuação de codex-b e o mapa atual do Studio não foram substituídos.
+- Três mapas locais examinados como dados; nove referências primitivas reconstruídas e vistas para selecionar silhuetas e paletas. Nenhum script dos mapas de referência foi executado.
+- Vinte modelos originais criados no Blender: seis árvores, sete plantas e sete complementos, com 97 malhas e 10.716 triângulos. Cena, gerador, geometria e vinte FBX finais em `Blender/Decoracao/`.
+- Importação permanente via FBX/Importer validada primeiro numa árvore. Escala, orientação, cores sRGB, pivôs no chão e colisões simples aplicados. Vitrine em `Workspace/CatalogoDecoracao`, próximo de X=1600; biblioteca limpa em `ServerStorage/BibliotecaDecoracao`.
+- Conferência em Edit aprovada para os vinte modelos/97 MeshParts. As 1.656 peças e os 25 scripts existentes ficaram idênticos ao início. Três malhas de amostra foram recarregadas por ID e os pacotes nativos passaram pela ida e volta de serialização. Não houve Play, reinício do Studio ou ensaio com dois clientes.
+- Entrega independente em `Resultados/Decoracao/`; portátil e snapshot principal não foram regenerados a partir do checkout antigo. O exportador JSON principal ainda precisa de suporte para malhas decorativas antes de incluir cópias no mapa.
+- Registro: `coordination/tasks/2026-10-21-codex-a-catalogo-decoracao.md`. Branch: `codex-a/catalogo-decoracao-blender`.
+
 ## 2026-10-20 — Mapa editado preservado e rebirth junto ao saldo
 
 - `WorldFactory` preserva a praça, caminhos, paredes e bases editados no Studio. Somente as malhas de ovos e guardiões são renovadas por sessão, mantendo prompts e labels.
