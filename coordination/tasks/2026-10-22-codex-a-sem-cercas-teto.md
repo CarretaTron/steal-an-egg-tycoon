@@ -35,4 +35,4 @@ Registro publicado antes das mudanças. Comparar fontes atuais do Studio antes d
 - Entrega atual em Resultados/SemCercasTeto/: portátil completo, fontes em manifesto, snapshot, prévia, relatórios e hashes.
 - Validação: 45 verificações em Edit (ausência de cercas, opacidade/colisão, idempotência e reconstrução) e 26 fontes compilados. Pacote/cópias passaram no verificador. XML comparado às 145 malhas e InitialSize, nenhuma cerca restante.
 - Sem Play, dois clientes, perfis, dados persistentes ou medições de desempenho. Conferência visual realizada no Studio e na cena Blender. Sessões liberadas em Edit/nova cena; oito ensaios continuam desativados.
-- CHANGELOG e ESTADO_ATUAL atualizados. Branch da tarefa será integrada por avanço simples à codex/bases-blender e enviada ao PR #3 existente, preservando o fluxo de entrega.
+- CHANGELOG e ESTADO_ATUAL atualizados. Branch integrada por avanço simples à codex/bases-blender; entrega 10f3e2a enviada ao PR #3 existente: https://github.com/CarretaTron/steal-an-egg-tycoon/pull/3. Não houve merge na main.
