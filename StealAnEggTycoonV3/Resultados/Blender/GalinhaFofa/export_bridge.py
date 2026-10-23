@@ -7,7 +7,7 @@ def write_bridge(library_path):
     shared=library_path.parent.parent/'Shared'
     data=json.loads(library_path.read_text(encoding='utf-8'))
     names=[]
-    for prefix,module in [('Chicken_','ChickenGeometry'),('Owl_','OwlGeometry')]:
+    for prefix,module in [('Chicken_','ChickenGeometry'),('Owl_','OwlGeometry'),('Frog_','FrogGeometry')]:
         selected={k:v for k,v in data['Meshes'].items() if k.startswith(prefix)}
         data['Meshes']={k:v for k,v in data['Meshes'].items() if k not in selected}
         chunks=[];current={}
