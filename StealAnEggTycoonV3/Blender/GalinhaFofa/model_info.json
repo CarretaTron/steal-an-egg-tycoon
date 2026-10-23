@@ -1,0 +1,9 @@
+{
+  "parts": 20,
+  "meshes": 20,
+  "vertices": 4330,
+  "triangles": 8296,
+  "source": "build_chicken.py",
+  "species": 1,
+  "revision": "galinha-fofa-2026-10-23"
+}
