@@ -1,7 +1,7 @@
 [
   {
     "path": "Shared/Art.luau",
-    "sha256": "5713b747e8d2be244be583221be6434bb361020405216c303cb393e4af0694ac"
+    "sha256": "96d837b7e3b744fc4d8b661fdb3282b4c864d16d1e3444a921c5b6e47c49848e"
   },
   {
     "path": "Shared/BaseIndustrialData.luau",
@@ -17,19 +17,19 @@
   },
   {
     "path": "Shared/ChickenGeometry1.luau",
-    "sha256": "d44260164c348ce77578d7aa7e2e157143267d8fcfba84e2849e449ce1571894"
+    "sha256": "e962c7766f1c88d2b2f0ca3739a7b51201a62e15d3245def7a4d5c1d02c8e2f4"
   },
   {
     "path": "Shared/ChickenGeometry2.luau",
-    "sha256": "a3faa1d4bed98bc292d6bbeb550037e8d90dee7bacc038bfcf86a85f7a4c459d"
+    "sha256": "5b23d33c17b1a85e007ae5608525fc2a41962ac56c0df00f3aa202fba663f561"
   },
   {
     "path": "Shared/ChickenGeometry3.luau",
-    "sha256": "023567c4ca97812d19d090ddad6b24a75d2429d5c3f4d843b44b11f5b8cd2141"
+    "sha256": "3d8805020fa6844ddb383de7b4b2494af440630b918a210f445cbb874947091e"
   },
   {
     "path": "Shared/ChickenGeometry4.luau",
-    "sha256": "02e491771a411f0f20040b69ef9ee4732bf6d01e536dd554aa658463d6d371ee"
+    "sha256": "f377d8cbf8eb8aa31668933b03e773c9168f1c6ad6d25fd62bfed5800f026228"
   },
   {
     "path": "Shared/Config.luau",
@@ -45,11 +45,23 @@
   },
   {
     "path": "Shared/GeometryData.luau",
-    "sha256": "b1c881543ba8d03568cc79aa229523037b48764656532ef92ed48c512d734993"
+    "sha256": "671e3666c291b8d8ae33bbd5f9f4cfb211ce0dc0b59c2ad5575e7e7ed16ccb70"
   },
   {
     "path": "Shared/HudGuide.luau",
     "sha256": "27a673f5ba1458a01a5075189e1c5af78c78aee5526bc3fe5ed67bfc454d9b1d"
+  },
+  {
+    "path": "Shared/OwlGeometry1.luau",
+    "sha256": "fdfc887a63ad19985c34150d2eef36410184d7a0159fd80b15cd14b463b08534"
+  },
+  {
+    "path": "Shared/OwlGeometry2.luau",
+    "sha256": "2bdc9d6b14f25e020028c582a0afc8e9f04b98135c94a8cac45f3660226dd607"
+  },
+  {
+    "path": "Shared/OwlGeometry3.luau",
+    "sha256": "908ce88c30c2298318782883b56539d52130117c5a6e464727595699ca368bac"
   },
   {
     "path": "Server/Bootstrap.server.luau",
@@ -113,7 +125,7 @@
   },
   {
     "path": "Client/Client.client.luau",
-    "sha256": "16394feaa228c6a07e95fe01c06b81232a4adcfeb6f34ae9803f34c57b3deea2"
+    "sha256": "2965050327949185f0fe3ae45409dfa6bb2edf4fd6ea8974aa6e54418af6d3d7"
   },
   {
     "path": "Client/StudioMobile.client.luau",

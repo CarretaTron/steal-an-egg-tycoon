@@ -65,6 +65,8 @@ local function meshModel(name,cf,scale,parent)
   p.CFrame=cf*CFrame.new(rc.Position*scale)*orient
   p.Color=rgb(d.Color) p.Material=d.Glow and Enum.Material.Neon or Enum.Material.SmoothPlastic
   p:SetAttribute('RestCF',CFrame.new(rc.Position*scale)*orient)
+  if d.Joint then p:SetAttribute('AnimationJoint',CFrame.new(vec(d.Joint)*scale)) end
+  if d.MotionScale then p:SetAttribute('WingMotionScale',d.MotionScale) end
   p.Parent=m
  end
  local body=m:FindFirstChild('Body') or m:FindFirstChildWhichIsA('BasePart')
@@ -77,6 +79,7 @@ function A.Creature(index,cf,scale,parent)
  local m=meshModel(key,cf,adult and scale/2 or scale,parent)
  m:SetAttribute('ArtCreature',true) m:SetAttribute('Species',index) m:SetAttribute('Adult',adult)
  if Data.ModelRevisions and Data.ModelRevisions[key] then m:SetAttribute('ArtRevision',Data.ModelRevisions[key]) end
+ if Data.ModelLabelHeights and Data.ModelLabelHeights[key] then m:SetAttribute('ArtLabelHeight',Data.ModelLabelHeights[key]) end
  return m
 end
 function A.Egg(index,cf,scale,parent)
@@ -93,6 +96,8 @@ end
 function A.Label(parent,part,title,subtitle,color,distance)
  local gui=Instance.new('BillboardGui') gui.Name='Label' gui.Adornee=part gui.Size=UDim2.fromOffset(210,66)
  gui.StudsOffsetWorldSpace=Vector3.new(0,4,0) gui.MaxDistance=distance or 100 gui.AlwaysOnTop=false gui.Parent=part
+ local height=parent:GetAttribute('ArtLabelHeight')
+ if height and parent:IsA('Model') then gui.StudsOffsetWorldSpace=Vector3.new(0,height-parent:GetPivot():PointToObjectSpace(part.Position).Y,0) end
  local t=Instance.new('TextLabel') t.Name='Text' t.Size=UDim2.fromScale(1,1) t.BackgroundTransparency=1
  t.Font=Enum.Font.GothamBold t.TextSize=20 t.TextColor3=color or Color3.new(1,1,1) t.TextStrokeTransparency=.25
  t.Text=title..(subtitle and ('\n'..subtitle) or '') t.Parent=gui return gui

@@ -1004,7 +1004,8 @@ local function scanCreatures()
       if wing or leg or arm or tail then
        local rest=part:GetAttribute("RestCF")
        if typeof(rest)~="CFrame" then rest=pivot:ToObjectSpace(part.CFrame) end
-       table.insert(entry.Parts,{Part=part,Local=rest,Wing=wing,Leg=leg,Arm=arm,Tail=tail,Side=rest.Position.X<0 and -1 or 1})
+       local joint=part:GetAttribute('AnimationJoint')
+       table.insert(entry.Parts,{Part=part,Local=rest,Joint=typeof(joint)=='CFrame' and joint or nil,MotionScale=part:GetAttribute('WingMotionScale') or 1,Wing=wing,Leg=leg,Arm=arm,Tail=tail,Side=rest.Position.X<0 and -1 or 1})
       end
      end
     end
@@ -1091,7 +1092,7 @@ RunService.RenderStepped:Connect(function(dt)
      local pitch,yaw,roll=0,0,0
      local lift=0
      if limb.Wing then
-      roll=limb.Side*(idle*.08+stride*.22+producing*.65+(attacking and .8 or 0))
+      roll=limb.Side*(idle*.08+stride*.22+producing*.65+(attacking and .8 or 0))*limb.MotionScale
      elseif limb.Leg then
       pitch=stride*.45*limb.Side
       lift=math.max(0,stride*limb.Side)*.16
@@ -1101,7 +1102,12 @@ RunService.RenderStepped:Connect(function(dt)
       yaw=idle*.08+stride*.15
       pitch=producing*.2+(attacking and .25 or 0)
      end
-     limb.Part.CFrame=pivot*CFrame.new(0,lift,0)*limb.Local*CFrame.Angles(pitch,yaw,roll)
+     local rotation=CFrame.Angles(pitch,yaw,roll)
+     if limb.Joint then
+      limb.Part.CFrame=pivot*CFrame.new(0,lift,0)*limb.Joint*rotation*limb.Joint:Inverse()*limb.Local
+     else
+      limb.Part.CFrame=pivot*CFrame.new(0,lift,0)*limb.Local*rotation
+     end
     end
    end
   end

@@ -80,7 +80,7 @@ for i,object in ipairs(list) do
  for name,value in pairs(object:GetAttributes()) do
   local kind=typeof(value)
   if kind=='string' or kind=='boolean' or kind=='number' then row.Attributes[name]=pack(value)
-  else assert(placeholder and name=='RestCF','Atributo não suportado no JSON: '..name) end
+  else assert(placeholder and (name=='RestCF' or name=='AnimationJoint'),'Atributo não suportado no JSON: '..name) end
  end
  if placeholder then
   row.Attributes.SessionArtPlaceholder={Type='boolean',Value=true}
