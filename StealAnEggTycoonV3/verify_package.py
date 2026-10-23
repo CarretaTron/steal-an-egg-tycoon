@@ -188,7 +188,8 @@ def main(project_root=None):
         assert len(plots.findall('Item')) == 8
         assert len(nests.findall('Item')) == 14
         assert len(guards.findall('Item')) == 14
-        assert roads == 32, f'Expected 32 authored RingRoad segments, got {roads}'
+        expected_roads = sum(row['Properties']['Name']['Value'] == 'RingRoad' for row in rows)
+        assert roads == expected_roads, f'Expected {expected_roads} authored RingRoad segments, got {roads}'
         assert any(nm(i) == 'walls' for i in workspace.findall('Item')), 'Manual outer walls are missing'
         report.update({'authoredMapIncluded': True, 'authoredSceneInstances': len(rows),
                        'authoredPartsVerified': verified_parts, 'ringRoadSegmentsVerified': roads,

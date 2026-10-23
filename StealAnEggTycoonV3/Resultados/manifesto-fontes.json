@@ -1,7 +1,7 @@
 [
   {
     "path": "Shared/Art.luau",
-    "sha256": "226f43229d6f5f4ff19c63a48a720dd9ede80fd942d7670eeebaf7b1caa167de"
+    "sha256": "5713b747e8d2be244be583221be6434bb361020405216c303cb393e4af0694ac"
   },
   {
     "path": "Shared/BaseIndustrialData.luau",
@@ -14,6 +14,22 @@
   {
     "path": "Shared/BuildRules.luau",
     "sha256": "643c739e0976d98aea89118c1d895fdb72ab7b47ef1e1463ce8beedc453e19ce"
+  },
+  {
+    "path": "Shared/ChickenGeometry1.luau",
+    "sha256": "d44260164c348ce77578d7aa7e2e157143267d8fcfba84e2849e449ce1571894"
+  },
+  {
+    "path": "Shared/ChickenGeometry2.luau",
+    "sha256": "a3faa1d4bed98bc292d6bbeb550037e8d90dee7bacc038bfcf86a85f7a4c459d"
+  },
+  {
+    "path": "Shared/ChickenGeometry3.luau",
+    "sha256": "023567c4ca97812d19d090ddad6b24a75d2429d5c3f4d843b44b11f5b8cd2141"
+  },
+  {
+    "path": "Shared/ChickenGeometry4.luau",
+    "sha256": "02e491771a411f0f20040b69ef9ee4732bf6d01e536dd554aa658463d6d371ee"
   },
   {
     "path": "Shared/Config.luau",
@@ -29,7 +45,7 @@
   },
   {
     "path": "Shared/GeometryData.luau",
-    "sha256": "e4866591e1e6d3fadb12a1e2a98959d80f694894fa16bfe678d89aacf5b163fc"
+    "sha256": "b1c881543ba8d03568cc79aa229523037b48764656532ef92ed48c512d734993"
   },
   {
     "path": "Shared/HudGuide.luau",
@@ -93,7 +109,7 @@
   },
   {
     "path": "Server/WorldFactory.luau",
-    "sha256": "432e87fc36735b8deace1553a8145d19636631c2d0bc7c035b3eb344e711dbce"
+    "sha256": "3ef0d21088ddb019044bac2d11b2ef49cffcd3cedce13358a90f1da0414e30ef"
   },
   {
     "path": "Client/Client.client.luau",

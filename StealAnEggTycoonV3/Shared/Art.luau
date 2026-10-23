@@ -17,10 +17,19 @@ function A.Init()
   assert(e,'Não foi possível alocar malha: '..name)
   local ids={}
   for i,p in ipairs(d.Vertices) do ids[i]=e:AddVertex(vec(p)) end
-  for _,t in ipairs(d.Triangles) do
+  -- Blender split normals keep rounded toys smooth and broad faces flat.
+  -- Existing meshes without authored normals retain their previous flat shading.
+  local normals={}
+  for i,n in ipairs(d.Normals or {}) do normals[i]=e:AddNormal(vec(n)) end
+  for ti,t in ipairs(d.Triangles) do
    local f=e:AddTriangle(ids[t[1]],ids[t[2]],ids[t[3]])
-   local n=(vec(d.Vertices[t[2]])-vec(d.Vertices[t[1]])):Cross(vec(d.Vertices[t[3]])-vec(d.Vertices[t[1]]))
-   if n.Magnitude>.00001 then local id=e:AddNormal(n.Unit) e:SetFaceNormals(f,{id,id,id}) end
+   local authored=d.TriangleNormals and d.TriangleNormals[ti]
+   if authored then
+    e:SetFaceNormals(f,{assert(normals[authored[1]]),assert(normals[authored[2]]),assert(normals[authored[3]])})
+   else
+    local n=(vec(d.Vertices[t[2]])-vec(d.Vertices[t[1]])):Cross(vec(d.Vertices[t[3]])-vec(d.Vertices[t[1]]))
+    if n.Magnitude>.00001 then local id=e:AddNormal(n.Unit) e:SetFaceNormals(f,{id,id,id}) end
+   end
   end
   local result,content=AS:CreateDataModelContentAsync(Content.fromObject(e))
   assert(result==Enum.CreateContentResult.Success,'Conversão da malha falhou: '..tostring(result))
@@ -64,8 +73,10 @@ local function meshModel(name,cf,scale,parent)
 end
 function A.Creature(index,cf,scale,parent)
  local adult=scale>=1.7
- local m=meshModel((adult and 'Guardian_' or 'Species_')..index,cf,adult and scale/2 or scale,parent)
+ local key=(adult and 'Guardian_' or 'Species_')..index
+ local m=meshModel(key,cf,adult and scale/2 or scale,parent)
  m:SetAttribute('ArtCreature',true) m:SetAttribute('Species',index) m:SetAttribute('Adult',adult)
+ if Data.ModelRevisions and Data.ModelRevisions[key] then m:SetAttribute('ArtRevision',Data.ModelRevisions[key]) end
  return m
 end
 function A.Egg(index,cf,scale,parent)

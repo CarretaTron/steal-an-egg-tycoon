@@ -36,7 +36,10 @@ local function renewArtModel(old,create)
  local cf=old:GetPivot()
  local replacement=create(cf)
  replacement.Name=old.Name
+ local revision=replacement:GetAttribute('ArtRevision')
+ local changedArt=revision and old:GetAttribute('ArtRevision')~=revision
  for name,value in pairs(old:GetAttributes()) do replacement:SetAttribute(name,value) end
+ if revision then replacement:SetAttribute('ArtRevision',revision) end
  local parts={}
  for _,p in ipairs(replacement:GetChildren()) do
   if p:IsA('BasePart') then parts[p.Name]=parts[p.Name] or {};table.insert(parts[p.Name],p) end
@@ -48,7 +51,7 @@ local function renewArtModel(old,create)
   local target=parts[p.Name] and parts[p.Name][used[p.Name]]
   if not target then continue end
   -- Authored mesh appearance is retained, but content comes from this session.
-  if not p:GetAttribute('SessionArtPlaceholder') then
+  if not changedArt and not p:GetAttribute('SessionArtPlaceholder') then
    target.Size=p.Size;target.CFrame=p.CFrame;target.Color=p.Color;target.Material=p.Material
    target.Transparency=p.Transparency;target.CastShadow=p.CastShadow
    target:SetAttribute('RestCF',cf:ToObjectSpace(p.CFrame))
